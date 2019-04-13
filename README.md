@@ -16,7 +16,7 @@ projects.
 # MVP
 
 For a fully working pipeline of (crawler, indexer, (*..*), search engine backend, search engine frontend)
-I want this project to be running as soon as possiblem and then add more features, while having the whole
+I want this project to be running as soon as possible and then add more features, while having the whole
 pipeline runing
 
 * The indexer will index all important files in a given directory
@@ -26,14 +26,29 @@ pipeline runing
 * It will also index meta data
 * It will also create an inverse index to that meta-data
 * Maybe later
-** It will construct a forward index of the inverse index
-** It will also construct an inverse index of the last said forward index (searchterm completion)
+ * It will construct a forward index of the inverse index
+ * It will also construct an inverse index of the last said forward index (searchterm completion)
 
-All data will be stored into simple files instead of a database. Because i like do defer unneccecary 
+All data will be stored into simple files instead of a database. Because I like do defer unnecessary 
 architectural decisions as long as they do not need attention. Please do not expect any more writing
 or writeups at the moment, nor me to provide a full architecture. This is simply an undeveloped idea.
 
 That said, please remember this is a private educational project.
+
+# Outline
+
+A complete search engine consists of different components.
+
+* A Crawler (which finds, schedules documents and downloads them)
+ * will be announced later
+* An Indexer (documents are read in different ways and an index as well as inverse indexes are built)
+ * see [FuriousIron-Indexer](https://github.com/mindscan-de/FuriousIron-Indexer) (this project)
+* A Ranker (it will rank the documents)
+ * will probably never announced later ;-)
+* A Search Backend (retrieve search queries and searches the index and uses the ranking to order the results)
+ * see [FuriousIron-SearchBackend](https://github.com/mindscan-de/FuriousIron-SearchBackend)
+* A Search Frontend (reads the user queries and forwards them to a backend and reads results from backend)
+ * see [FuriousIron-Frontend](https://github.com/mindscan-de/FuriousIron-Frontend)  
 
 # License
 
