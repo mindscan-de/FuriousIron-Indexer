@@ -31,6 +31,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 import de.mindscan.furiousiron.crawler.SimpleFileCrawler;
+import de.mindscan.furiousiron.indexer.SimpleFileIndexer;
 
 /**
  * This is a very basic / simple Indexer for source code.
@@ -49,8 +50,8 @@ public class IndexerMain {
 
         System.out.println( String.format( "%d files found for indexing.", filesToBeIndexed.size() ) );
 
-        // SimpleFileIndexer indexer = new SimpleFileIndexer();
-        // indexer.buildIndex( filesToBeIndexed, crawlFolder, indexFolder );
+        SimpleFileIndexer indexer = new SimpleFileIndexer();
+        indexer.buildIndex( filesToBeIndexed, crawlFolder, indexFolder );
 
     }
 
