@@ -35,21 +35,6 @@ or writeups at the moment, nor me to provide a full architecture. This is simply
 
 That said, please remember this is a private educational project.
 
-# Outline
-
-A complete search engine consists of different components.
-
-* A Crawler (which finds, schedules documents and downloads them)
- * will be announced later
-* An Indexer (documents are read in different ways and an index as well as inverse indexes are built)
- * see [FuriousIron-Indexer](https://github.com/mindscan-de/FuriousIron-Indexer) (this project)
-* A Ranker (it will rank the documents)
- * will probably never announced later ;-)
-* A Search Backend (retrieve search queries and searches the index and uses the ranking to order the results)
- * see [FuriousIron-SearchBackend](https://github.com/mindscan-de/FuriousIron-SearchBackend)
-* A Search Frontend (reads the user queries and forwards them to a backend and reads results from backend)
- * see [FuriousIron-Frontend](https://github.com/mindscan-de/FuriousIron-Frontend)  
-
 # License
 
 Usage is provided under the [MIT License](http://opensource.org/licenses/mit-license.php). See LICENSE for the full details.
