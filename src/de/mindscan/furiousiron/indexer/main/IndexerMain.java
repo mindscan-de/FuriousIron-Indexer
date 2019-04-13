@@ -38,8 +38,6 @@ import de.mindscan.furiousiron.crawler.SimpleFileCrawler;
  * Requirements:
  * - Source is accessible via Path.
  * 
- * @author author
- * 
  */
 public class IndexerMain {
 
@@ -48,6 +46,8 @@ public class IndexerMain {
 
         SimpleFileCrawler crawler = new SimpleFileCrawler();
         crawler.crawl( filesToBeIndexed::add, crawlFolder );
+
+        System.out.println( String.format( "%d files found for indexing.", filesToBeIndexed.size() ) );
 
         // SimpleFileIndexer indexer = new SimpleFileIndexer();
         // indexer.buildIndex( filesToBeIndexed, crawlFolder, indexFolder );

@@ -25,21 +25,40 @@
  */
 package de.mindscan.furiousiron.crawler;
 
+import java.io.IOException;
+import java.nio.file.FileVisitor;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.function.Consumer;
 
 /**
- * @author author
- *
+ * 
+ * A very basic file system crawler. It will crawl a given Folder and accepts files 
+ * containing source code (a.t.n. by file extension).
+ * 
  */
 public class SimpleFileCrawler {
 
     /**
+     * This method will crawl the file system for source files and add all source files
+     * via the given consumer function. 
+     * 
      * @param pathCollector the collector, which collects all path objects to be further indexed
      * @param crawlFolder the folder to be indexed
      */
     public void crawl( Consumer<Path> pathCollector, Path crawlFolder ) {
+        SourceFileVisitor<Path> sourceVisitor = new SourceFileVisitor<>( pathCollector );
 
+        collectFiles( crawlFolder, sourceVisitor );
+    }
+
+    private void collectFiles( Path crawlFolder, FileVisitor<Path> fileVisitor ) {
+        try {
+            Files.walkFileTree( crawlFolder, fileVisitor );
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
