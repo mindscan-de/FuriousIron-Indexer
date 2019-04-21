@@ -113,11 +113,11 @@ public class Cache {
     }
 
     private Path getTargetFilePath( DocumentId documentId ) {
-        return getTargetDirectoryPath( documentId ).resolve( documentId.getMd5hex() + CACHED_FILE_SUFFIX );
+        return getTargetDirectoryPath( documentId ).resolve( documentId.getMD5hex() + CACHED_FILE_SUFFIX );
     }
 
     private Path getTargetDirectoryPath( DocumentId documentId ) {
-        String firstLayer = documentId.getMd5hex().substring( 0, 2 );
+        String firstLayer = documentId.getMD5hex().substring( 0, 2 );
 
         // TODO: if we are exceeding 4k files per directory (means 1 mio files in total to index, we should enable the second layer. 
         // String secondLayer = documentId.getMd5hex().substring( 2, 4 );

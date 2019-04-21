@@ -76,7 +76,7 @@ public class DocumentId {
         this.relativePathToCrawlingDirectory = relativePathToCrawlingDirectory;
     }
 
-    public String getMd5hex() {
+    public String getMD5hex() {
         return md5hex;
     }
 

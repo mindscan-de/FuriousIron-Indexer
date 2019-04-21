@@ -60,7 +60,7 @@ public class SimpleFileIndexer {
     private void updateIndexWithSingleFile( Path fileToIndex, Path crawlFolder, Path indexFolder ) {
         DocumentId documentId = DocumentId.createDocumentID( fileToIndex, crawlFolder );
 
-        System.out.println( documentId.getMd5hex() );
+        System.out.println( documentId.getMD5hex() );
         System.out.println( documentId.getRelativePathToCrawlingDirectory() );
 
         // store a copy of the document in the cache
