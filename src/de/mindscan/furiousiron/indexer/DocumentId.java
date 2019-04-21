@@ -40,10 +40,10 @@ public class DocumentId {
     private Path relativePathToCrawlingDirectory;
 
     public static DocumentId createDocumentID( Path fileToIndex, Path baseCrawlerFolder ) {
-        return createDocumentID( baseCrawlerFolder.relativize( fileToIndex ) );
+        return createDocumentIDFromRelativePath( baseCrawlerFolder.relativize( fileToIndex ) );
     }
 
-    public static DocumentId createDocumentID( Path relativePathToCrawlingDirectory ) {
+    public static DocumentId createDocumentIDFromRelativePath( Path relativePathToCrawlingDirectory ) {
         try {
             // TODO: calculate universal path and use this for calculation of Path digest instead.
 
