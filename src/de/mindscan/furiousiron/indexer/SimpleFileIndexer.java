@@ -57,13 +57,6 @@ public class SimpleFileIndexer {
         }
     }
 
-    /**
-     * Index/Process one File
-     * 
-     * @param fileToIndex
-     * @param crawlFolder
-     * @param indexFolder
-     */
     private void updateIndexWithSingleFile( Path fileToIndex, Path crawlFolder, Path indexFolder ) {
         DocumentId documentId = DocumentId.createDocumentID( fileToIndex, crawlFolder );
 
@@ -75,9 +68,8 @@ public class SimpleFileIndexer {
 
         // index.getCache().addMetaInfo();
 
-        // documentID wird für den cache und die Zusatzinformationen benötigt.
+        // documentID is required for the cache and the additional information (metainfo)
         // metainfo
-        // DocumentID
         // Path, Virtual directory entry
 
         // Execute pipeline, according to filecontent ...
