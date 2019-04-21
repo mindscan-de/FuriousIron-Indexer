@@ -32,6 +32,7 @@ import java.util.Deque;
  * 
  */
 public class SimpleFileIndexer {
+    private Index index;
 
     /**
      * @param filesToBeIndexed provider for files which should be indexed
@@ -39,9 +40,15 @@ public class SimpleFileIndexer {
      * @param indexFolder the index folder, where to put the index
      */
     public void buildIndex( Deque<Path> filesToBeIndexed, Path crawlFolder, Path indexFolder ) {
+
+        setIndex( new Index( indexFolder ) );
+
         for (Path fileToIndex : filesToBeIndexed) {
             try {
-                buildIndexForSingleFile( fileToIndex, crawlFolder, indexFolder );
+                updateIndexWithSingleFile( fileToIndex, crawlFolder, indexFolder );
+
+                // break after the first file to index
+                // break;
             }
             catch (Exception ignore) {
                 // intentionally left blank yet.
@@ -57,8 +64,21 @@ public class SimpleFileIndexer {
      * @param crawlFolder
      * @param indexFolder
      */
-    private void buildIndexForSingleFile( Path fileToIndex, Path crawlFolder, Path indexFolder ) {
-        System.out.println( fileToIndex );
+    private void updateIndexWithSingleFile( Path fileToIndex, Path crawlFolder, Path indexFolder ) {
+        DocumentId documentId = DocumentId.createDocumentID( fileToIndex, crawlFolder );
+
+        System.out.println( documentId.getMd5hex() );
+        System.out.println( documentId.getRelativePathToCrawlingDirectory() );
+
+        // store a copy of the document in the cache
+        index.getCache().createDocumentCopy( documentId, fileToIndex );
+
+        // index.getCache().addMetaInfo();
+
+        // documentID wird für den cache und die Zusatzinformationen benötigt.
+        // metainfo
+        // DocumentID
+        // Path, Virtual directory entry
 
         // Execute pipeline, according to filecontent ...
         // Lowercase
@@ -68,7 +88,76 @@ public class SimpleFileIndexer {
 
         // some ideas to come
 
-        // copy in den cache / text only / ... / metadata / metainfo /  
+//        try {
+//            List<String> allLines = Files.readAllLines( fileToIndex );
+//
+//            for (String string : allLines) {
+//                System.out.println( string );
+//            }
+//
+//            // split into lists of words
+//            List<List<String>> collect = allLines.stream().map( this::toLowerCase ).map( this::nonwordsplitter ).filter( this::onlyNonEmpy )
+//                            .collect( Collectors.toList() );
+//
+////            for (List<String> string : collect) {
+////                System.out.println( string );
+////            }
+//
+//            // make this list of list a list of unique words
+//            List<String> flatWordList = collect.stream().flatMap( List::stream ).filter( this::atLeastThreeCharsLong ).distinct()
+//                            .collect( Collectors.toList() );
+//
+////            System.out.println( flatWordList );
+//
+//            // make trigrams out of every word...
+//            List<List<String>> collectedTrigrams = flatWordList.stream().map( this::trigramsplitter ).distinct().collect( Collectors.toList() );
+////            for (List<String> string : collectedTrigrams) {
+////                System.out.println( string );
+////            }
+//
+//            // flatWordList.stream().map( mapper )
+//            Set<String> uniqueTrigrams = collectedTrigrams.stream().flatMap( List::stream ).collect( Collectors.toSet() );
+//
+//            System.out.println( uniqueTrigrams );
+//
+//        }
+//        catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+
     }
 
+//    private boolean atLeastThreeCharsLong( String x ) {
+//        return x.length() >= 3;
+//    }
+//
+//    private boolean onlyNonEmpy( Collection<String> x ) {
+//        return x.size() > 0;
+//    }
+//
+//    private String toLowerCase( String string ) {
+//        return string.toLowerCase();
+//    }
+//
+//    private List<String> nonwordsplitter( String string ) {
+//        String[] splitted = string.split( "[ /\\+\\-\\*\t\n\r\\.:;,\\(\\)\\{\\}\\[\\]]" );
+//        return Arrays.stream( splitted ).map( x -> x.trim() ).filter( x -> x != null && x.length() > 0 ).collect( Collectors.toList() );
+//    }
+//
+//    private List<String> trigramsplitter( String string ) {
+//        List<String> result = new ArrayList<>();
+//        for (int startIndex = 0; startIndex <= string.length() - 3; startIndex++) {
+//            result.add( string.substring( startIndex, startIndex + 3 ) );
+//        }
+//        return result;
+//    }
+
+    public Index getIndex() {
+        return index;
+    }
+
+    public void setIndex( Index index ) {
+        this.index = index;
+    }
 }
