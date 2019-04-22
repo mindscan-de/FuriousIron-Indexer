@@ -32,19 +32,19 @@ import java.nio.file.Path;
  */
 public class Index {
 
-    private Cache theFileCache;
+    private DocumentCache theFileCache;
 
     /**
      * 
      */
     public Index( Path indexFolder ) {
-        theFileCache = new Cache( indexFolder );
+        theFileCache = new DocumentCache( indexFolder );
     }
 
     /**
      * @return
      */
-    public Cache getCache() {
+    public DocumentCache getDocumentCache() {
         return theFileCache;
     }
 

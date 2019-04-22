@@ -64,7 +64,7 @@ public class SimpleFileIndexer {
         System.out.println( documentId.getRelativePathToCrawlingDirectory() );
 
         // store a copy of the document in the cache
-        index.getCache().createDocumentCopy( documentId, fileToIndex );
+        index.getDocumentCache().createDocumentCopy( documentId, fileToIndex );
 
         // index.getCache().addMetaInfo();
 

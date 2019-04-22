@@ -35,7 +35,7 @@ import java.nio.file.StandardCopyOption;
  * not preserved, instead it is built from the document id. The file structure / file name and so on, should 
  * be obtained from the metadata / metainformation of the document. 
  */
-public class Cache {
+public class DocumentCache {
 
     /**
      * folder in index Folder, where the 'downloaded' documents should be cached. 
@@ -59,7 +59,7 @@ public class Cache {
      * C'tor 
      * @param indexFolder path of folder, where to store the cached Documents. The documents 
      */
-    public Cache( Path indexFolder ) {
+    public DocumentCache( Path indexFolder ) {
         // this.indexFolder = indexFolder;
         this.cacheFolder = indexFolder.resolve( CACHED_DOCUMENTS_FOLDER );
     }
