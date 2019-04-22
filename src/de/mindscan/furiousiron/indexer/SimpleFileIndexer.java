@@ -25,8 +25,16 @@
  */
 package de.mindscan.furiousiron.indexer;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Deque;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 
@@ -57,7 +65,7 @@ public class SimpleFileIndexer {
         }
     }
 
-    private void updateIndexWithSingleFile( Path fileToIndex, Path crawlFolder, Path indexFolder ) {
+    private void updateIndexWithSingleFile( Path fileToIndex, Path crawlFolder, Path indexFolder ) throws IOException {
         DocumentId documentId = DocumentId.createDocumentID( fileToIndex, crawlFolder );
         DocumentMetadata documentMetaData = DocumentMetadata.createDocumentMetadata( documentId, fileToIndex );
 
@@ -67,85 +75,69 @@ public class SimpleFileIndexer {
         // store a copy of the document in the cache
         index.getDocumentCache().createDocumentCopy( documentId, fileToIndex );
 
+        // get unique word list for document
+        List<String> uniqueWordlist = buildUniqueWordlist( fileToIndex );
+        Set<String> uniqueTrigramlist = buildUniqueTrigrams( uniqueWordlist );
+
+        index.getWordlistCache().addUniqueWordlist( documentId, uniqueWordlist );
+        index.getWordlistCache().addUniqueTrigrams( documentId, uniqueTrigramlist );
+
+        // TODO: Number of Lines...
+        // TODO: update the metadata object with more expensive information / statistics
+        // Path, Virtual directory entry
+        // TODO: Stopwords
+        // TODO: porter stemming
+        // TODO: some ideas to come
+
         // this should be done after parsing/analysing/indexing the document
         index.getMetadataCache().addDocumentMetadata( documentId, documentMetaData );
 
-        // documentID is required for the cache and the additional information (metainfo)
-        // metainfo
-        // Path, Virtual directory entry
-
-        // Execute pipeline, according to filecontent ...
-        // Lowercase
-        // Stopwords
-        // trigram_filter
-        // porter stemming
-
-        // some ideas to come
-
-//        try {
-//            List<String> allLines = Files.readAllLines( fileToIndex );
-//
-//            for (String string : allLines) {
-//                System.out.println( string );
-//            }
-//
-//            // split into lists of words
-//            List<List<String>> collect = allLines.stream().map( this::toLowerCase ).map( this::nonwordsplitter ).filter( this::onlyNonEmpy )
-//                            .collect( Collectors.toList() );
-//
-////            for (List<String> string : collect) {
-////                System.out.println( string );
-////            }
-//
-//            // make this list of list a list of unique words
-//            List<String> flatWordList = collect.stream().flatMap( List::stream ).filter( this::atLeastThreeCharsLong ).distinct()
-//                            .collect( Collectors.toList() );
-//
-////            System.out.println( flatWordList );
-//
-//            // make trigrams out of every word...
-//            List<List<String>> collectedTrigrams = flatWordList.stream().map( this::trigramsplitter ).distinct().collect( Collectors.toList() );
-////            for (List<String> string : collectedTrigrams) {
-////                System.out.println( string );
-////            }
-//
-//            // flatWordList.stream().map( mapper )
-//            Set<String> uniqueTrigrams = collectedTrigrams.stream().flatMap( List::stream ).collect( Collectors.toSet() );
-//
-//            System.out.println( uniqueTrigrams );
-//
-//        }
-//        catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-
     }
 
-//    private boolean atLeastThreeCharsLong( String x ) {
-//        return x.length() >= 3;
-//    }
-//
-//    private boolean onlyNonEmpy( Collection<String> x ) {
-//        return x.size() > 0;
-//    }
-//
-//    private String toLowerCase( String string ) {
-//        return string.toLowerCase();
-//    }
-//
-//    private List<String> nonwordsplitter( String string ) {
-//        String[] splitted = string.split( "[ /\\+\\-\\*\t\n\r\\.:;,\\(\\)\\{\\}\\[\\]]" );
-//        return Arrays.stream( splitted ).map( x -> x.trim() ).filter( x -> x != null && x.length() > 0 ).collect( Collectors.toList() );
-//    }
-//
-//    private List<String> trigramsplitter( String string ) {
-//        List<String> result = new ArrayList<>();
-//        for (int startIndex = 0; startIndex <= string.length() - 3; startIndex++) {
-//            result.add( string.substring( startIndex, startIndex + 3 ) );
-//        }
-//        return result;
-//    }
+    private Set<String> buildUniqueTrigrams( List<String> flatWordList ) {
+        List<List<String>> collectedTrigramsForEachWord = flatWordList.stream().map( this::trigramsplitter ).distinct().collect( Collectors.toList() );
+
+        Set<String> uniqueTrigrams = collectedTrigramsForEachWord.stream().flatMap( List::stream ).collect( Collectors.toSet() );
+
+        return uniqueTrigrams;
+    }
+
+    private List<String> buildUniqueWordlist( Path fileToIndex ) throws IOException {
+        List<String> allLines = Files.readAllLines( fileToIndex );
+
+        List<List<String>> collectedWordsPerLine = allLines.stream().map( this::toLowerCase ).map( this::nonwordsplitter ).filter( this::onlyNonEmpy )
+                        .collect( Collectors.toList() );
+
+        List<String> flatUniqueWordList = collectedWordsPerLine.stream().flatMap( List::stream ).filter( this::atLeastThreeCharsLong ).distinct()
+                        .collect( Collectors.toList() );
+
+        return flatUniqueWordList;
+    }
+
+    private boolean atLeastThreeCharsLong( String x ) {
+        return x.length() >= 3;
+    }
+
+    private boolean onlyNonEmpy( Collection<String> x ) {
+        return x.size() > 0;
+    }
+
+    private String toLowerCase( String string ) {
+        return string.toLowerCase();
+    }
+
+    private List<String> nonwordsplitter( String string ) {
+        String[] splitted = string.split( "[ /\\+\\-\\*\t\n\r\\.:;,\\(\\)\\{\\}\\[\\]]" );
+        return Arrays.stream( splitted ).map( x -> x.trim() ).filter( x -> x != null && x.length() > 0 ).collect( Collectors.toList() );
+    }
+
+    private List<String> trigramsplitter( String string ) {
+        List<String> result = new ArrayList<>();
+        for (int startIndex = 0; startIndex <= string.length() - 3; startIndex++) {
+            result.add( string.substring( startIndex, startIndex + 3 ) );
+        }
+        return result;
+    }
 
     public Index getIndex() {
         return index;
