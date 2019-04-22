@@ -23,48 +23,58 @@
  * SOFTWARE.
  * 
  */
-package de.mindscan.furiousiron.indexer;
+package de.mindscan.furiousiron.index;
 
 import java.nio.file.Path;
+import java.util.List;
+import java.util.Set;
+
+import de.mindscan.furiousiron.document.DocumentId;
 
 /**
  * 
  */
-public class Index {
-
-    private DocumentCache theFileCache;
-    private MetadataCache theMetadataCache;
-    private WordlistCache theWordlistCache;
+public class WordlistCache {
 
     /**
-     * 
+     * folder in index Folder, where the worlists and trigrams of the documents should be cached. 
      */
-    public Index( Path indexFolder ) {
-        theFileCache = new DocumentCache( indexFolder );
-        theMetadataCache = new MetadataCache( indexFolder );
-        theWordlistCache = new WordlistCache( indexFolder );
+    private static final String CACHED_WORDLISTS_FOLDER = "cachedWordlists";
+
+    /**
+     * file suffix for files containing the worlist of the original document 
+     */
+    public final static String WORDLIST_FILE_SUFFIX = ".wordlist";
+
+    /**
+     * file suffix for files containing the trigrams of the original document 
+     */
+    public final static String TRIGRAMS_FILE_SUFFIX = ".trigrams";
+
+    private Path cacheFolder;
+
+    /**
+     * @param indexFolder
+     */
+    public WordlistCache( Path indexFolder ) {
+        this.cacheFolder = indexFolder.resolve( CACHED_WORDLISTS_FOLDER );
     }
 
     /**
-     * @return
+     * @param documentId
+     * @param uniqueWordlist
      */
-    public DocumentCache getDocumentCache() {
-        return theFileCache;
+    public void addUniqueWordlist( DocumentId documentId, List<String> uniqueWordlist ) {
+
     }
 
     /**
-     * @return
+     * @param documentId
+     * @param uniqueTrigramlist
      */
-    public MetadataCache getMetadataCache() {
-        return theMetadataCache;
-    }
-
-    /**
-     * @return
-     */
-    public WordlistCache getWordlistCache() {
+    public void addUniqueTrigrams( DocumentId documentId, Set<String> uniqueTrigramlist ) {
         // TODO Auto-generated method stub
-        return theWordlistCache;
+
     }
 
 }

@@ -23,7 +23,7 @@
  * SOFTWARE.
  * 
  */
-package de.mindscan.furiousiron.indexer;
+package de.mindscan.furiousiron.index;
 
 import java.io.IOException;
 import java.nio.file.Files;
