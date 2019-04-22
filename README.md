@@ -19,9 +19,9 @@ For a fully working pipeline of (crawler, indexer, (*..*), search engine backend
 I want this project to be running as soon as possible and then add more features, while having the whole
 pipeline runing
 
-* The indexer will index all important files in a given directory
-* It will store these files, and their content, their meta-data and so on in a different directory structure
-* It will construct a forward index
+* The indexer will index all important files in a given directory [Done: java Files]
+* It will store these files, and their content, their meta-data and so on in a different directory structure [Done]
+* It will construct a forward index [Done]
 * It will construct different inverse indexes (search)
 * It will also index meta data
 * It will also create an inverse index to that meta-data
