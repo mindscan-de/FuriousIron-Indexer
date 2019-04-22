@@ -25,9 +25,13 @@
  */
 package de.mindscan.furiousiron.index;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
+import com.google.gson.Gson;
 
 import de.mindscan.furiousiron.document.DocumentId;
 import de.mindscan.furiousiron.document.DocumentMetadata;
@@ -60,7 +64,16 @@ public class MetadataCache {
         // FIXME: duplication of DocumentCache ... composition / inheritance / exraction ?
         createTargetDirectoryIfNotExist( documentId );
 
-        // save/serialize/jsonify metadata according to the documentId into filesystem
+        Path wordlistFilePath = getTargetDirectoryPath( documentId ).resolve( documentId.getMD5hex() + METADATA_FILE_SUFFIX );
+
+        try (BufferedWriter writer = Files.newBufferedWriter( wordlistFilePath, Charset.forName( "UTF-8" ) )) {
+            Gson gson = new Gson();
+            writer.write( gson.toJson( documentMetaData ) );
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     // FIXME: duplication of DocumentCache ... composition / inheritance / exraction ?

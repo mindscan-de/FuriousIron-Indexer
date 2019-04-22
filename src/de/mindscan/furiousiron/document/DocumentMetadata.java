@@ -33,7 +33,6 @@ import java.nio.file.Path;
 public class DocumentMetadata {
 
     private final String documentId;
-
     private final String relativePath;
     private final String simpleFilename;
 
