@@ -25,9 +25,16 @@
  */
 package de.mindscan.furiousiron.index;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
+
+import com.google.gson.Gson;
 
 import de.mindscan.furiousiron.document.DocumentId;
 
@@ -65,7 +72,18 @@ public class WordlistCache {
      * @param uniqueWordlist
      */
     public void addUniqueWordlist( DocumentId documentId, List<String> uniqueWordlist ) {
+        // FIXME: duplication of DocumentCache ... composition / inheritance / extraction ?
+        createTargetDirectoryIfNotExist( documentId );
 
+        Path wordlistFilePath = getTargetDirectoryPath( documentId ).resolve( documentId.getMD5hex() + WORDLIST_FILE_SUFFIX );
+
+        try (BufferedWriter writer = Files.newBufferedWriter( wordlistFilePath, Charset.forName( "UTF-8" ) )) {
+            Gson gson = new Gson();
+            writer.write( gson.toJson( uniqueWordlist ) );
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -73,8 +91,42 @@ public class WordlistCache {
      * @param uniqueTrigramlist
      */
     public void addUniqueTrigrams( DocumentId documentId, Set<String> uniqueTrigramlist ) {
-        // TODO Auto-generated method stub
+        // FIXME: duplication of DocumentCache ... composition / inheritance / extraction ?
+        createTargetDirectoryIfNotExist( documentId );
 
+        Path wordlistFilePath = getTargetDirectoryPath( documentId ).resolve( documentId.getMD5hex() + TRIGRAMS_FILE_SUFFIX );
+
+        try (BufferedWriter writer = Files.newBufferedWriter( wordlistFilePath, Charset.forName( "UTF-8" ) )) {
+            Gson gson = new Gson();
+            writer.write( gson.toJson( new TreeSet<>( uniqueTrigramlist ) ) );
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    // FIXME: duplication of DocumentCache ... composition / inheritance / exraction ?
+    private void createTargetDirectoryIfNotExist( DocumentId documentId ) {
+        Path targetDirectoryPath = getTargetDirectoryPath( documentId );
+        if (!Files.isDirectory( targetDirectoryPath )) {
+            try {
+                Files.createDirectories( targetDirectoryPath );
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // FIXME: duplication of DocumentCache ... composition / inheritance / exraction ?
+    private Path getTargetDirectoryPath( DocumentId documentId ) {
+        String firstLayer = documentId.getMD5hex().substring( 0, 2 );
+
+        // TODO: if we are exceeding 4k files per directory (means 1 mio files in total to index, we should enable the second layer. 
+        // String secondLayer = documentId.getMd5hex().substring( 2, 4 );
+
+        return cacheFolder.resolve( firstLayer ); //.resolve(secondLayer)
     }
 
 }
