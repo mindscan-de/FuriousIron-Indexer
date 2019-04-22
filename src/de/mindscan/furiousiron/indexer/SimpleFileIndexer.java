@@ -59,6 +59,7 @@ public class SimpleFileIndexer {
 
     private void updateIndexWithSingleFile( Path fileToIndex, Path crawlFolder, Path indexFolder ) {
         DocumentId documentId = DocumentId.createDocumentID( fileToIndex, crawlFolder );
+        DocumentMetadata documentMetaData = DocumentMetadata.createDocumentMetadata( documentId, fileToIndex );
 
         System.out.println( documentId.getMD5hex() );
         System.out.println( documentId.getRelativePathToCrawlingDirectory() );
@@ -66,7 +67,8 @@ public class SimpleFileIndexer {
         // store a copy of the document in the cache
         index.getDocumentCache().createDocumentCopy( documentId, fileToIndex );
 
-        // index.getCache().addMetaInfo();
+        // this should be done after parsing/analysing/indexing the document
+        index.getMetadataCache().addDocumentMetadata( documentId, documentMetaData );
 
         // documentID is required for the cache and the additional information (metainfo)
         // metainfo

@@ -33,12 +33,14 @@ import java.nio.file.Path;
 public class Index {
 
     private DocumentCache theFileCache;
+    private MetadataCache theMetadataCache;
 
     /**
      * 
      */
     public Index( Path indexFolder ) {
         theFileCache = new DocumentCache( indexFolder );
+        theMetadataCache = new MetadataCache( indexFolder );
     }
 
     /**
@@ -46,6 +48,13 @@ public class Index {
      */
     public DocumentCache getDocumentCache() {
         return theFileCache;
+    }
+
+    /**
+     * @return
+     */
+    public MetadataCache getMetadataCache() {
+        return theMetadataCache;
     }
 
 }
