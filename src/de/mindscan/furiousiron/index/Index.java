@@ -35,6 +35,7 @@ public class Index {
     private DocumentCache theFileCache;
     private MetadataCache theMetadataCache;
     private WordlistCache theWordlistCache;
+    private InverseTrigramIndex theInverseTrigramIndex;
 
     /**
      * 
@@ -43,6 +44,7 @@ public class Index {
         theFileCache = new DocumentCache( indexFolder );
         theMetadataCache = new MetadataCache( indexFolder );
         theWordlistCache = new WordlistCache( indexFolder );
+        theInverseTrigramIndex = new InverseTrigramIndex( indexFolder );
     }
 
     /**
@@ -65,6 +67,13 @@ public class Index {
     public WordlistCache getWordlistCache() {
         // TODO Auto-generated method stub
         return theWordlistCache;
+    }
+
+    /**
+     * @return
+     */
+    public InverseTrigramIndex getInverseTrigramIndex() {
+        return theInverseTrigramIndex;
     }
 
 }

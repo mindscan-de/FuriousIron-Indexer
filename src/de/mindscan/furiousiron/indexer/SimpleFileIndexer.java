@@ -55,6 +55,8 @@ public class SimpleFileIndexer {
 
         setIndex( new Index( indexFolder ) );
 
+        index.getInverseTrigramIndex().init();
+
         for (Path fileToIndex : filesToBeIndexed) {
             try {
                 updateIndexWithSingleFile( fileToIndex, crawlFolder, indexFolder );
@@ -67,6 +69,8 @@ public class SimpleFileIndexer {
                 // File should be appended again, if temporary problem or scheduled again for later indexing operation. 
             }
         }
+
+        index.getInverseTrigramIndex().save();
     }
 
     private void updateIndexWithSingleFile( Path fileToIndex, Path crawlFolder, Path indexFolder ) throws IOException {
@@ -85,6 +89,7 @@ public class SimpleFileIndexer {
 
         index.getWordlistCache().addUniqueWordlist( documentId, uniqueWordlist );
         index.getWordlistCache().addUniqueTrigrams( documentId, uniqueTrigramlist );
+        index.getInverseTrigramIndex().addTrigramsForDocument( documentId, uniqueTrigramlist );
 
         // TODO: Number of Lines...
         // TODO: update the metadata object with more expensive information / statistics
