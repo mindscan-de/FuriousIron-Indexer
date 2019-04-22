@@ -36,6 +36,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import de.mindscan.furiousiron.document.DocumentId;
+import de.mindscan.furiousiron.document.DocumentMetadata;
+
 /**
  * 
  */

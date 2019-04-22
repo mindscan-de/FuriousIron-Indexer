@@ -29,6 +29,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import de.mindscan.furiousiron.document.DocumentId;
+import de.mindscan.furiousiron.document.DocumentMetadata;
+
 /**
  * 
  */

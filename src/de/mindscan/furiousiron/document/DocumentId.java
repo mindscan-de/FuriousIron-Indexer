@@ -23,7 +23,7 @@
  * SOFTWARE.
  * 
  */
-package de.mindscan.furiousiron.indexer;
+package de.mindscan.furiousiron.document;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;

@@ -29,6 +29,8 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Set;
 
+import de.mindscan.furiousiron.document.DocumentId;
+
 /**
  * 
  */

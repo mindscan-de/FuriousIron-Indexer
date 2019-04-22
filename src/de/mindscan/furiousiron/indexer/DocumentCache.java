@@ -30,6 +30,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
+import de.mindscan.furiousiron.document.DocumentId;
+
 /**
  * This class implements a simple document cache, for the original documents. The original file structure is 
  * not preserved, instead it is built from the document id. The file structure / file name and so on, should 
