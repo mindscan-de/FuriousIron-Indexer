@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -62,12 +63,12 @@ public class InverseTrigramIndex {
     }
 
     /**
-     * @param documentId
-     * @param uniqueTrigramlist
+     * @param documentId the document id to add to each trigram
+     * @param uniqueTrigramlist the collection of trigrams contained in the document
      */
-    public void addTrigramsForDocument( DocumentId documentId, Set<String> uniqueTrigramlist ) {
+    public void addTrigramsForDocument( DocumentId documentId, Collection<String> uniqueTrigramlist ) {
         for (String trigramKey : uniqueTrigramlist) {
-            inverseIndex.computeIfAbsent( trigramKey, x -> emptyTreeSet() ).add( documentId.getMD5hex() );
+            inverseIndex.computeIfAbsent( trigramKey, x -> createEmptyTrigramIndex( x, 0 ) ).add( documentId.getMD5hex() );
         }
     }
 
@@ -85,7 +86,8 @@ public class InverseTrigramIndex {
         }
     }
 
-    private TreeSet<String> emptyTreeSet() {
+    private TreeSet<String> createEmptyTrigramIndex( String trigram, int indexGeneration ) {
+        // TODO: create a new trigram
         return new TreeSet<>();
     }
 }
