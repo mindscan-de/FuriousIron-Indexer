@@ -99,7 +99,7 @@ public class TrigramIndex {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                Path trigramsPath = TrigramSubPathCalculator.getPathForTrigram( trigramsBasePath, trigram );
+                Path trigramsPath = TrigramSubPathCalculator.getPathForTrigram( trigramsBasePath, trigram, "." + model.getIndexGeneration() + ".reference" );
                 createTargetDirectoryIfNotExist( trigramsPath.getParent() );
 
                 try (BufferedWriter writer = Files.newBufferedWriter( trigramsPath, StandardCharsets.UTF_8 )) {
