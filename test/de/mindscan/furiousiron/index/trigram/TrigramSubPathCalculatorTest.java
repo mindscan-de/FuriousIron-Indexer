@@ -87,7 +87,7 @@ public class TrigramSubPathCalculatorTest {
         Path pathForAUOTrigram = TrigramSubPathCalculator.getPathForTrigram( basePath, "あうお", ".suffix" );
 
         // Assert
-        assertThat( pathForAUOTrigram.toString(), equalTo( ".\\u3042\\u3046\\u3042_u3046_u304a.reference" ) );
+        assertThat( pathForAUOTrigram.toString(), equalTo( ".\\u3042\\u3046\\u3042_u3046_u304a.suffix" ) );
     }
 
 }
