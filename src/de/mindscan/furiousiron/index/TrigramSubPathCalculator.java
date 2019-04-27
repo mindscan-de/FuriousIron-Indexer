@@ -34,14 +34,15 @@ import java.util.Arrays;
  */
 public class TrigramSubPathCalculator {
 
-    public static Path getSubPathForTrigram( Path basePath, String trigram ) {
+    public static Path getPathForTrigram( Path basePath, String trigram ) {
         String[] convertCharsToUHex = convertCharsToUHex2( trigram );
 
         return basePath.resolve( buildPathAndName( convertCharsToUHex ) );
     }
 
-    public static Path buildPathAndName( String[] convertCharsToUHex ) {
-        String filename = String.join( "_", Arrays.copyOfRange( convertCharsToUHex, 3, convertCharsToUHex.length ) );
+    private static Path buildPathAndName( String[] convertCharsToUHex ) {
+        // Maybe later should be removing the first few elements and starting from level, where directory ends
+        String filename = String.join( "_", Arrays.copyOfRange( convertCharsToUHex, 0, convertCharsToUHex.length ) ) + ".reference";
         String pathName = String.join( "/", Arrays.copyOfRange( convertCharsToUHex, 0, 2 ) );
 
         return Paths.get( pathName, filename );
