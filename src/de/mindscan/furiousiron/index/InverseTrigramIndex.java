@@ -38,7 +38,7 @@ import de.mindscan.furiousiron.document.DocumentId;
  */
 public class InverseTrigramIndex {
 
-    private static final String TRIGRAM_INVERSE_INDEX = "inverseTreegram.index";
+    private static final String TRIGRAM_INVERSE_INDEX = "inverseTrigram.index";
 
     private Map<String, TrigramIndex> inverseIndex = new HashMap<>();
     private final Path inverseTrigramsPath;
