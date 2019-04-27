@@ -25,16 +25,11 @@
  */
 package de.mindscan.furiousiron.index;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.Map.Entry;
 
 import de.mindscan.furiousiron.document.DocumentId;
 
@@ -45,7 +40,7 @@ public class InverseTrigramIndex {
 
     private static final String TRIGRAM_INVERSE_INDEX = "inverseTreegram.index";
 
-    private Map<String, Set<String>> inverseIndex = new HashMap<>();
+    private Map<String, TrigramIndex> inverseIndex = new HashMap<>();
     private final Path inverseTrigramsPath;
 
     /**
@@ -68,26 +63,20 @@ public class InverseTrigramIndex {
      */
     public void addTrigramsForDocument( DocumentId documentId, Collection<String> uniqueTrigramlist ) {
         for (String trigramKey : uniqueTrigramlist) {
-            inverseIndex.computeIfAbsent( trigramKey, x -> createEmptyTrigramIndex( x, 0 ) ).add( documentId.getMD5hex() );
+            inverseIndex.computeIfAbsent( trigramKey, this::createEmptyTrigramIndex ).add( documentId.getMD5hex() );
         }
     }
 
     /**
-     * 
+     * This method implements the save operation for the whole inverse index. 
      */
     public void save() {
-        try (BufferedWriter writer = Files.newBufferedWriter( inverseTrigramsPath, Charset.forName( "UTF-8" ) )) {
-            // TODO: not sure, whether this is a cool idea...
-//            Gson gson = new Gson();
-//            writer.write( gson.toJson( inverseIndex ) );
-        }
-        catch (IOException e) {
-            e.printStackTrace();
+        for (Entry<String, TrigramIndex> entry : inverseIndex.entrySet()) {
+            entry.getValue().save( inverseTrigramsPath );
         }
     }
 
-    private TreeSet<String> createEmptyTrigramIndex( String trigram, int indexGeneration ) {
-        // TODO: create a new trigram
-        return new TreeSet<>();
+    private TrigramIndex createEmptyTrigramIndex( String trigram ) {
+        return new TrigramIndex( trigram, 0 );
     }
 }
