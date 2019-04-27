@@ -23,7 +23,7 @@
  * SOFTWARE.
  * 
  */
-package de.mindscan.furiousiron.index;
+package de.mindscan.furiousiron.index.trigram;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -59,6 +59,7 @@ public class TrigramIndex {
      */
     public void add( String documentKey ) {
         relatedDocuments.add( documentKey );
+
     }
 
     /**
@@ -66,8 +67,7 @@ public class TrigramIndex {
      */
     public void save( Path trigramsBasePath ) {
         Path trigramsPath = TrigramSubPathCalculator.getPathForTrigram( trigramsBasePath, trigram );
-
-        // TODO: make sure directory exists...
+        createTargetDirectoryIfNotExist( trigramsPath.getParent() );
 
         try (BufferedWriter writer = Files.newBufferedWriter( trigramsPath, Charset.forName( "UTF-8" ) )) {
 
@@ -86,6 +86,17 @@ public class TrigramIndex {
 
     public int getIndexGeneration() {
         return indexGeneration;
+    }
+
+    private void createTargetDirectoryIfNotExist( Path path ) {
+        if (!Files.isDirectory( path )) {
+            try {
+                Files.createDirectories( path );
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

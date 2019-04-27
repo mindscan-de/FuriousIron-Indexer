@@ -1,4 +1,4 @@
-package de.mindscan.furiousiron.index;
+package de.mindscan.furiousiron.index.trigram;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;

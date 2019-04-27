@@ -30,6 +30,7 @@ import java.nio.file.Path;
 import de.mindscan.furiousiron.index.cache.DocumentCache;
 import de.mindscan.furiousiron.index.cache.MetadataCache;
 import de.mindscan.furiousiron.index.cache.WordlistCache;
+import de.mindscan.furiousiron.index.trigram.InverseTrigramIndex;
 
 /**
  * 

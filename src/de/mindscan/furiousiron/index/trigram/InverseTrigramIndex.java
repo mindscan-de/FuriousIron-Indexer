@@ -23,7 +23,7 @@
  * SOFTWARE.
  * 
  */
-package de.mindscan.furiousiron.index;
+package de.mindscan.furiousiron.index.trigram;
 
 import java.nio.file.Path;
 import java.util.Collection;
