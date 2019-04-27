@@ -23,52 +23,82 @@
  * SOFTWARE.
  * 
  */
-package de.mindscan.furiousiron.index;
+package de.mindscan.furiousiron.index.cache;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import com.google.gson.Gson;
 
 import de.mindscan.furiousiron.document.DocumentId;
-import de.mindscan.furiousiron.document.DocumentMetadata;
 
 /**
  * 
  */
-public class MetadataCache {
+public class WordlistCache {
 
     /**
-     * folder in index Folder, where the 'metadata' documents should be cached. 
+     * folder in index Folder, where the worlists and trigrams of the documents should be cached. 
      */
-    private static final String CACHED_METADATA_FOLDER = "cachedMetadata";
+    private static final String CACHED_WORDLISTS_FOLDER = "cachedWordlists";
 
     /**
-     * file suffix for files containing the metadata of the original document content 
+     * file suffix for files containing the worlist of the original document 
      */
-    public final static String METADATA_FILE_SUFFIX = ".metadata";
+    public final static String WORDLIST_FILE_SUFFIX = ".wordlist";
+
+    /**
+     * file suffix for files containing the trigrams of the original document 
+     */
+    public final static String TRIGRAMS_FILE_SUFFIX = ".trigrams";
 
     private Path cacheFolder;
 
     /**
      * @param indexFolder
      */
-    public MetadataCache( Path indexFolder ) {
-        this.cacheFolder = indexFolder.resolve( CACHED_METADATA_FOLDER );
+    public WordlistCache( Path indexFolder ) {
+        this.cacheFolder = indexFolder.resolve( CACHED_WORDLISTS_FOLDER );
     }
 
-    public void addDocumentMetadata( DocumentId documentId, DocumentMetadata documentMetaData ) {
-        // FIXME: duplication of DocumentCache ... composition / inheritance / exraction ?
+    /**
+     * @param documentId
+     * @param uniqueWordlist
+     */
+    public void addUniqueWordlist( DocumentId documentId, List<String> uniqueWordlist ) {
+        // FIXME: duplication of DocumentCache ... composition / inheritance / extraction ?
         createTargetDirectoryIfNotExist( documentId );
 
-        Path wordlistFilePath = getTargetDirectoryPath( documentId ).resolve( documentId.getMD5hex() + METADATA_FILE_SUFFIX );
+        Path wordlistFilePath = getTargetDirectoryPath( documentId ).resolve( documentId.getMD5hex() + WORDLIST_FILE_SUFFIX );
 
         try (BufferedWriter writer = Files.newBufferedWriter( wordlistFilePath, Charset.forName( "UTF-8" ) )) {
             Gson gson = new Gson();
-            writer.write( gson.toJson( documentMetaData ) );
+            writer.write( gson.toJson( uniqueWordlist ) );
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @param documentId
+     * @param uniqueTrigramlist
+     */
+    public void addUniqueTrigrams( DocumentId documentId, Set<String> uniqueTrigramlist ) {
+        // FIXME: duplication of DocumentCache ... composition / inheritance / extraction ?
+        createTargetDirectoryIfNotExist( documentId );
+
+        Path wordlistFilePath = getTargetDirectoryPath( documentId ).resolve( documentId.getMD5hex() + TRIGRAMS_FILE_SUFFIX );
+
+        try (BufferedWriter writer = Files.newBufferedWriter( wordlistFilePath, Charset.forName( "UTF-8" ) )) {
+            Gson gson = new Gson();
+            writer.write( gson.toJson( new TreeSet<>( uniqueTrigramlist ) ) );
         }
         catch (IOException e) {
             e.printStackTrace();

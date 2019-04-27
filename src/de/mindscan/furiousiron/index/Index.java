@@ -27,6 +27,10 @@ package de.mindscan.furiousiron.index;
 
 import java.nio.file.Path;
 
+import de.mindscan.furiousiron.index.cache.DocumentCache;
+import de.mindscan.furiousiron.index.cache.MetadataCache;
+import de.mindscan.furiousiron.index.cache.WordlistCache;
+
 /**
  * 
  */
