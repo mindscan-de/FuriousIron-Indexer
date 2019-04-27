@@ -72,11 +72,11 @@ public class InverseTrigramIndex {
      */
     public void save() {
         for (Entry<String, TrigramIndex> entry : inverseIndex.entrySet()) {
-            entry.getValue().save( inverseTrigramsPath );
+            entry.getValue().save();
         }
     }
 
     private TrigramIndex createEmptyTrigramIndex( String trigram ) {
-        return new TrigramIndex( trigram, 0 );
+        return new TrigramIndex( trigram, 0, inverseTrigramsPath );
     }
 }
