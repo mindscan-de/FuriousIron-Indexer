@@ -1,6 +1,10 @@
 package de.mindscan.furiousiron.index;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -72,6 +76,18 @@ public class TrigramSubPathCalculatorTest {
 
         // assert
         assertThat( result, Matchers.arrayContaining( "ud848", "udc00" ) );
+    }
+
+    @Test
+    public void testGetPathForTrigram() throws Exception {
+        // Arrange
+        Path basePath = Paths.get( "." );
+
+        // Act
+        Path pathForAUOTrigram = TrigramSubPathCalculator.getPathForTrigram( basePath, "あうお" );
+
+        // Assert
+        assertThat( pathForAUOTrigram.toString(), equalTo( ".\\u3042\\u3046\\u3042_u3046_u304a.reference" ) );
     }
 
 }
