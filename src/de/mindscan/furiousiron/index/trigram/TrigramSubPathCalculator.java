@@ -35,7 +35,7 @@ import java.util.Arrays;
 public class TrigramSubPathCalculator {
 
     public static Path getPathForTrigram( Path basePath, String trigram ) {
-        String[] convertCharsToUHex = convertCharsToUHex2( trigram );
+        String[] convertCharsToUHex = convertCharsToUHex( trigram );
 
         return basePath.resolve( buildPathAndName( convertCharsToUHex ) );
     }
@@ -48,7 +48,7 @@ public class TrigramSubPathCalculator {
         return Paths.get( pathName, filename );
     }
 
-    public static String[] convertCharsToUHex2( String trigram ) {
+    public static String[] convertCharsToUHex( String trigram ) {
         int[] chars = trigram.chars().toArray();
         String[] result = new String[chars.length];
 

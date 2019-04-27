@@ -12,55 +12,55 @@ import org.junit.Test;
 public class TrigramSubPathCalculatorTest {
 
     @Test
-    public void testConvertCharsToUHex2_EnglishCharaters_allElementsHaveShortCode() {
+    public void testConvertCharsToUHex_EnglishCharaters_allElementsHaveShortCode() {
         // arrange
 
         // act
-        String[] result = TrigramSubPathCalculator.convertCharsToUHex2( "abc" );
+        String[] result = TrigramSubPathCalculator.convertCharsToUHex( "abc" );
 
         // assert
         assertThat( result, Matchers.arrayContaining( "61", "62", "63" ) );
     }
 
     @Test
-    public void testConvertCharsToUHex2_GermanSpecialCharaters() {
+    public void testConvertCharsToUHex_GermanSpecialCharaters() {
         // arrange
 
         // act
-        String[] result = TrigramSubPathCalculator.convertCharsToUHex2( "ßäöü" );
+        String[] result = TrigramSubPathCalculator.convertCharsToUHex( "ßäöü" );
 
         // assert
         assertThat( result, Matchers.arrayContaining( "u00df", "u00e4", "u00f6", "u00fc" ) );
     }
 
     @Test
-    public void testConvertCharsToUHex2_JapaneseHiraganaCharacters() {
+    public void testConvertCharsToUHex_JapaneseHiraganaCharacters() {
         // arrange
 
         // act
-        String[] result = TrigramSubPathCalculator.convertCharsToUHex2( "あおういえ" );
+        String[] result = TrigramSubPathCalculator.convertCharsToUHex( "あおういえ" );
 
         // assert
         assertThat( result, Matchers.arrayContaining( "u3042", "u304a", "u3046", "u3044", "u3048" ) );
     }
 
     @Test
-    public void testConvertCharsToUHex2_JapaneseKanjiCharacters() {
+    public void testConvertCharsToUHex_JapaneseKanjiCharacters() {
         // arrange
 
         // act
-        String[] result = TrigramSubPathCalculator.convertCharsToUHex2( "喫茶店" );
+        String[] result = TrigramSubPathCalculator.convertCharsToUHex( "喫茶店" );
 
         // assert
         assertThat( result, Matchers.arrayContaining( "u55ab", "u8336", "u5e97" ) );
     }
 
     @Test
-    public void testConvertCharsToUHex2_RussianCharacters() {
+    public void testConvertCharsToUHex_RussianCharacters() {
         // arrange
 
         // act
-        String[] result = TrigramSubPathCalculator.convertCharsToUHex2( "АБВГД" );
+        String[] result = TrigramSubPathCalculator.convertCharsToUHex( "АБВГД" );
 
         // assert
         assertThat( result, Matchers.arrayContaining( "u0410", "u0411", "u0412", "u0413", "u0414" ) );
@@ -68,11 +68,11 @@ public class TrigramSubPathCalculatorTest {
 
     // These will be difficult... later on, because could be ambiguous.
     @Test
-    public void testConvertCharsToUHex2_CJKUnifiedIdeogramsExtensionB() {
+    public void testConvertCharsToUHex_CJKUnifiedIdeogramsExtensionB() {
         // arrange
 
         // act
-        String[] result = TrigramSubPathCalculator.convertCharsToUHex2( "𢀀" );
+        String[] result = TrigramSubPathCalculator.convertCharsToUHex( "𢀀" );
 
         // assert
         assertThat( result, Matchers.arrayContaining( "ud848", "udc00" ) );
