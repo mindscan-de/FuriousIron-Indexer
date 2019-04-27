@@ -64,8 +64,13 @@ public class TrigramIndex {
     /**
      * @param inverseTrigramsPath
      */
-    public void save( Path trigramsPath ) {
+    public void save( Path trigramsBasePath ) {
+        Path trigramsPath = TrigramSubPathCalculator.getPathForTrigram( trigramsBasePath, trigram );
+
+        // TODO: make sure directory exists...
+
         try (BufferedWriter writer = Files.newBufferedWriter( trigramsPath, Charset.forName( "UTF-8" ) )) {
+
             // TODO: not sure, whether this is a cool idea...
 //            Gson gson = new Gson();
 //            writer.write( gson.toJson( inverseIndex ) );
