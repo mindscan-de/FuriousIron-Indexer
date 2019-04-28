@@ -75,56 +75,20 @@ public class DocumentCache {
      * @param fileToIndex the path to the document to store
      */
     public void createDocumentCopy( DocumentId documentId, Path fileToIndex ) {
+        Path documentTargetFilePath = CachingPathUtils.getDocumentPath( cacheFolder, documentId, CACHED_FILE_SUFFIX );
+
         // TODO: create cache directory structure beforehand.
         // can be enforced completely beforehand, so this calculation doesn't need 
         // to be part of each document copy operation 
         // it would be simple to create either 256 or 65536 folders / shards beforehand
-        createTargetDirectoryIfNotExist( documentId );
+        CachingPathUtils.createTargetDirectoryIfNotExist( documentTargetFilePath );
 
         try {
-            Files.copy( fileToIndex, getTargetFilePath( documentId ), StandardCopyOption.REPLACE_EXISTING );
+            Files.copy( fileToIndex, documentTargetFilePath, StandardCopyOption.REPLACE_EXISTING );
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * 
-     * @param documentId
-     * @return
-     */
-    public Path getDocumentPathById( DocumentId documentId ) {
-        return getTargetFilePath( documentId );
-    }
-
-    // -----------------------
-    // Implementation details.
-    // -----------------------    
-
-    private void createTargetDirectoryIfNotExist( DocumentId documentId ) {
-        Path targetDirectoryPath = getTargetDirectoryPath( documentId );
-        if (!Files.isDirectory( targetDirectoryPath )) {
-            try {
-                Files.createDirectories( targetDirectoryPath );
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private Path getTargetFilePath( DocumentId documentId ) {
-        return getTargetDirectoryPath( documentId ).resolve( documentId.getMD5hex() + CACHED_FILE_SUFFIX );
-    }
-
-    private Path getTargetDirectoryPath( DocumentId documentId ) {
-        String firstLayer = documentId.getMD5hex().substring( 0, 2 );
-
-        // TODO: if we are exceeding 4k files per directory (means 1 mio files in total to index, we should enable the second layer. 
-        // String secondLayer = documentId.getMd5hex().substring( 2, 4 );
-
-        return cacheFolder.resolve( firstLayer ); //.resolve(secondLayer)
     }
 
 }

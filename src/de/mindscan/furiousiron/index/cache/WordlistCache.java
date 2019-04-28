@@ -27,7 +27,7 @@ package de.mindscan.furiousiron.index.cache;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -72,12 +72,11 @@ public class WordlistCache {
      * @param uniqueWordlist
      */
     public void addUniqueWordlist( DocumentId documentId, List<String> uniqueWordlist ) {
-        // FIXME: duplication of DocumentCache ... composition / inheritance / extraction ?
-        createTargetDirectoryIfNotExist( documentId );
+        Path wordlistDocumentPath = CachingPathUtils.getDocumentPath( cacheFolder, documentId, WORDLIST_FILE_SUFFIX );
 
-        Path wordlistFilePath = getTargetDirectoryPath( documentId ).resolve( documentId.getMD5hex() + WORDLIST_FILE_SUFFIX );
+        CachingPathUtils.createTargetDirectoryIfNotExist( wordlistDocumentPath );
 
-        try (BufferedWriter writer = Files.newBufferedWriter( wordlistFilePath, Charset.forName( "UTF-8" ) )) {
+        try (BufferedWriter writer = Files.newBufferedWriter( wordlistDocumentPath, StandardCharsets.UTF_8 )) {
             Gson gson = new Gson();
             writer.write( gson.toJson( uniqueWordlist ) );
         }
@@ -91,12 +90,11 @@ public class WordlistCache {
      * @param uniqueTrigramlist
      */
     public void addUniqueTrigrams( DocumentId documentId, Set<String> uniqueTrigramlist ) {
-        // FIXME: duplication of DocumentCache ... composition / inheritance / extraction ?
-        createTargetDirectoryIfNotExist( documentId );
+        Path trigramsDocumentPath = CachingPathUtils.getDocumentPath( cacheFolder, documentId, TRIGRAMS_FILE_SUFFIX );
 
-        Path wordlistFilePath = getTargetDirectoryPath( documentId ).resolve( documentId.getMD5hex() + TRIGRAMS_FILE_SUFFIX );
+        CachingPathUtils.createTargetDirectoryIfNotExist( trigramsDocumentPath );
 
-        try (BufferedWriter writer = Files.newBufferedWriter( wordlistFilePath, Charset.forName( "UTF-8" ) )) {
+        try (BufferedWriter writer = Files.newBufferedWriter( trigramsDocumentPath, StandardCharsets.UTF_8 )) {
             Gson gson = new Gson();
             writer.write( gson.toJson( new TreeSet<>( uniqueTrigramlist ) ) );
         }
@@ -104,29 +102,6 @@ public class WordlistCache {
             e.printStackTrace();
         }
 
-    }
-
-    // FIXME: duplication of DocumentCache ... composition / inheritance / exraction ?
-    private void createTargetDirectoryIfNotExist( DocumentId documentId ) {
-        Path targetDirectoryPath = getTargetDirectoryPath( documentId );
-        if (!Files.isDirectory( targetDirectoryPath )) {
-            try {
-                Files.createDirectories( targetDirectoryPath );
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    // FIXME: duplication of DocumentCache ... composition / inheritance / exraction ?
-    private Path getTargetDirectoryPath( DocumentId documentId ) {
-        String firstLayer = documentId.getMD5hex().substring( 0, 2 );
-
-        // TODO: if we are exceeding 4k files per directory (means 1 mio files in total to index, we should enable the second layer. 
-        // String secondLayer = documentId.getMd5hex().substring( 2, 4 );
-
-        return cacheFolder.resolve( firstLayer ); //.resolve(secondLayer)
     }
 
 }

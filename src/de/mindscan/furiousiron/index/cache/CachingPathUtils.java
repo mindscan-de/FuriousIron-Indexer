@@ -25,54 +25,47 @@
  */
 package de.mindscan.furiousiron.index.cache;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-import com.google.gson.Gson;
+import java.nio.file.Paths;
 
 import de.mindscan.furiousiron.document.DocumentId;
-import de.mindscan.furiousiron.document.DocumentMetadata;
 
 /**
  * 
  */
-public class MetadataCache {
+public class CachingPathUtils {
 
-    /**
-     * folder in index Folder, where the 'metadata' documents should be cached. 
-     */
-    private static final String CACHED_METADATA_FOLDER = "cachedMetadata";
+    public static final int NUMBER_OF_DOCUMENT_ID_LAYERS = 1;
 
-    /**
-     * file suffix for files containing the metadata of the original document content 
-     */
-    public final static String METADATA_FILE_SUFFIX = ".metadata";
+    public static Path getDocumentPath( Path basePath, DocumentId documentId, String fileSuffix ) {
+        String filename = documentId.getMD5hex() + fileSuffix;
+        String firstLayer = documentId.getMD5hex().substring( 0, 2 );
 
-    private Path cacheFolder;
-
-    /**
-     * @param indexFolder
-     */
-    public MetadataCache( Path indexFolder ) {
-        this.cacheFolder = indexFolder.resolve( CACHED_METADATA_FOLDER );
+        switch (NUMBER_OF_DOCUMENT_ID_LAYERS) {
+            case 1:
+                return basePath.resolve( Paths.get( firstLayer, filename ) );
+            case 2:
+            default:
+                String secondLayer = documentId.getMD5hex().substring( 2, 4 );
+                return basePath.resolve( Paths.get( firstLayer, secondLayer, filename ) );
+        }
     }
 
-    public void addDocumentMetadata( DocumentId documentId, DocumentMetadata documentMetaData ) {
-        Path metadataDocumentPath = CachingPathUtils.getDocumentPath( cacheFolder, documentId, METADATA_FILE_SUFFIX );
-
-        CachingPathUtils.createTargetDirectoryIfNotExist( metadataDocumentPath );
-
-        try (BufferedWriter writer = Files.newBufferedWriter( metadataDocumentPath, StandardCharsets.UTF_8 )) {
-            Gson gson = new Gson();
-            writer.write( gson.toJson( documentMetaData ) );
+    /**
+     * @param wordlistDocumentPath
+     */
+    static void createTargetDirectoryIfNotExist( Path documentPath ) {
+        Path targetDirectoryPath = documentPath.getParent();
+        if (!Files.isDirectory( targetDirectoryPath )) {
+            try {
+                Files.createDirectories( targetDirectoryPath );
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 
 }
