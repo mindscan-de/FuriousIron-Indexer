@@ -37,20 +37,21 @@ import de.mindscan.furiousiron.document.DocumentId;
  */
 public class CachingPathUtils {
 
-    public static final int NUMBER_OF_DOCUMENT_ID_LAYERS = 1;
+//     public static final int NUMBER_OF_DOCUMENT_ID_LAYERS = 1;
 
     public static Path getDocumentPath( Path basePath, DocumentId documentId, String fileSuffix ) {
         String filename = documentId.getMD5hex() + fileSuffix;
         String firstLayer = documentId.getMD5hex().substring( 0, 2 );
 
-        switch (NUMBER_OF_DOCUMENT_ID_LAYERS) {
-            case 1:
-                return basePath.resolve( Paths.get( firstLayer, filename ) );
-            case 2:
-            default:
-                String secondLayer = documentId.getMD5hex().substring( 2, 4 );
-                return basePath.resolve( Paths.get( firstLayer, secondLayer, filename ) );
-        }
+        return basePath.resolve( Paths.get( firstLayer, filename ) );
+//        switch (NUMBER_OF_DOCUMENT_ID_LAYERS) {
+//            case 1:
+//                return basePath.resolve( Paths.get( firstLayer, filename ) );
+//            case 2:
+//            default:
+//                String secondLayer = documentId.getMD5hex().substring( 2, 4 );
+//                return basePath.resolve( Paths.get( firstLayer, secondLayer, filename ) );
+//        }
     }
 
     /**
