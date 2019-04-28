@@ -56,7 +56,7 @@ public class TrigramSubPathCalculatorTest {
     }
 
     @Test
-    public void testConvertCharsToUHex_RussianCharacters() {
+    public void testConvertCharsToUHex_RussianCharacters_expectRussianUnicodeblockInHex() {
         // arrange
 
         // act
@@ -68,7 +68,7 @@ public class TrigramSubPathCalculatorTest {
 
     // These will be difficult... later on, because could be ambiguous.
     @Test
-    public void testConvertCharsToUHex_CJKUnifiedIdeogramsExtensionB() {
+    public void testConvertCharsToUHex_CJKUnifiedIdeogramsExtensionB_expectOneIdeogramWithTwoHexvalues() {
         // arrange
 
         // act
@@ -79,7 +79,7 @@ public class TrigramSubPathCalculatorTest {
     }
 
     @Test
-    public void testGetPathForTrigram() throws Exception {
+    public void testGetPathForTrigram_JapaneseAUO_expectTwoSubDirectoriesAndFullFilename() throws Exception {
         // Arrange
         Path basePath = Paths.get( "." );
 
