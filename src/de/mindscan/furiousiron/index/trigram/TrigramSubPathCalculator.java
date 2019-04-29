@@ -40,14 +40,6 @@ public class TrigramSubPathCalculator {
         return basePath.resolve( buildPathAndName( convertCharsToUHex, suffix ) );
     }
 
-    private static Path buildPathAndName( String[] convertCharsToUHex, String suffix ) {
-        // Maybe later should be removing the first few elements and starting from level, where directory ends
-        String filename = String.join( "_", Arrays.copyOfRange( convertCharsToUHex, 0, convertCharsToUHex.length ) ) + suffix;
-        String pathName = String.join( "/", Arrays.copyOfRange( convertCharsToUHex, 0, 2 ) );
-
-        return Paths.get( pathName, filename );
-    }
-
     public static String[] convertCharsToUHex( String trigram ) {
         int[] chars = trigram.chars().toArray();
         String[] result = new String[chars.length];
@@ -70,4 +62,11 @@ public class TrigramSubPathCalculator {
         return result;
     }
 
+    private static Path buildPathAndName( String[] convertCharsToUHex, String suffix ) {
+        // Maybe later should be removing the first few elements and starting from level, where directory ends
+        String filename = String.join( "_", Arrays.copyOfRange( convertCharsToUHex, 0, convertCharsToUHex.length ) ) + suffix;
+        String pathName = String.join( "/", Arrays.copyOfRange( convertCharsToUHex, 0, 2 ) );
+
+        return Paths.get( pathName, filename );
+    }
 }
