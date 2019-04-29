@@ -49,12 +49,6 @@ public class DocumentCache {
      */
     public final static String CACHED_FILE_SUFFIX = ".originalContent";
 
-//    /**
-//     * file suffix for files containing unique word list of the document in the cache folder
-//     */
-//    public final static String WORDLIST_FILE_SUFFIX = ".wordlist";
-
-    // private Path indexFolder;
     private Path cacheFolder;
 
     /**
