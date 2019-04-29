@@ -10,22 +10,22 @@ import org.junit.Test;
 public class SimpleWordUtilsTest {
 
     @Test
-    public void testGetUniqueTrigrams_BlaFiveTimes_expectThreeUniqueTrigrams() {
+    public void testGetUniqueTrigramsFromWord_BlaFiveTimes_expectThreeUniqueTrigrams() {
         // Arrange
 
         // Act
-        Set<String> result = SimpleWordUtils.getUniqueTrigrams( "blablablablabla" );
+        Set<String> result = SimpleWordUtils.getUniqueTrigramsFromWord( "blablablablabla" );
 
         // Assert
         assertThat( result, containsInAnyOrder( "bla", "lab", "abl" ) );
     }
 
     @Test
-    public void testGetUniqueTrigrams_() {
+    public void testGetUniqueTrigramsFromWord_Copyright_expectSevenUniqueTrigrams() {
         // Arrange
 
         // Act
-        Set<String> result = SimpleWordUtils.getUniqueTrigrams( "copyright" );
+        Set<String> result = SimpleWordUtils.getUniqueTrigramsFromWord( "copyright" );
 
         // Assert
         assertThat( result, containsInAnyOrder( "cop", "opy", "pyr", "yri", "rig", "igh", "ght" ) );

@@ -70,11 +70,11 @@ public class SimpleWordUtils {
         return x.length() >= 3;
     }
 
-    public static Set<String> getUniqueTrigrams( String word ) {
+    public static Set<String> getUniqueTrigramsFromWord( String word ) {
         return new HashSet<>( trigramsplitter( word ) );
     }
 
-    public static Set<String> buildUniqueTrigrams( List<String> flatWordList ) {
+    public static Set<String> getUniqueTrigramsFromWordList( List<String> flatWordList ) {
         List<List<String>> collectedTrigramsForEachWord = flatWordList.stream().map( SimpleWordUtils::trigramsplitter ).distinct()
                         .collect( Collectors.toList() );
 
