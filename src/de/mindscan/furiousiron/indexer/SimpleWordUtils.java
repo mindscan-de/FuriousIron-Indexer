@@ -31,6 +31,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -67,6 +68,10 @@ public class SimpleWordUtils {
 
     static boolean atLeastThreeCharsLong( String x ) {
         return x.length() >= 3;
+    }
+
+    public static Set<String> getUniqueTrigrams( String word ) {
+        return new HashSet<>( trigramsplitter( word ) );
     }
 
     public static Set<String> buildUniqueTrigrams( List<String> flatWordList ) {
