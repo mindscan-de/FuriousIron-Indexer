@@ -53,29 +53,28 @@ public class Index {
     }
 
     /**
-     * @return
+     * @return the document cache access (document id -> document content)
      */
     public DocumentCache getDocumentCache() {
         return theFileCache;
     }
 
     /**
-     * @return
+     * @return the meta data cache access (document id -> metadata)
      */
     public MetadataCache getMetadataCache() {
         return theMetadataCache;
     }
 
     /**
-     * @return
+     * @return the wordlist cache access (document id -> wordlist)
      */
     public WordlistCache getWordlistCache() {
-        // TODO Auto-generated method stub
         return theWordlistCache;
     }
 
     /**
-     * @return
+     * @return the (inverse) trigram index access (trigram -> document id)
      */
     public InverseTrigramIndex getInverseTrigramIndex() {
         return theInverseTrigramIndex;
