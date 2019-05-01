@@ -70,7 +70,7 @@ public class SimpleWordUtils {
         return x.length() >= 3;
     }
 
-    public static Set<String> getUniqueTrigramsFromWord( String word ) {
+    public static Collection<String> getUniqueTrigramsFromWord( String word ) {
         return new HashSet<>( trigramsplitter( word ) );
     }
 
