@@ -30,7 +30,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import de.mindscan.furiousiron.index.cache.DocumentCache;
 import de.mindscan.furiousiron.index.cache.MetadataCache;
@@ -81,15 +83,28 @@ public class Search {
      * @param uniqueTrigramsFromWord
      */
     private void searchTrigrams( Collection<String> uniqueTrigramsFromWord ) {
-        // TODO: count occurences for each trigram... by documentID
         Map<String, AtomicInteger> documentIdCount = new HashMap<>();
 
+        int maxSize = uniqueTrigramsFromWord.size();
+
         for (String trigram : uniqueTrigramsFromWord) {
+            System.out.println( "Searching for trigram " + trigram );
             Collection<String> documentIds = theSearchTrigramIndex.getDocumentIdsForTrigram( trigram );
 
             documentIds.stream().forEach( docId -> documentIdCount.computeIfAbsent( docId, x -> new AtomicInteger( 0 ) ).incrementAndGet() );
         }
 
-        System.out.println( documentIdCount );
+        Set<String> documentIdsWithMaxCount = documentIdCount.entrySet().stream().filter( entry -> (entry.getValue().intValue() == maxSize) )
+                        .map( entry -> entry.getKey() ).collect( Collectors.toSet() );
+
+        Set<String> documentIdsWithOneLessThanMaxCount = documentIdCount.entrySet().stream().filter( entry -> (entry.getValue().intValue() == maxSize - 1) )
+                        .map( entry -> entry.getKey() ).collect( Collectors.toSet() );
+
+        Set<String> documentIdsWithTwoLessThanMaxCount = documentIdCount.entrySet().stream().filter( entry -> (entry.getValue().intValue() == maxSize - 2) )
+                        .map( entry -> entry.getKey() ).collect( Collectors.toSet() );
+
+        System.out.println( documentIdsWithMaxCount );
+        System.out.println( documentIdsWithOneLessThanMaxCount );
+        System.out.println( documentIdsWithTwoLessThanMaxCount );
     }
 }

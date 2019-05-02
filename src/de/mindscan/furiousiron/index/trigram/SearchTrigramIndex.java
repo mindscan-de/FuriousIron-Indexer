@@ -25,9 +25,17 @@
  */
 package de.mindscan.furiousiron.index.trigram;
 
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
+
+import com.google.gson.Gson;
+
+import de.mindscan.furiousiron.index.trigram.model.TrigramIndexJsonModel;
 
 /**
  * 
@@ -50,7 +58,26 @@ public class SearchTrigramIndex {
     * @return
     */
     public Collection<String> getDocumentIdsForTrigram( String trigram ) {
-        return Collections.emptyList();
+        return loadFromDisk( trigram );
+    }
+
+    private Set<String> loadFromDisk( String trigram ) {
+        Path pathForTrigrams = TrigramSubPathCalculator.getPathForTrigram( searchTrigramsPath, trigram, ".0.reference" );
+
+        if (Files.exists( pathForTrigrams, LinkOption.NOFOLLOW_LINKS )) {
+            Gson gson = new Gson();
+            try (Reader json = Files.newBufferedReader( pathForTrigrams )) {
+                TrigramIndexJsonModel fromJson = gson.fromJson( json, TrigramIndexJsonModel.class );
+                return fromJson.getRelatedDocuments();
+            }
+            catch (Exception e) {
+            }
+        }
+
+        // TODO: more References needed... Not only ".0.reference
+
+        return Collections.emptySet();
+
     }
 
 }
