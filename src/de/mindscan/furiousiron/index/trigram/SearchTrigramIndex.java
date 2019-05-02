@@ -30,8 +30,8 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Set;
+import java.util.TreeSet;
 
 import com.google.gson.Gson;
 
@@ -62,21 +62,27 @@ public class SearchTrigramIndex {
     }
 
     private Set<String> loadFromDisk( String trigram ) {
-        Path pathForTrigrams = TrigramSubPathCalculator.getPathForTrigram( searchTrigramsPath, trigram, ".0.reference" );
+        Set<String> result = new TreeSet<>();
 
-        if (Files.exists( pathForTrigrams, LinkOption.NOFOLLOW_LINKS )) {
-            Gson gson = new Gson();
-            try (Reader json = Files.newBufferedReader( pathForTrigrams )) {
-                TrigramIndexJsonModel fromJson = gson.fromJson( json, TrigramIndexJsonModel.class );
-                return fromJson.getRelatedDocuments();
+        for (int counter = 0; counter < 5; counter++) {
+            Path pathForTrigrams = TrigramSubPathCalculator.getPathForTrigram( searchTrigramsPath, trigram, "." + counter + ".reference" );
+
+            if (Files.exists( pathForTrigrams, LinkOption.NOFOLLOW_LINKS )) {
+                Gson gson = new Gson();
+                try (Reader json = Files.newBufferedReader( pathForTrigrams )) {
+                    TrigramIndexJsonModel fromJson = gson.fromJson( json, TrigramIndexJsonModel.class );
+                    result.addAll( fromJson.getRelatedDocuments() );
+                }
+                catch (Exception e) {
+                    break;
+                }
             }
-            catch (Exception e) {
+            else {
+                break;
             }
         }
 
-        // TODO: more References needed... Not only ".0.reference
-
-        return Collections.emptySet();
+        return result;
 
     }
 
