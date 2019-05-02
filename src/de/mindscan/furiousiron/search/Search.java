@@ -35,7 +35,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import de.mindscan.furiousiron.index.cache.DocumentCache;
 import de.mindscan.furiousiron.index.cache.MetadataCache;
 import de.mindscan.furiousiron.index.cache.WordlistCache;
-import de.mindscan.furiousiron.index.trigram.InverseTrigramIndex;
+import de.mindscan.furiousiron.index.trigram.SearchTrigramIndex;
 import de.mindscan.furiousiron.indexer.SimpleWordUtils;
 
 /**
@@ -50,7 +50,7 @@ public class Search {
     // for ranking the results
     private WordlistCache theWordlistCache;
     // for ranking
-    private InverseTrigramIndex theInverseTrigramIndex;
+    private SearchTrigramIndex theSearchTrigramIndex;
 
     /**
      * @param indexFolder The folder, where the index root is located
@@ -60,7 +60,7 @@ public class Search {
         theFileCache = new DocumentCache( indexFolder );
         theMetadataCache = new MetadataCache( indexFolder );
         theWordlistCache = new WordlistCache( indexFolder );
-        theInverseTrigramIndex = new InverseTrigramIndex( indexFolder );
+        theSearchTrigramIndex = new SearchTrigramIndex( indexFolder );
     }
 
     /**
@@ -85,7 +85,7 @@ public class Search {
         Map<String, AtomicInteger> documentIdCount = new HashMap<>();
 
         for (String trigram : uniqueTrigramsFromWord) {
-            Collection<String> documentIds = theInverseTrigramIndex.getDocumentIdsForTrigram( trigram );
+            Collection<String> documentIds = theSearchTrigramIndex.getDocumentIdsForTrigram( trigram );
 
             documentIds.stream().forEach( docId -> documentIdCount.computeIfAbsent( docId, x -> new AtomicInteger( 0 ) ).incrementAndGet() );
         }
