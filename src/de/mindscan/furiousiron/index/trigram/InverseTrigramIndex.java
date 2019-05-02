@@ -27,6 +27,7 @@ package de.mindscan.furiousiron.index.trigram;
 
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -78,5 +79,13 @@ public class InverseTrigramIndex {
 
     private TrigramIndex createEmptyTrigramIndex( String trigram ) {
         return new TrigramIndex( trigram, 0, inverseTrigramsPath );
+    }
+
+    /**
+     * @param trigram
+     * @return
+     */
+    public Collection<String> getDocumentIdsForTrigram( String trigram ) {
+        return Collections.emptyList();
     }
 }

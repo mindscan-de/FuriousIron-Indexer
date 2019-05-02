@@ -28,11 +28,15 @@ package de.mindscan.furiousiron.search;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import de.mindscan.furiousiron.index.cache.DocumentCache;
 import de.mindscan.furiousiron.index.cache.MetadataCache;
 import de.mindscan.furiousiron.index.cache.WordlistCache;
 import de.mindscan.furiousiron.index.trigram.InverseTrigramIndex;
+import de.mindscan.furiousiron.indexer.SimpleWordUtils;
 
 /**
  * 
@@ -64,6 +68,28 @@ public class Search {
      * @return the collection of documents
      */
     public Collection<SearchResultCandidates> search( String searchterm ) {
+        // assume current search term is exactly one word.
+        Collection<String> uniqueTrigramsFromWord = SimpleWordUtils.getUniqueTrigramsFromWord( searchterm );
+
+        searchTrigrams( uniqueTrigramsFromWord );
+
+        // 
         return Collections.emptyList();
+    }
+
+    /**
+     * @param uniqueTrigramsFromWord
+     */
+    private void searchTrigrams( Collection<String> uniqueTrigramsFromWord ) {
+        // TODO: count occurences for each trigram... by documentID
+        Map<String, AtomicInteger> documentIdCount = new HashMap<>();
+
+        for (String trigram : uniqueTrigramsFromWord) {
+            Collection<String> documentIds = theInverseTrigramIndex.getDocumentIdsForTrigram( trigram );
+
+            documentIds.stream().forEach( docId -> documentIdCount.computeIfAbsent( docId, x -> new AtomicInteger( 0 ) ).incrementAndGet() );
+        }
+
+        System.out.println( documentIdCount );
     }
 }
