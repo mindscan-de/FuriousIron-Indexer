@@ -73,16 +73,17 @@ public class Search {
         // assume current search term is exactly one word.
         Collection<String> uniqueTrigramsFromWord = SimpleWordUtils.getUniqueTrigramsFromWord( searchterm );
 
-        searchTrigrams( uniqueTrigramsFromWord );
+        Set<String> resultForOneWord = searchTrigrams( uniqueTrigramsFromWord );
+        System.out.println( resultForOneWord );
 
-        // 
         return Collections.emptyList();
     }
 
     /**
      * @param uniqueTrigramsFromWord
+     * @return 
      */
-    private void searchTrigrams( Collection<String> uniqueTrigramsFromWord ) {
+    private Set<String> searchTrigrams( Collection<String> uniqueTrigramsFromWord ) {
         Map<String, AtomicInteger> documentIdCount = new HashMap<>();
 
         int maxSize = uniqueTrigramsFromWord.size();
@@ -94,17 +95,7 @@ public class Search {
             documentIds.stream().forEach( docId -> documentIdCount.computeIfAbsent( docId, x -> new AtomicInteger( 0 ) ).incrementAndGet() );
         }
 
-        Set<String> documentIdsWithMaxCount = documentIdCount.entrySet().stream().filter( entry -> (entry.getValue().intValue() == maxSize) )
-                        .map( entry -> entry.getKey() ).collect( Collectors.toSet() );
-
-        Set<String> documentIdsWithOneLessThanMaxCount = documentIdCount.entrySet().stream().filter( entry -> (entry.getValue().intValue() == maxSize - 1) )
-                        .map( entry -> entry.getKey() ).collect( Collectors.toSet() );
-
-        Set<String> documentIdsWithTwoLessThanMaxCount = documentIdCount.entrySet().stream().filter( entry -> (entry.getValue().intValue() == maxSize - 2) )
-                        .map( entry -> entry.getKey() ).collect( Collectors.toSet() );
-
-        System.out.println( documentIdsWithMaxCount );
-        System.out.println( documentIdsWithOneLessThanMaxCount );
-        System.out.println( documentIdsWithTwoLessThanMaxCount );
+        return documentIdCount.entrySet().stream().filter( entry -> (entry.getValue().intValue() == maxSize) ).map( entry -> entry.getKey() )
+                        .collect( Collectors.toSet() );
     }
 }
