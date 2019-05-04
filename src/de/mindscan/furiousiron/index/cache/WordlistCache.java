@@ -70,10 +70,6 @@ public class WordlistCache {
         this.cacheFolder = indexFolder.resolve( CACHED_WORDLISTS_FOLDER );
     }
 
-    /**
-     * @param documentId
-     * @param uniqueWordlist
-     */
     public void addUniqueWordlist( DocumentId documentId, List<String> uniqueWordlist ) {
         Path wordlistDocumentPath = CachingPathUtils.getDocumentPath( cacheFolder, documentId, WORDLIST_FILE_SUFFIX );
 
@@ -86,6 +82,21 @@ public class WordlistCache {
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<String> loadWordList( String documentId ) {
+        Path wordlistDocumentPath = CachingPathUtils.getDocumentPathFromMD5( cacheFolder, documentId, WORDLIST_FILE_SUFFIX );
+
+        try (BufferedReader jsonBufferedReader = Files.newBufferedReader( wordlistDocumentPath, StandardCharsets.UTF_8 )) {
+            Gson gson = new Gson();
+            String[] result = gson.fromJson( jsonBufferedReader, String[].class );
+            return Arrays.asList( result );
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Collections.emptyList();
     }
 
     /**
@@ -105,21 +116,6 @@ public class WordlistCache {
             e.printStackTrace();
         }
 
-    }
-
-    public List<String> loadWordList( String documentId ) {
-        Path wordlistDocumentPath = CachingPathUtils.getDocumentPathFromMD5( cacheFolder, documentId, WORDLIST_FILE_SUFFIX );
-
-        try (BufferedReader jsonBufferedReader = Files.newBufferedReader( wordlistDocumentPath, StandardCharsets.UTF_8 )) {
-            Gson gson = new Gson();
-            String[] result = gson.fromJson( jsonBufferedReader, String[].class );
-            return Arrays.asList( result );
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return Collections.emptyList();
     }
 
 }
