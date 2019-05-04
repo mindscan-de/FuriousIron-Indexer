@@ -47,6 +47,7 @@ import de.mindscan.furiousiron.indexer.SimpleWordUtils;
 public class Search {
 
     // for content
+    @SuppressWarnings( "unused" )
     private DocumentCache theFileCache;
     // for ranking
     private MetadataCache theMetadataCache;
