@@ -25,6 +25,7 @@
  */
 package de.mindscan.furiousiron.index.cache;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -73,6 +74,21 @@ public class MetadataCache {
             e.printStackTrace();
         }
 
+    }
+
+    public DocumentMetadata loadMetadata( String documentId ) {
+        Path metadataDocumentPath = CachingPathUtils.getDocumentPathFromMD5( cacheFolder, documentId, METADATA_FILE_SUFFIX );
+
+        try (BufferedReader jsonBufferedReader = Files.newBufferedReader( metadataDocumentPath, StandardCharsets.UTF_8 )) {
+            Gson gson = new Gson();
+            DocumentMetadata result = gson.fromJson( jsonBufferedReader, DocumentMetadata.class );
+            return result;
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 }
