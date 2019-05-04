@@ -22,12 +22,13 @@ pipeline runing
 * The indexer will index all important files in a given directory [Done: java Files]
 * It will store these files, and their content, their meta-data and so on in a different directory structure [Done]
 * It will construct a forward index [Done]
-* It will construct different inverse indexes (search)
+* It will construct an inverse index for every trigram for each word. [Done]
+* It will construct other inverse indexes (search)
 * It will also index meta data
 * It will also create an inverse index to that meta-data
 * Maybe later
- * It will construct a forward index of the inverse index
- * It will also construct an inverse index of the last said forward index (searchterm completion)
+  * It will construct a forward index of the inverse index
+  * It will also construct an inverse index of the last said forward index (searchterm completion)
 
 All data will be stored into simple files instead of a database. Because I like do defer unnecessary 
 architectural decisions as long as they do not need attention. Please do not expect any more writing
