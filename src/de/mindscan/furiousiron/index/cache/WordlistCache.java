@@ -25,11 +25,13 @@
  */
 package de.mindscan.furiousiron.index.cache;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -106,6 +108,16 @@ public class WordlistCache {
     }
 
     public List<String> loadWordList( String documentId ) {
+        Path wordlistDocumentPath = CachingPathUtils.getDocumentPathFromMD5( cacheFolder, documentId, WORDLIST_FILE_SUFFIX );
+
+        try (BufferedReader jsonBufferedReader = Files.newBufferedReader( wordlistDocumentPath, StandardCharsets.UTF_8 )) {
+            Gson gson = new Gson();
+            String[] result = gson.fromJson( jsonBufferedReader, String[].class );
+            return Arrays.asList( result );
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return Collections.emptyList();
     }
