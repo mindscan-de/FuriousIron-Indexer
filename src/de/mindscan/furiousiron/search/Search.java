@@ -84,7 +84,7 @@ public class Search {
         // convert these into a List of searchResultCandidate
         for (String documentId : documentIdsForOneWord) {
             SearchResultCandidates candidate = new SearchResultCandidates( documentId );
-            candidate.load();
+            candidate.loadFrom( theMetadataCache );
             if (candidate.containsWord( searchterm )) {
                 searchResult.add( candidate );
             }

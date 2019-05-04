@@ -25,24 +25,37 @@
  */
 package de.mindscan.furiousiron.search;
 
+import de.mindscan.furiousiron.document.DocumentMetadata;
+import de.mindscan.furiousiron.index.cache.MetadataCache;
+
 /**
  * 
  */
 public class SearchResultCandidates {
 
+    private String documentId;
+    private DocumentMetadata metadata;
+
     /**
      * 
      */
     public SearchResultCandidates( String documentId ) {
+        this.documentId = documentId;
 
     }
 
     // load the metadata, and the wordlists
-    public void load() {
-
+    public void loadFrom( MetadataCache theMetadataCache ) {
+        // metadata = theMetadataCache.loadMetadata( documentId );
+        // worddata = theWordlistCache.loadWordList( documentId );
     }
 
     public boolean containsWord( String word ) {
+
+        // check, whether the searched word is in the word data
+
+        // check, whether the searched word is in the meta data
+
         return false;
     }
 }
