@@ -1,12 +1,12 @@
 package de.mindscan.furiousiron.search;
 
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.junit.Assert.assertThat;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 public class SearchTest {
@@ -21,8 +21,7 @@ public class SearchTest {
         Collection<SearchResultCandidates> result = search.search( "createkeystore" );
 
         // Assert
-        System.out.println( result );
-        assertThat( result, hasSize( 1 ) );
+        assertThat( result.toString(), Matchers.containsString( "9d4af74f72c76c97ad3ab9faa9a6d5a3" ) );
     }
 
 }

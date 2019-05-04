@@ -77,8 +77,7 @@ public class Search {
         // extract words from searchterm 
         Collection<String> uniqueTrigramsFromWord = SimpleWordUtils.getUniqueTrigramsFromWord( searchterm );
 
-        Set<String> documentIdsForOneWord = searchTrigrams( uniqueTrigramsFromWord );
-        System.out.println( documentIdsForOneWord );
+        Set<String> documentIdsForOneWord = collectDocumentIdsForTrigrams( uniqueTrigramsFromWord );
 
         // check, that a word is part of a page
         List<SearchResultCandidates> searchResult = new ArrayList<>();
@@ -94,17 +93,12 @@ public class Search {
         return searchResult;
     }
 
-    /**
-     * @param uniqueTrigramsFromWord
-     * @return 
-     */
-    private Set<String> searchTrigrams( Collection<String> uniqueTrigramsFromWord ) {
+    private Set<String> collectDocumentIdsForTrigrams( Collection<String> uniqueTrigramsFromWord ) {
         Map<String, AtomicInteger> documentIdCount = new HashMap<>();
 
         int maxSize = uniqueTrigramsFromWord.size();
 
         for (String trigram : uniqueTrigramsFromWord) {
-            System.out.println( "Searching for trigram " + trigram );
             Collection<String> documentIds = theSearchTrigramIndex.getDocumentIdsForTrigram( trigram );
 
             documentIds.stream().forEach( docId -> documentIdCount.computeIfAbsent( docId, x -> new AtomicInteger( 0 ) ).incrementAndGet() );
