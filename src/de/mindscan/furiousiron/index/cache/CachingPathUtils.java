@@ -40,8 +40,12 @@ public class CachingPathUtils {
 //     public static final int NUMBER_OF_DOCUMENT_ID_LAYERS = 1;
 
     public static Path getDocumentPath( Path basePath, DocumentId documentId, String fileSuffix ) {
-        String filename = documentId.getMD5hex() + fileSuffix;
-        String firstLayer = documentId.getMD5hex().substring( 0, 2 );
+        return getDocumentPathFromMD5( basePath, documentId.getMD5hex(), fileSuffix );
+    }
+
+    public static Path getDocumentPathFromMD5( Path basePath, String documentIdMD5, String fileSuffix ) {
+        String filename = documentIdMD5 + fileSuffix;
+        String firstLayer = documentIdMD5.substring( 0, 2 );
 
         return basePath.resolve( Paths.get( firstLayer, filename ) );
 //        switch (NUMBER_OF_DOCUMENT_ID_LAYERS) {
