@@ -70,8 +70,14 @@ public class SearchResultCandidates {
             }
         }
 
-        // check, whether the searched word is in the meta data
-
         return false;
+    }
+
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return metadata.toString();
     }
 }

@@ -80,4 +80,11 @@ public class DocumentMetadata {
         return simpleFilename;
     }
 
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return documentId + "@" + relativePath;
+    }
 }
