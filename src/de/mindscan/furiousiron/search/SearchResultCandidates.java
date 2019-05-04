@@ -30,4 +30,19 @@ package de.mindscan.furiousiron.search;
  */
 public class SearchResultCandidates {
 
+    /**
+     * 
+     */
+    public SearchResultCandidates( String documentId ) {
+
+    }
+
+    // load the metadata, and the wordlists
+    public void load() {
+
+    }
+
+    public boolean containsWord( String word ) {
+        return false;
+    }
 }

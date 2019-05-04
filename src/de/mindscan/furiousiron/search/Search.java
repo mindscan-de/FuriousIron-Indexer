@@ -26,9 +26,10 @@
 package de.mindscan.furiousiron.search;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -71,12 +72,25 @@ public class Search {
      */
     public Collection<SearchResultCandidates> search( String searchterm ) {
         // assume current search term is exactly one word.
+
+        // extract words from searchterm 
         Collection<String> uniqueTrigramsFromWord = SimpleWordUtils.getUniqueTrigramsFromWord( searchterm );
 
-        Set<String> resultForOneWord = searchTrigrams( uniqueTrigramsFromWord );
-        System.out.println( resultForOneWord );
+        Set<String> documentIdsForOneWord = searchTrigrams( uniqueTrigramsFromWord );
+        System.out.println( documentIdsForOneWord );
 
-        return Collections.emptyList();
+        // check, that a word is part of a page
+        List<SearchResultCandidates> searchResult = new ArrayList<>();
+        // convert these into a List of searchResultCandidate
+        for (String documentId : documentIdsForOneWord) {
+            SearchResultCandidates candidate = new SearchResultCandidates( documentId );
+            candidate.load();
+            if (candidate.containsWord( searchterm )) {
+                searchResult.add( candidate );
+            }
+        }
+
+        return searchResult;
     }
 
     /**
