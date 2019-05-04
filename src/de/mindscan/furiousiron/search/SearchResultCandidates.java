@@ -27,6 +27,7 @@ package de.mindscan.furiousiron.search;
 
 import de.mindscan.furiousiron.document.DocumentMetadata;
 import de.mindscan.furiousiron.index.cache.MetadataCache;
+import de.mindscan.furiousiron.index.cache.WordlistCache;
 
 /**
  * 
@@ -45,8 +46,8 @@ public class SearchResultCandidates {
     }
 
     // load the metadata, and the wordlists
-    public void loadFrom( MetadataCache theMetadataCache ) {
-        // metadata = theMetadataCache.loadMetadata( documentId );
+    public void loadFrom( MetadataCache theMetadataCache, WordlistCache theWordlistCache ) {
+        metadata = theMetadataCache.loadMetadata( documentId );
         // worddata = theWordlistCache.loadWordList( documentId );
     }
 
