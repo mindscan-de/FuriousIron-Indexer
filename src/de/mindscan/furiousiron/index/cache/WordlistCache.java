@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -102,6 +103,11 @@ public class WordlistCache {
             e.printStackTrace();
         }
 
+    }
+
+    public List<String> loadWordList( String documentId ) {
+
+        return Collections.emptyList();
     }
 
 }

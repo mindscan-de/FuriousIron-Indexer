@@ -25,6 +25,8 @@
  */
 package de.mindscan.furiousiron.search;
 
+import java.util.List;
+
 import de.mindscan.furiousiron.document.DocumentMetadata;
 import de.mindscan.furiousiron.index.cache.MetadataCache;
 import de.mindscan.furiousiron.index.cache.WordlistCache;
@@ -36,6 +38,7 @@ public class SearchResultCandidates {
 
     private String documentId;
     private DocumentMetadata metadata;
+    private List<String> worddata;
 
     /**
      * 
@@ -48,12 +51,24 @@ public class SearchResultCandidates {
     // load the metadata, and the wordlists
     public void loadFrom( MetadataCache theMetadataCache, WordlistCache theWordlistCache ) {
         metadata = theMetadataCache.loadMetadata( documentId );
-        // worddata = theWordlistCache.loadWordList( documentId );
+        worddata = theWordlistCache.loadWordList( documentId );
     }
 
-    public boolean containsWord( String word ) {
-
+    public boolean containsWord( String wordtoLookFor ) {
         // check, whether the searched word is in the word data
+
+        int wordLength = wordtoLookFor.length();
+        for (String wordInDocument : worddata) {
+
+            // TODO: should be removed from here later / tree structure, that sorts words by length
+            if (wordInDocument.length() < wordLength) {
+                continue;
+            }
+
+            if (wordInDocument.contains( wordtoLookFor )) {
+                return true;
+            }
+        }
 
         // check, whether the searched word is in the meta data
 
