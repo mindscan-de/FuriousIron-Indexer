@@ -82,6 +82,10 @@ public class SearchResultCandidates {
         return false;
     }
 
+    public DocumentMetadata getMetadata() {
+        return metadata;
+    }
+
     /** 
      * {@inheritDoc}
      */
@@ -89,4 +93,5 @@ public class SearchResultCandidates {
     public String toString() {
         return metadata.toString();
     }
+
 }
