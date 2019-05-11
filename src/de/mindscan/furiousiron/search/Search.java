@@ -77,9 +77,10 @@ public class Search {
      */
     public Collection<SearchResultCandidates> search( String searchterm ) {
         // assume current search term is exactly one word.
+        String processedSearchTerm = searchterm.toLowerCase();
 
         // extract words from searchterm 
-        Collection<String> uniqueTrigramsFromWord = SimpleWordUtils.getUniqueTrigramsFromWord( searchterm );
+        Collection<String> uniqueTrigramsFromWord = SimpleWordUtils.getUniqueTrigramsFromWord( processedSearchTerm );
 
         Set<String> documentIdsForOneWord = collectDocumentIdsForTrigrams( uniqueTrigramsFromWord );
 
@@ -89,7 +90,7 @@ public class Search {
         for (String documentId : documentIdsForOneWord) {
             SearchResultCandidates candidate = new SearchResultCandidates( documentId );
             candidate.loadFrom( theMetadataCache, theWordlistCache );
-            if (candidate.containsWord( searchterm )) {
+            if (candidate.containsWord( processedSearchTerm )) {
                 searchResult.add( candidate );
             }
         }
