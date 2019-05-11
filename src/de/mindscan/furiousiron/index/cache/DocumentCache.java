@@ -26,9 +26,11 @@
 package de.mindscan.furiousiron.index.cache;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 
 import de.mindscan.furiousiron.document.DocumentId;
 
@@ -83,6 +85,12 @@ public class DocumentCache {
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public InputStream getContentAsStream( DocumentId documentId ) throws IOException {
+        Path documentContentPath = CachingPathUtils.getDocumentPath( cacheFolder, documentId, CACHED_FILE_SUFFIX );
+
+        return Files.newInputStream( documentContentPath, StandardOpenOption.READ );
     }
 
 }

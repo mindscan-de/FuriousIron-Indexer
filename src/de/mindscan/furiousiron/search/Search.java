@@ -25,7 +25,11 @@
  */
 package de.mindscan.furiousiron.search;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -35,6 +39,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import de.mindscan.furiousiron.document.DocumentId;
 import de.mindscan.furiousiron.index.cache.DocumentCache;
 import de.mindscan.furiousiron.index.cache.MetadataCache;
 import de.mindscan.furiousiron.index.cache.WordlistCache;
@@ -47,7 +52,6 @@ import de.mindscan.furiousiron.indexer.SimpleWordUtils;
 public class Search {
 
     // for content
-    @SuppressWarnings( "unused" )
     private DocumentCache theFileCache;
     // for ranking
     private MetadataCache theMetadataCache;
@@ -106,5 +110,23 @@ public class Search {
 
         return documentIdCount.entrySet().stream().filter( entry -> (entry.getValue().intValue() == maxSize) ).map( entry -> entry.getKey() )
                         .collect( Collectors.toSet() );
+    }
+
+    public String getDocumentContent( String path ) {
+        DocumentId documentId = DocumentId.createDocumentIDFromRelativePath( Paths.get( path ) );
+
+        try (InputStream fileContentReader = theFileCache.getContentAsStream( documentId ); ByteArrayOutputStream result = new ByteArrayOutputStream()) {
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = fileContentReader.read( buffer )) != -1) {
+                result.write( buffer, 0, length );
+            }
+            return result.toString();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "The Content you looked for, could not be retrived.";
     }
 }
