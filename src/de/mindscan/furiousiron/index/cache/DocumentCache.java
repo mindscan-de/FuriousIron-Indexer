@@ -25,8 +25,10 @@
  */
 package de.mindscan.furiousiron.index.cache;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -90,7 +92,13 @@ public class DocumentCache {
     public InputStream getContentAsStream( DocumentId documentId ) throws IOException {
         Path documentContentPath = CachingPathUtils.getDocumentPath( cacheFolder, documentId, CACHED_FILE_SUFFIX );
 
-        return Files.newInputStream( documentContentPath, StandardOpenOption.READ );
+        if (Files.exists( documentContentPath )) {
+            return Files.newInputStream( documentContentPath, StandardOpenOption.READ );
+        }
+        else {
+            String content = "Sorry, the document you requested can't be found in the cache.";
+            return new ByteArrayInputStream( content.getBytes( StandardCharsets.UTF_8 ) );
+        }
     }
 
 }
