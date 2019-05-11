@@ -25,6 +25,8 @@
  */
 package de.mindscan.furiousiron.document;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
@@ -32,9 +34,12 @@ import java.nio.file.Path;
  */
 public class DocumentMetadata {
 
+    // The DocumentId - Usually a hash sum based on the (relative) path. currently encoded in hex. (This should be more compact, like base_62 (0-9a-zA-Z))
+    // thus the index size can be reduced, and a larger hash function can be used like SHA256,SHA384 instead of MD5
     private final String documentId;
     private final String relativePath;
     private final String simpleFilename;
+    private long fileSize = 0;
 
     /**
      * @param documentId The documentId 
@@ -49,7 +54,15 @@ public class DocumentMetadata {
 
         DocumentMetadata documentMetadata = new DocumentMetadata( documentMD5, relativePath, simpleFilename );
 
-        // TODO: collect some file statistics / information ( filelength, filetype, contenttype, last modified date, created date, ...)
+        try {
+            // Map<String, Object> attributes = Files.readAttributes( fileToIndex, "*", LinkOption.NOFOLLOW_LINKS );
+            documentMetadata.setFileSize( Files.size( fileToIndex ) );
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // TODO: collect some file statistics / information ( filetype, contenttype, last modified date, created date, ...)
         // TODO: date of indexing
         // TODO: number of unique words
         // TODO: number of unique trigrams in document
@@ -86,5 +99,13 @@ public class DocumentMetadata {
     @Override
     public String toString() {
         return documentId + "@" + relativePath;
+    }
+
+    public long getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize( long fileSize ) {
+        this.fileSize = fileSize;
     }
 }
