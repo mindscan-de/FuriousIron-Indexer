@@ -97,6 +97,7 @@ public class SimpleFileIndexer {
         // TODO: some ideas to come
 
         getClassifier().classify( documentId, documentMetaData, fileToIndex );
+        getClassifier().classify( documentId, documentMetaData, uniqueWordlist );
 
         // this should be done after parsing/analysing/classifying/indexing the document
         index.getMetadataCache().addDocumentMetadata( documentId, documentMetaData );
