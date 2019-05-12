@@ -67,7 +67,7 @@ public class SimpleClassifier implements Classifier {
             if ("java".equals( classifierMap.get( "filetype" ) )) {
                 // classify java content
                 int isAssert = hasWords( uniqueWordlist, "assertequals", "assertthat", "asserttrue", "assertfalse" );
-                int isJunit = hasWords( uniqueWordlist, "junit", "@before", "@test", "@ignore", "@beforeall", "@after", "@afterall" );
+                int isJunit = hasWords( uniqueWordlist, "junit", "@before", "@test", "@ignore", "@beforeall", "@after", "@afterall", "@beforeclass" );
                 int isMatcher = hasWords( uniqueWordlist, "hamcrest", "matchers", "equalto", "sameinstance" );
                 int isMockito = hasWords( uniqueWordlist, "mockito", "mock", "spy", "thenreturn" );
 
