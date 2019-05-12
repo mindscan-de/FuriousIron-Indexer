@@ -86,7 +86,6 @@ public class SimpleFileIndexer {
         index.getWordlistCache().addUniqueTrigrams( documentId, uniqueTrigramlist );
         index.getInverseTrigramIndex().addTrigramsForDocument( documentId, uniqueTrigramlist );
 
-        // TODO: Number of Lines...
         // TODO: update the metadata object with more expensive information / statistics
         // Path, Virtual directory entry
         // TODO: Stopwords
