@@ -28,6 +28,8 @@ package de.mindscan.furiousiron.document;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class contains information about a given document, while indexing. It also contains the truth about the filename and the paths.
@@ -41,6 +43,7 @@ public class DocumentMetadata {
     private final String simpleFilename;
     private long fileSize = 0;
     private long numberOfLines = 0;
+    private final Map<String, String> classifierMap;
 
     /**
      * @param documentId The documentId 
@@ -80,6 +83,7 @@ public class DocumentMetadata {
         this.documentId = documentId;
         this.relativePath = relativePath;
         this.simpleFilename = simpleFilename;
+        this.classifierMap = new HashMap<>();
     }
 
     public String getDocumentId() {
@@ -116,5 +120,13 @@ public class DocumentMetadata {
 
     public void setNumberOfLines( long numberOfLines ) {
         this.numberOfLines = numberOfLines;
+    }
+
+    public void addClass( String key, String value ) {
+        this.classifierMap.put( key, value );
+    }
+
+    public Map<String, String> getClassifierMap() {
+        return this.classifierMap;
     }
 }
