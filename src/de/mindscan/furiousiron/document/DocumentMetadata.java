@@ -40,6 +40,7 @@ public class DocumentMetadata {
     private final String relativePath;
     private final String simpleFilename;
     private long fileSize = 0;
+    private long numberOfLines = 0;
 
     /**
      * @param documentId The documentId 
@@ -107,5 +108,13 @@ public class DocumentMetadata {
 
     public void setFileSize( long fileSize ) {
         this.fileSize = fileSize;
+    }
+
+    public long getNumberOfLines() {
+        return numberOfLines;
+    }
+
+    public void setNumberOfLines( long numberOfLines ) {
+        this.numberOfLines = numberOfLines;
     }
 }

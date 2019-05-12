@@ -36,17 +36,24 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import de.mindscan.furiousiron.document.DocumentMetadata;
+
 /**
  * 
  */
 public class SimpleWordUtils {
 
-    public static List<String> buildUniqueWordlist( Path fileToIndex ) throws IOException {
+    public static List<String> buildUniqueWordlist( DocumentMetadata documentMetaData, Path fileToIndex ) throws IOException {
         List<String> allLines = Files.readAllLines( fileToIndex );
 
+        // collect the number of lines
+        documentMetaData.setNumberOfLines( allLines.size() );
+
+        // collect the words per line
         List<List<String>> collectedWordsPerLine = allLines.stream().map( SimpleWordUtils::toLowerCase ).map( SimpleWordUtils::nonwordsplitter )
                         .filter( SimpleWordUtils::onlyNonEmpy ).collect( Collectors.toList() );
 
+        // collect the unique words per document
         List<String> flatUniqueWordList = collectedWordsPerLine.stream().flatMap( List::stream ).filter( SimpleWordUtils::atLeastThreeCharsLong ).distinct()
                         .collect( Collectors.toList() );
 

@@ -79,7 +79,7 @@ public class SimpleFileIndexer {
         index.getDocumentCache().createDocumentCopy( documentId, fileToIndex );
 
         // get unique word list for document
-        List<String> uniqueWordlist = SimpleWordUtils.buildUniqueWordlist( fileToIndex );
+        List<String> uniqueWordlist = SimpleWordUtils.buildUniqueWordlist( documentMetaData, fileToIndex );
         Set<String> uniqueTrigramlist = SimpleWordUtils.getUniqueTrigramsFromWordList( uniqueWordlist );
 
         index.getWordlistCache().addUniqueWordlist( documentId, uniqueWordlist );
