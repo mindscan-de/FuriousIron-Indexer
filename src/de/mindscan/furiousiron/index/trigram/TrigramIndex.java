@@ -69,7 +69,7 @@ public class TrigramIndex {
         relatedDocuments.add( documentKey );
         relatedDocumentsCounter++;
 
-        if (relatedDocumentsCounter >= 2048) {
+        if (relatedDocumentsCounter >= 3072) {
             saveInternal();
         }
     }
