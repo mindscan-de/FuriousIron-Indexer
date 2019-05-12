@@ -31,6 +31,8 @@ import java.util.Deque;
 import java.util.List;
 import java.util.Set;
 
+import de.mindscan.furiousiron.classifier.Classifier;
+import de.mindscan.furiousiron.classifier.SimpleClassifier;
 import de.mindscan.furiousiron.document.DocumentId;
 import de.mindscan.furiousiron.document.DocumentMetadata;
 import de.mindscan.furiousiron.index.Index;
@@ -40,6 +42,7 @@ import de.mindscan.furiousiron.index.Index;
  */
 public class SimpleFileIndexer {
     private Index index;
+    private Classifier classifier;
 
     /**
      * @param filesToBeIndexed provider for files which should be indexed
@@ -49,6 +52,7 @@ public class SimpleFileIndexer {
     public void buildIndex( Deque<Path> filesToBeIndexed, Path crawlFolder, Path indexFolder ) {
 
         setIndex( new Index( indexFolder ) );
+        setClassifier( new SimpleClassifier() );
 
         index.getInverseTrigramIndex().init();
 
@@ -92,7 +96,9 @@ public class SimpleFileIndexer {
         // TODO: porter stemming
         // TODO: some ideas to come
 
-        // this should be done after parsing/analysing/indexing the document
+        getClassifier().classify( documentId, documentMetaData, fileToIndex );
+
+        // this should be done after parsing/analysing/classifying/indexing the document
         index.getMetadataCache().addDocumentMetadata( documentId, documentMetaData );
 
     }
@@ -103,5 +109,13 @@ public class SimpleFileIndexer {
 
     public void setIndex( Index index ) {
         this.index = index;
+    }
+
+    public Classifier getClassifier() {
+        return classifier;
+    }
+
+    public void setClassifier( Classifier classifier ) {
+        this.classifier = classifier;
     }
 }
