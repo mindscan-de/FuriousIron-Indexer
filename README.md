@@ -29,12 +29,25 @@ pipeline running
 * Maybe later
   * It will construct a forward index of the inverse index
   * It will also construct an inverse index of the last said forward index (search term completion)
+  
+* Comments and Code should be different tri-gram indexes / inverse-tri-gram indexes
+* Because code should be ranked more higher than comments or commented code
+* index code only, index full text
 
 All data will be stored into simple files instead of a database. Because I like do defer unnecessary 
 architectural decisions as long as they do not need attention. Please do not expect any more writing
 or write-ups at the moment, nor me to provide a full architecture. This is simply an undeveloped idea.
 
 That said, please remember this is a private educational project.
+
+# Nice to have
+
+* Classifier should classify whether a java file named XYZ is a declaration of an interface XYZ
+* Classifier using machine learning
+* Classifier using AST parsing
+* Encode the whole text or methods or classes into vectors and use encoded search vectors to calculate similarity with methods of machine learning
+* rank with machine learning - training with monte carlo simulation
+* collect statistics of requests and good answers -  training of ML model for ranking / or something like PCA
 
 # License
 

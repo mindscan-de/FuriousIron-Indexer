@@ -74,6 +74,8 @@ public class SimpleClassifier implements Classifier {
                 if (isAssert + isJunit + isMatcher + isMockito >= 2) {
                     documentMetaData.addClass( "unit-test", "true" );
                 }
+
+                // TODO: classify an interface
             }
         }
     }
