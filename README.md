@@ -49,6 +49,11 @@ That said, please remember this is a private educational project.
 * rank with machine learning - training with monte carlo simulation
 * collect statistics of requests and good answers -  training of ML model for ranking / or something like PCA
 
+# Maybe have a look into
+
+* JavaParser  https://javaparser.org/
+* org.eclipse.jdt.core.*
+
 # License
 
 Usage is provided under the [MIT License](http://opensource.org/licenses/mit-license.php). See LICENSE for the full details.
