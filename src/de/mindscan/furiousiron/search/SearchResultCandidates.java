@@ -94,4 +94,7 @@ public class SearchResultCandidates {
         return metadata.toString();
     }
 
+    public String getDocumentId() {
+        return documentId;
+    }
 }
