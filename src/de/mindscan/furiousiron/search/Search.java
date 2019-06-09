@@ -98,6 +98,33 @@ public class Search {
         return searchResult;
     }
 
+    /**
+     * @param searchterm the searchterm to search for in the index.
+     * @return a map of documents
+     */
+    public Map<String, SearchResultCandidates> searchToMap( String searchterm ) {
+        // assume current search term is exactly one word.
+        String processedSearchTerm = searchterm.toLowerCase();
+
+        // extract words from searchterm 
+        Collection<String> uniqueTrigramsFromWord = SimpleWordUtils.getUniqueTrigramsFromWord( processedSearchTerm );
+
+        Set<String> documentIdsForOneWord = collectDocumentIdsForTrigrams( uniqueTrigramsFromWord );
+
+        // check, that a word is part of a page
+        Map<String, SearchResultCandidates> searchResult = new HashMap<>();
+        // convert these into a List of searchResultCandidate
+        for (String documentId : documentIdsForOneWord) {
+            SearchResultCandidates candidate = new SearchResultCandidates( documentId );
+            candidate.loadFrom( theMetadataCache, theWordlistCache );
+            if (candidate.containsWord( processedSearchTerm )) {
+                searchResult.put( documentId, candidate );
+            }
+        }
+
+        return searchResult;
+    }
+
     private Set<String> collectDocumentIdsForTrigrams( Collection<String> uniqueTrigramsFromWord ) {
         Map<String, AtomicInteger> documentIdCount = new HashMap<>();
 
