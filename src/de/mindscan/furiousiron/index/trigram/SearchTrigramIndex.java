@@ -64,7 +64,7 @@ public class SearchTrigramIndex {
     private Set<String> loadFromDisk( String trigram ) {
         Set<String> result = new TreeSet<>();
 
-        for (int counter = 0; counter < 5; counter++) {
+        for (int counter = 0; counter < 50; counter++) {
             Path pathForTrigrams = TrigramSubPathCalculator.getPathForTrigram( searchTrigramsPath, trigram, "." + counter + ".reference" );
 
             if (Files.exists( pathForTrigrams, LinkOption.NOFOLLOW_LINKS )) {
