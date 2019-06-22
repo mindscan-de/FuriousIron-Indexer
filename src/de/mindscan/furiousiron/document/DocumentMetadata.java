@@ -126,6 +126,10 @@ public class DocumentMetadata {
         this.classifierMap.put( key, value );
     }
 
+    public boolean containsClass( String key ) {
+        return this.classifierMap.containsKey( key );
+    }
+
     public Map<String, String> getClassifierMap() {
         return this.classifierMap;
     }

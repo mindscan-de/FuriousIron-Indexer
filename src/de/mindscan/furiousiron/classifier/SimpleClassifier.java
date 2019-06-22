@@ -33,7 +33,12 @@ import de.mindscan.furiousiron.document.DocumentId;
 import de.mindscan.furiousiron.document.DocumentMetadata;
 
 /**
+ * This implements a way to classify the document according to a few parameters, like the documentId, 
+ * its meta data, the filename or the words found in the document.
  * 
+ * Really, this implementation is a very useless and non intelligent way to classify something, 
+ * but might be helpful for the very few iterations it might live, till there is an urgent need 
+ * to recreate this Classifier thing with a more sophisticated approach. 
  */
 public class SimpleClassifier implements Classifier {
 
@@ -44,15 +49,29 @@ public class SimpleClassifier implements Classifier {
     public void classify( DocumentId documentId, DocumentMetadata documentMetaData, Path fileToIndex ) {
         // some very basic classifiers, that should be something more sophisticated, 
         // but nevertheless, we want to implement a feature like this, and test it before spending too much time. 
+        String fileNameAsString = fileToIndex.toString();
 
-        if (fileToIndex.toString().endsWith( ".java" )) {
+        if (fileNameAsString.endsWith( ".java" )) {
             documentMetaData.addClass( "filetype", "java" );
         }
-
-        if (fileToIndex.toString().endsWith( ".py" )) {
+        else if (fileNameAsString.endsWith( ".py" )) {
             documentMetaData.addClass( "filetype", "python" );
         }
-
+        else if (fileNameAsString.endsWith( ".xtend" )) {
+            documentMetaData.addClass( "filetype", "xtend" );
+        }
+        else if (fileNameAsString.endsWith( ".MF" )) {
+            documentMetaData.addClass( "filetype", "manifest" );
+        }
+        else if (fileNameAsString.endsWith( ".txt" ) || fileNameAsString.endsWith( ".text" )) {
+            documentMetaData.addClass( "filetype", "text" );
+        }
+        else if (fileNameAsString.endsWith( ".md" ) || fileNameAsString.endsWith( ".MD" )) {
+            documentMetaData.addClass( "filetype", "markdown" );
+        }
+        else if (fileNameAsString.endsWith( ".xml" ) || fileNameAsString.endsWith( ".pom" )) {
+            documentMetaData.addClass( "filetype", "xml" );
+        }
     }
 
     /** 
@@ -63,7 +82,7 @@ public class SimpleClassifier implements Classifier {
         // this is some very basic classifier to test this functionality, we will do something more sophisticated soon. 
 
         Map<String, String> classifierMap = documentMetaData.getClassifierMap();
-        if (classifierMap.containsKey( "filetype" )) {
+        if (documentMetaData.containsClass( "filetype" )) {
             if ("java".equals( classifierMap.get( "filetype" ) )) {
                 // classify java content
                 int isAssert = hasWords( uniqueWordlist, "assertequals", "assertthat", "asserttrue", "assertfalse" );
