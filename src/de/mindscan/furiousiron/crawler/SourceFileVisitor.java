@@ -39,7 +39,13 @@ import java.util.function.Consumer;
  * @param <T> 
  */
 public class SourceFileVisitor<T extends Path> implements FileVisitor<Path> {
+
     private PathMatcher javaSourceFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{java}" );
+    private PathMatcher xtendSourceFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{xtend}" );
+    private PathMatcher pythonSourceFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{py}" );
+    private PathMatcher manifestFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{MF}" );
+    private PathMatcher textFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{txt|text|MD|md}" );
+    private PathMatcher xmlFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{xml|pom}" );
 
     private Consumer<Path> pathCollector;
 
@@ -56,6 +62,21 @@ public class SourceFileVisitor<T extends Path> implements FileVisitor<Path> {
     @Override
     public FileVisitResult visitFile( Path file, BasicFileAttributes attrs ) throws IOException {
         if (javaSourceFileMatcher.matches( file )) {
+            pathCollector.accept( file );
+        }
+        else if (xtendSourceFileMatcher.matches( file )) {
+            pathCollector.accept( file );
+        }
+        else if (pythonSourceFileMatcher.matches( file )) {
+            pathCollector.accept( file );
+        }
+        else if (manifestFileMatcher.matches( file )) {
+            pathCollector.accept( file );
+        }
+        else if (textFileMatcher.matches( file )) {
+            pathCollector.accept( file );
+        }
+        else if (xmlFileMatcher.matches( file )) {
             pathCollector.accept( file );
         }
 
