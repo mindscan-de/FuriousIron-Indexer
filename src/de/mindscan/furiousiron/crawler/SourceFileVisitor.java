@@ -41,11 +41,13 @@ import java.util.function.Consumer;
 public class SourceFileVisitor<T extends Path> implements FileVisitor<Path> {
 
     private PathMatcher javaSourceFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{java}" );
+    private PathMatcher cSourceFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{c|cpp|h|hpp}" );
     private PathMatcher xtendSourceFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{xtend}" );
     private PathMatcher pythonSourceFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{py}" );
     private PathMatcher manifestFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{MF}" );
     private PathMatcher textFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{txt|text|MD|md}" );
     private PathMatcher xmlFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{xml|pom}" );
+    private PathMatcher zipFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{zip|jar}" );
 
     private Consumer<Path> pathCollector;
 
@@ -64,6 +66,9 @@ public class SourceFileVisitor<T extends Path> implements FileVisitor<Path> {
         if (javaSourceFileMatcher.matches( file )) {
             pathCollector.accept( file );
         }
+        else if (cSourceFileMatcher.matches( file )) {
+            pathCollector.accept( file );
+        }
         else if (xtendSourceFileMatcher.matches( file )) {
             pathCollector.accept( file );
         }
@@ -78,6 +83,10 @@ public class SourceFileVisitor<T extends Path> implements FileVisitor<Path> {
         }
         else if (xmlFileMatcher.matches( file )) {
             pathCollector.accept( file );
+        }
+        else if (zipFileMatcher.matches( file )) {
+            // TODO: index archives
+            // ATM Archives are slightly more difficult... We may have to spawn an additional new indexer and collect virtual paths too
         }
 
         return FileVisitResult.CONTINUE;
