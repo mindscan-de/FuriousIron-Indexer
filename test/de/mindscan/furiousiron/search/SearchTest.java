@@ -1,17 +1,19 @@
 package de.mindscan.furiousiron.search;
 
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
 
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class SearchTest {
 
     @Test
+    @Disabled
     public void testSearch_createkeystoreWordIsPartOfElasticSearch_expectOneDocumentHavingID9d4af74f72c76c97ad3ab9faa9a6d5a3() throws Exception {
         // Arrange
         Path indexfolder = Paths.get( "D:\\Analysis\\CrawlerProjects", "Indexed" );
@@ -25,6 +27,7 @@ public class SearchTest {
     }
 
     @Test
+    @Disabled
     public void testSearch_PartialMatchingWordWhichIsPartOfElasticSearch_expectOneDocumentHavingID9d4af74f72c76c97ad3ab9faa9a6d5a3() throws Exception {
         // Arrange
         Path indexfolder = Paths.get( "D:\\Analysis\\CrawlerProjects", "Indexed" );

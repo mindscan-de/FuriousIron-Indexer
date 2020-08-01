@@ -3,10 +3,11 @@ package de.mindscan.furiousiron.indexer.main;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class IndexerMainTest {
 
+    // In case you missed it this is a runner, not a test...
     @Test
     public void testRun_simpleCtorAndJustRunning_expectNoException() {
         // Arrange
@@ -16,7 +17,7 @@ public class IndexerMainTest {
         Path indexFolder = Paths.get( "D:\\Analysis\\CrawlerProjects", "Indexed" );
 
         // Act
-        indexerMain.run( crawlFolder, indexFolder );
+        // indexerMain.run( crawlFolder, indexFolder );
 
         // Assert
         // intentionally left blank.
