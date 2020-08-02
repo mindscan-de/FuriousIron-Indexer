@@ -41,13 +41,13 @@ import java.util.function.Consumer;
 public class SourceFileVisitor<T extends Path> implements FileVisitor<Path> {
 
     private PathMatcher javaSourceFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{java}" );
-    private PathMatcher cSourceFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{c|cpp|h|hpp}" );
+    private PathMatcher cSourceFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{c,cpp,h,hpp}" );
     private PathMatcher xtendSourceFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{xtend}" );
     private PathMatcher pythonSourceFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{py}" );
     private PathMatcher manifestFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{MF}" );
-    private PathMatcher textFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{txt|text|MD|md}" );
-    private PathMatcher xmlFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{xml|pom}" );
-    private PathMatcher zipFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{zip|jar}" );
+    private PathMatcher textFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{txt,text,MD,md}" );
+    private PathMatcher xmlFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{xml,pom}" );
+    private PathMatcher zipFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{zip,jar}" );
 
     private Consumer<Path> pathCollector;
 
