@@ -18,6 +18,14 @@
 	    <version>2.8.5</version>
 	</dependency>
 	
+	<!-- https://mvnrepository.com/artifact/info.picocli/picocli -->
+	<dependency>
+	    <groupId>info.picocli</groupId>
+	    <artifactId>picocli</artifactId>
+	    <version>4.4.0</version>
+	</dependency>
+	
+	
 	<!-- https://mvnrepository.com/artifact/org.eclipse.jdt/org.eclipse.jdt -->
 	<!-- <dependency>
       <groupId>org.eclipse.jdt</groupId>

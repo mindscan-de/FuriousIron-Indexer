@@ -2,7 +2,7 @@
  * 
  * MIT License
  *
- * Copyright (c) 2019 Maxim Gansert, Mindscan
+ * Copyright (c) 2020 Maxim Gansert, Mindscan
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,38 +26,43 @@
 package de.mindscan.furiousiron.indexer.main;
 
 import java.nio.file.Path;
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.concurrent.Callable;
 
-import de.mindscan.furiousiron.crawler.SimpleFileCrawler;
-import de.mindscan.furiousiron.indexer.SimpleFileIndexer;
-import picocli.CommandLine;
+import picocli.CommandLine.Option;
 
 /**
- * This is a very basic / simple Indexer for source code.
- * 
- * Requirements:
- * - Source is accessible via Path.
  * 
  */
-public class IndexerMain {
+class IndexerMainParameters implements Callable<Integer> {
 
-    void run( Path crawlFolder, Path indexFolder ) {
-        Deque<Path> filesToBeIndexed = new ArrayDeque<Path>();
+    @Option( names = "--crawlFolder", defaultValue = "D:\\Analysis\\CrawlerProjects\\NonGPL", description = "The folder to index." )
+    private Path crawlFolder;
 
-        SimpleFileCrawler crawler = new SimpleFileCrawler();
-        crawler.crawl( filesToBeIndexed::add, crawlFolder );
+    @Option( names = "--indexFolder", defaultValue = "D:\\Analysis\\CrawlerProjects\\IndexedNew", description = "The folder where the index shall be stored." )
+    private Path indexFolder;
 
-        System.out.println( String.format( "%d files found for indexing.", filesToBeIndexed.size() ) );
-
-        SimpleFileIndexer indexer = new SimpleFileIndexer();
-        indexer.buildIndex( filesToBeIndexed, crawlFolder, indexFolder );
-
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public Integer call() throws Exception {
+        IndexerMain main = new IndexerMain();
+        main.run( crawlFolder, indexFolder );
+        return 0;
     }
 
-    public static void main( String[] args ) {
-        int exitCode = new CommandLine( new IndexerMainParameters() ).execute( args );
-        System.exit( exitCode );
+    /**
+     * @return the crawlFolder
+     */
+    public Path getCrawlFolder() {
+        return crawlFolder;
+    }
+
+    /**
+     * @return the indexFolder
+     */
+    public Path getIndexFolder() {
+        return indexFolder;
     }
 
 }
