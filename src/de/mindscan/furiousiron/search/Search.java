@@ -33,6 +33,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -138,6 +139,30 @@ public class Search {
 
         return documentIdCount.entrySet().stream().filter( entry -> (entry.getValue().intValue() == maxSize) ).map( entry -> entry.getKey() )
                         .collect( Collectors.toSet() );
+    }
+
+    public Set<String> collectDocumentIdsForTrigramsOpt( Collection<String> uniqueTrigramsFromWord ) {
+        HashSet<String> resultSet = new HashSet<String>();
+
+        // TODO: sort uniqueTrigramsFromWord by number of expected results in increasing order.
+
+        // fill with first document list (shortest), it can only get shorter at this time, 
+        // so we don't need to reallocate like in the previous implmenentation, and addind 
+        // even more atomic integers.
+
+        if (!uniqueTrigramsFromWord.isEmpty()) {
+            String firstTrigram = uniqueTrigramsFromWord.iterator().next();
+            resultSet = new HashSet<String>( theSearchTrigramIndex.getDocumentIdsForTrigram( firstTrigram ) );
+        }
+
+        for (String trigram : uniqueTrigramsFromWord) {
+            // TODO if reject rate is too small compared to the number of documentIds, we might want to skip anyways.
+            // attention at first search ...
+            Collection<String> documentIds = theSearchTrigramIndex.getDocumentIdsForTrigram( trigram );
+            resultSet.retainAll( documentIds );
+        }
+
+        return resultSet;
     }
 
     public String getDocumentContent( String path ) {
