@@ -147,8 +147,8 @@ public class Search {
         // TODO: sort uniqueTrigramsFromWord by number of expected results in increasing order.
 
         // fill with first document list (shortest), it can only get shorter at this time, 
-        // so we don't need to reallocate like in the previous implmenentation, and addind 
-        // even more atomic integers.
+        // so we don't need to reallocate like in the previous implementation, and adding 
+        // even more atomic integers and do atomic increments... 
 
         if (!uniqueTrigramsFromWord.isEmpty()) {
             String firstTrigram = uniqueTrigramsFromWord.iterator().next();
