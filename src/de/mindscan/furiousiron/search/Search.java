@@ -2,7 +2,7 @@
  * 
  * MIT License
  *
- * Copyright (c) 2019 Maxim Gansert, Mindscan
+ * Copyright (c) 2019, 2021 Maxim Gansert, Mindscan
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -187,5 +187,13 @@ public class Search {
         }
 
         return "The Content you looked for, could not be retrived.";
+    }
+
+    /**
+     * @param documentID
+     * @return 
+     */
+    public List<String> getDocumentWordlist( String documentID ) {
+        return theWordlistCache.loadWordList( documentID );
     }
 }
