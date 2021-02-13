@@ -162,6 +162,12 @@ public class Search {
             resultSet.retainAll( documentIds );
         }
 
+        // TODO: if trigram documentid lists are too big for direct filtering, then use bloom 
+        //       filters but don't double check the positive findings, whether they are false 
+        //       positives, just use the negatives to kick out the elements in the hope that, 
+        //       that a later Bloom filter for a different trigram would also kick out the 
+        //       documentid.
+
         return resultSet;
     }
 
