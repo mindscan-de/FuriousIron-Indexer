@@ -159,6 +159,14 @@ public class Search {
             // TODO if reject rate is too small compared to the number of documentIds, we might want to skip anyways.
             // attention at first search ...
             Collection<String> documentIds = theSearchTrigramIndex.getDocumentIdsForTrigram( trigram );
+
+            // sorting trigrams leads to a highly imbalanced (retain) comparison, 
+            // resultSet will become smaller and smaller and the documentIds are becoming bigger and bigger.
+            // so it might be important to optimize this implementation.
+
+            // in case of majority of time consumed here, this retainAll operation has to be switched to a 
+            // more efficient mode e.g. Skiplists or we are looking for each resultset-item via a bloomfilter
+            // in documentIds-Collection, where the documentIds are the bloomfilter-hashed eleemnts.
             resultSet.retainAll( documentIds );
         }
 
