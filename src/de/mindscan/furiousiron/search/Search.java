@@ -43,6 +43,7 @@ import java.util.stream.Collectors;
 import de.mindscan.furiousiron.document.DocumentId;
 import de.mindscan.furiousiron.index.cache.DocumentCache;
 import de.mindscan.furiousiron.index.cache.MetadataCache;
+import de.mindscan.furiousiron.index.cache.SearchQueryCache;
 import de.mindscan.furiousiron.index.cache.WordlistCache;
 import de.mindscan.furiousiron.index.trigram.SearchTrigramIndex;
 import de.mindscan.furiousiron.indexer.SimpleWordUtils;
@@ -60,6 +61,8 @@ public class Search {
     private WordlistCache theWordlistCache;
     // for ranking
     private SearchTrigramIndex theSearchTrigramIndex;
+    // for performance
+    private SearchQueryCache theSearchQueryCache;
 
     /**
      * @param indexFolder The folder, where the index root is located
@@ -70,6 +73,7 @@ public class Search {
         theMetadataCache = new MetadataCache( indexFolder );
         theWordlistCache = new WordlistCache( indexFolder );
         theSearchTrigramIndex = new SearchTrigramIndex( indexFolder );
+        theSearchQueryCache = new SearchQueryCache( indexFolder );
     }
 
     /**
