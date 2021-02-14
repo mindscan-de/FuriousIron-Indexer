@@ -2,7 +2,7 @@
  * 
  * MIT License
  *
- * Copyright (c) 2019 Maxim Gansert, Mindscan
+ * Copyright (c) 2019, 2021 Maxim Gansert, Mindscan
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,6 +35,7 @@ import java.util.TreeSet;
 
 import com.google.gson.Gson;
 
+import de.mindscan.furiousiron.index.trigram.model.TrigramDocumentCountJsonModel;
 import de.mindscan.furiousiron.index.trigram.model.TrigramIndexJsonModel;
 
 /**
@@ -42,11 +43,15 @@ import de.mindscan.furiousiron.index.trigram.model.TrigramIndexJsonModel;
  */
 public class TrigramIndex {
 
+    private static final String TRIGRAM_REFERENCE_SUFFIX = ".reference";
+    private static final String TRIGRAM_COUNT_SUFFIX = ".reference_count";
+
     private final String trigram;
     private int indexGeneration;
 
     private Set<String> relatedDocuments;
     private int relatedDocumentsCounter;
+    private long globalRelatedDocumentsCounter;
     private final Path trigramsBasePath;
 
     /**
@@ -59,6 +64,8 @@ public class TrigramIndex {
         this.indexGeneration = indexGeneration;
         this.trigramsBasePath = trigramsBasePath;
         this.relatedDocuments = new TreeSet<>();
+        this.relatedDocumentsCounter = 0;
+        this.globalRelatedDocumentsCounter = 0L;
     }
 
     /**
@@ -68,6 +75,7 @@ public class TrigramIndex {
     public void add( String documentKey ) {
         relatedDocuments.add( documentKey );
         relatedDocumentsCounter++;
+        globalRelatedDocumentsCounter++;
 
         if (relatedDocumentsCounter >= 3072) {
             saveInternal();
@@ -87,7 +95,8 @@ public class TrigramIndex {
             return;
         }
 
-        TrigramIndexJsonModel model = new TrigramIndexJsonModel( relatedDocuments, indexGeneration, trigram );
+        final TrigramIndexJsonModel model = new TrigramIndexJsonModel( relatedDocuments, indexGeneration, trigram );
+        final TrigramDocumentCountJsonModel count = new TrigramDocumentCountJsonModel( trigram, globalRelatedDocumentsCounter );
 
         indexGeneration++;
         relatedDocuments = new TreeSet<>();
@@ -99,9 +108,11 @@ public class TrigramIndex {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                Path trigramsPath = TrigramSubPathCalculator.getPathForTrigram( trigramsBasePath, trigram, "." + model.getIndexGeneration() + ".reference" );
+                Path trigramsPath = TrigramSubPathCalculator.getPathForTrigram( trigramsBasePath, trigram,
+                                "." + model.getIndexGeneration() + TRIGRAM_REFERENCE_SUFFIX );
                 createTargetDirectoryIfNotExist( trigramsPath.getParent() );
 
+                // write content of one part of the index
                 try (BufferedWriter writer = Files.newBufferedWriter( trigramsPath, StandardCharsets.UTF_8 )) {
                     Gson gson = new Gson();
                     writer.write( gson.toJson( model ) );
@@ -110,6 +121,19 @@ public class TrigramIndex {
                     System.out.println( String.format( "saving file: '%s' caused this error...", trigramsPath ) );
                     e.printStackTrace();
                 }
+
+                // write+overwrite the global documents counter as well
+                Path trigramCountPath = TrigramSubPathCalculator.getPathForTrigram( trigramsBasePath, trigram, TRIGRAM_COUNT_SUFFIX );
+
+                try (BufferedWriter writer = Files.newBufferedWriter( trigramCountPath, StandardCharsets.UTF_8 )) {
+                    Gson gson = new Gson();
+                    writer.write( gson.toJson( count ) );
+                }
+                catch (IOException e) {
+                    System.out.println( String.format( "saving file: '%s' caused this error...", trigramCountPath ) );
+                    e.printStackTrace();
+                }
+
             }
         };
 
