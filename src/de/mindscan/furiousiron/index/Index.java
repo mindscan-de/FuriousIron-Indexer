@@ -29,6 +29,7 @@ import java.nio.file.Path;
 
 import de.mindscan.furiousiron.index.cache.DocumentCache;
 import de.mindscan.furiousiron.index.cache.MetadataCache;
+import de.mindscan.furiousiron.index.cache.SearchQueryCache;
 import de.mindscan.furiousiron.index.cache.WordlistCache;
 import de.mindscan.furiousiron.index.trigram.InverseTrigramIndex;
 
@@ -41,6 +42,7 @@ public class Index {
     private MetadataCache theMetadataCache;
     private WordlistCache theWordlistCache;
     private InverseTrigramIndex theInverseTrigramIndex;
+    private SearchQueryCache theSearchQueryCache;
 
     /**
      * 
@@ -50,6 +52,7 @@ public class Index {
         theMetadataCache = new MetadataCache( indexFolder );
         theWordlistCache = new WordlistCache( indexFolder );
         theInverseTrigramIndex = new InverseTrigramIndex( indexFolder );
+        theSearchQueryCache = new SearchQueryCache( indexFolder );
     }
 
     /**
@@ -80,4 +83,7 @@ public class Index {
         return theInverseTrigramIndex;
     }
 
+    public SearchQueryCache getSearchQueryCache() {
+        return theSearchQueryCache;
+    }
 }
