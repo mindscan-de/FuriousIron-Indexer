@@ -32,6 +32,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -46,6 +47,7 @@ import de.mindscan.furiousiron.index.cache.MetadataCache;
 import de.mindscan.furiousiron.index.cache.SearchQueryCache;
 import de.mindscan.furiousiron.index.cache.WordlistCache;
 import de.mindscan.furiousiron.index.trigram.SearchTrigramIndex;
+import de.mindscan.furiousiron.index.trigram.TrigramOccurence;
 import de.mindscan.furiousiron.indexer.SimpleWordUtils;
 
 /**
@@ -148,7 +150,12 @@ public class Search {
     public Set<String> collectDocumentIdsForTrigramsOpt( Collection<String> uniqueTrigramsFromWord ) {
         HashSet<String> resultSet = new HashSet<String>();
 
-        // TODO: sort uniqueTrigramsFromWord by number of expected results in increasing order.
+        // convert trigrams to TrigramOccurences
+        List<TrigramOccurence> collectedOccurences = uniqueTrigramsFromWord.stream().map( ( trigram ) -> this.getTrigramOccurence( trigram ) )
+                        .collect( Collectors.toList() );
+
+        // sort uniqueTrigramsFromWord by number of expected results in increasing order.
+        collectedOccurences.sort( Comparator.<TrigramOccurence> comparingLong( occurence -> occurence.getOccurenceCount() ) );
 
         // fill with first document list (shortest), it can only get shorter at this time, 
         // so we don't need to reallocate like in the previous implementation, and adding 
@@ -207,5 +214,9 @@ public class Search {
      */
     public List<String> getDocumentWordlist( String documentID ) {
         return theWordlistCache.loadWordList( documentID );
+    }
+
+    public TrigramOccurence getTrigramOccurence( String trigram ) {
+        return this.theSearchTrigramIndex.loadDocumentCountForTrigram( trigram );
     }
 }

@@ -75,7 +75,7 @@ public class SearchTrigramIndex {
      * @param trigram
      * @return
      */
-    public long loadDocumentCountForTrigram( String trigram ) {
+    public TrigramOccurence loadDocumentCountForTrigram( String trigram ) {
         // TODO: LRU Cache for the number of trigrams, so the number is only calculated/read once from disk.
 
         Path pathForTrigramCount = TrigramSubPathCalculator.getPathForTrigram( searchTrigramsPath, trigram, TRIGRAM_COUNT_SUFFIX );
@@ -84,15 +84,16 @@ public class SearchTrigramIndex {
             Gson gson = new Gson();
             try (Reader json = Files.newBufferedReader( pathForTrigramCount )) {
                 TrigramDocumentCountJsonModel fromJson = gson.fromJson( json, TrigramDocumentCountJsonModel.class );
-                return fromJson.getRelatedDocumentsCount();
+                long occurence = fromJson.getRelatedDocumentsCount();
+                return new TrigramOccurence( trigram, occurence );
             }
             catch (Exception e) {
-                return 3071L;
+                return new TrigramOccurence( trigram, 3072L );
             }
         }
         else {
             // No count file exist, means, that there are no documents to be found.
-            return 0L;
+            return new TrigramOccurence( trigram, 0L );
         }
     }
 
