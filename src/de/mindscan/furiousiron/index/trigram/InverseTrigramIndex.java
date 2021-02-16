@@ -72,7 +72,12 @@ public class InverseTrigramIndex {
      */
     public void save() {
         for (Entry<String, TrigramIndex> entry : inverseIndex.entrySet()) {
-            entry.getValue().save();
+            try {
+                entry.getValue().save();
+            }
+            catch (Exception ex) {
+                // ignore
+            }
         }
     }
 
