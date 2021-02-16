@@ -157,6 +157,9 @@ public class Search {
         // sort uniqueTrigramsFromWord by number of expected results in increasing order.
         collectedOccurences.sort( Comparator.<TrigramOccurence> comparingLong( occurence -> occurence.getOccurenceCount() ) );
 
+        for (TrigramOccurence trigramOccurence : collectedOccurences) {
+            System.out.println( "Debug-TrigramOccurence: " + trigramOccurence.toString() );
+        }
         // fill with first document list (shortest), it can only get shorter at this time, 
         // so we don't need to reallocate like in the previous implementation, and adding 
         // even more atomic integers and do atomic increments... 
@@ -219,4 +222,19 @@ public class Search {
     public TrigramOccurence getTrigramOccurence( String trigram ) {
         return this.theSearchTrigramIndex.loadDocumentCountForTrigram( trigram );
     }
+
+    /**
+     * @return
+     */
+    public MetadataCache getMetaDataCache() {
+        return theMetadataCache;
+    }
+
+    /**
+     * @return
+     */
+    public WordlistCache getWordlistCache() {
+        return theWordlistCache;
+    }
+
 }
