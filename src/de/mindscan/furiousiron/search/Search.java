@@ -164,15 +164,17 @@ public class Search {
         // so we don't need to reallocate like in the previous implementation, and adding 
         // even more atomic integers and do atomic increments... 
 
-        if (!uniqueTrigramsFromWord.isEmpty()) {
-            String firstTrigram = uniqueTrigramsFromWord.iterator().next();
+        if (!collectedOccurences.isEmpty()) {
+            String firstTrigram = collectedOccurences.iterator().next().getTrigram();
             resultSet = new HashSet<String>( theSearchTrigramIndex.getDocumentIdsForTrigram( firstTrigram ) );
         }
 
-        for (String trigram : uniqueTrigramsFromWord) {
+        long start = System.currentTimeMillis();
+        System.out.println( "Reduced from: " + resultSet.size() );
+        for (TrigramOccurence trigram : collectedOccurences) {
             // TODO if reject rate is too small compared to the number of documentIds, we might want to skip anyways.
             // attention at first search ...
-            Collection<String> documentIds = theSearchTrigramIndex.getDocumentIdsForTrigram( trigram );
+            Collection<String> documentIds = theSearchTrigramIndex.getDocumentIdsForTrigram( trigram.getTrigram() );
 
             // sorting trigrams leads to a highly imbalanced (retain) comparison, 
             // resultSet will become smaller and smaller and the documentIds are becoming bigger and bigger.
@@ -182,7 +184,15 @@ public class Search {
             // more efficient mode e.g. Skiplists or we are looking for each resultset-item via a bloomfilter
             // in documentIds-Collection, where the documentIds are the bloomfilter-hashed eleemnts.
             resultSet.retainAll( documentIds );
+            System.out.println( "Reduced to: " + resultSet.size() + " using trigram: " + trigram.getTrigram() );
+
+            if ((documentIds.size() >> 3) > resultSet.size()) {
+                // stop if it is too imbalanced... we probably already are in X+10% range of maximal search results
+                break;
+            }
         }
+        long end = System.currentTimeMillis();
+        System.out.println( "Time to reduce via retainAll: " + (end - start) );
 
         // TODO: if trigram documentid lists are too big for direct filtering, then use bloom 
         //       filters but don't double check the positive findings, whether they are false 
