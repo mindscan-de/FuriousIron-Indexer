@@ -247,4 +247,8 @@ public class Search {
         return theWordlistCache;
     }
 
+    public SearchQueryCache getSearchQueryCache() {
+        return theSearchQueryCache;
+    }
+
 }
