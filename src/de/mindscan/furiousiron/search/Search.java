@@ -35,6 +35,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -164,14 +165,18 @@ public class Search {
         // so we don't need to reallocate like in the previous implementation, and adding 
         // even more atomic integers and do atomic increments... 
 
-        if (!collectedOccurences.isEmpty()) {
-            String firstTrigram = collectedOccurences.iterator().next().getTrigram();
+        long start = System.currentTimeMillis();
+
+        Iterator<TrigramOccurence> collectedOccurencesIterator = collectedOccurences.iterator();
+        if (collectedOccurencesIterator.hasNext()) {
+            String firstTrigram = collectedOccurencesIterator.next().getTrigram();
             resultSet = new HashSet<String>( theSearchTrigramIndex.getDocumentIdsForTrigram( firstTrigram ) );
+            System.out.println( "Reduction starts from: " + resultSet.size() );
         }
 
-        long start = System.currentTimeMillis();
-        System.out.println( "Reduced from: " + resultSet.size() );
-        for (TrigramOccurence trigram : collectedOccurences) {
+        while (collectedOccurencesIterator.hasNext()) {
+            TrigramOccurence trigram = collectedOccurencesIterator.next();
+
             // TODO if reject rate is too small compared to the number of documentIds, we might want to skip anyways.
             // attention at first search ...
             Collection<String> documentIds = theSearchTrigramIndex.getDocumentIdsForTrigram( trigram.getTrigram() );
@@ -184,9 +189,9 @@ public class Search {
             // more efficient mode e.g. Skiplists or we are looking for each resultset-item via a bloomfilter
             // in documentIds-Collection, where the documentIds are the bloomfilter-hashed eleemnts.
             resultSet.retainAll( documentIds );
-            System.out.println( "Reduced to: " + resultSet.size() + " using trigram: " + trigram.getTrigram() );
+            System.out.println( "Reduction to: " + resultSet.size() + " using trigram: " + trigram.getTrigram() );
 
-            if ((documentIds.size() >> 3) > resultSet.size()) {
+            if ((documentIds.size() >> 4) > resultSet.size()) {
                 // stop if it is too imbalanced... we probably already are in X+10% range of maximal search results
                 break;
             }
