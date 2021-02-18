@@ -171,7 +171,7 @@ public class Search {
         if (collectedOccurencesIterator.hasNext()) {
             String firstTrigram = collectedOccurencesIterator.next().getTrigram();
             resultSet = new HashSet<String>( theSearchTrigramIndex.getDocumentIdsForTrigram( firstTrigram ) );
-            System.out.println( "Reduction starts from: " + resultSet.size() + "for " + firstTrigram );
+            System.out.println( "Reduction starts from: " + resultSet.size() + " for " + firstTrigram );
         }
 
         while (collectedOccurencesIterator.hasNext()) {
