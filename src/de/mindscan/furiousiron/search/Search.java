@@ -66,6 +66,7 @@ public class Search {
     private SearchTrigramIndex theSearchTrigramIndex;
     // for performance
     private SearchQueryCache theSearchQueryCache;
+    private List<String> unprocessedTrigrams;
 
     /**
      * @param indexFolder The folder, where the index root is located
@@ -191,13 +192,26 @@ public class Search {
             resultSet.retainAll( documentIds );
             System.out.println( "Reduction to: " + resultSet.size() + " using trigram: " + trigram.getTrigram() );
 
-            if ((documentIds.size() >> 4) > resultSet.size()) {
+            if ((documentIds.size() >> 5) > resultSet.size()) {
                 // stop if it is too imbalanced... we probably already are in X+10% range of maximal search results
                 break;
             }
         }
         long end = System.currentTimeMillis();
         System.out.println( "Time to reduce via retainAll: " + (end - start) );
+
+        List<String> skippedTrigrams = new ArrayList<>();
+        long ignoredElements = 0L;
+        while (collectedOccurencesIterator.hasNext()) {
+            TrigramOccurence skippedTrigram = collectedOccurencesIterator.next();
+            ignoredElements += skippedTrigram.getOccurenceCount();
+            skippedTrigrams.add( skippedTrigram.getTrigram() );
+        }
+
+        // save the skipped tri-grams for later optimized/optimizing searches.
+        this.setSkippedTrigramsInOptSearch( skippedTrigrams );
+
+        System.out.println( "Skipped Elements: " + ignoredElements );
 
         // TODO: if trigram documentid lists are too big for direct filtering, then use bloom 
         //       filters but don't double check the positive findings, whether they are false 
@@ -206,6 +220,14 @@ public class Search {
         //       documentid.
 
         return resultSet;
+    }
+
+    private void setSkippedTrigramsInOptSearch( List<String> unprocessedTrigrams ) {
+        this.unprocessedTrigrams = unprocessedTrigrams;
+    }
+
+    public Collection<String> getSkippedTrigramsInOptSearch() {
+        return unprocessedTrigrams;
     }
 
     public String getDocumentContent( String path ) {
