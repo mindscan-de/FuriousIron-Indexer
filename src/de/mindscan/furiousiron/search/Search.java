@@ -66,7 +66,7 @@ public class Search {
     private SearchTrigramIndex theSearchTrigramIndex;
     // for performance
     private SearchQueryCache theSearchQueryCache;
-    private List<String> unprocessedTrigrams;
+    private List<TrigramOccurence> unprocessedTrigrams;
 
     /**
      * @param indexFolder The folder, where the index root is located
@@ -200,18 +200,20 @@ public class Search {
         long end = System.currentTimeMillis();
         System.out.println( "Time to reduce via retainAll: " + (end - start) );
 
-        List<String> skippedTrigrams = new ArrayList<>();
+        List<TrigramOccurence> skippedTrigrams = new ArrayList<>();
         long ignoredElements = 0L;
         while (collectedOccurencesIterator.hasNext()) {
             TrigramOccurence skippedTrigram = collectedOccurencesIterator.next();
             ignoredElements += skippedTrigram.getOccurenceCount();
-            skippedTrigrams.add( skippedTrigram.getTrigram() );
+            skippedTrigrams.add( skippedTrigram );
         }
 
         // save the skipped tri-grams for later optimized/optimizing searches.
         this.setSkippedTrigramsInOptSearch( skippedTrigrams );
 
         System.out.println( "Skipped Elements: " + ignoredElements );
+
+        // only if there are too many results, we still want to filter them down
 
         // TODO: if trigram documentid lists are too big for direct filtering, then use bloom 
         //       filters but don't double check the positive findings, whether they are false 
@@ -222,11 +224,11 @@ public class Search {
         return resultSet;
     }
 
-    private void setSkippedTrigramsInOptSearch( List<String> unprocessedTrigrams ) {
-        this.unprocessedTrigrams = unprocessedTrigrams;
+    private void setSkippedTrigramsInOptSearch( List<TrigramOccurence> skippedTrigrams ) {
+        this.unprocessedTrigrams = skippedTrigrams;
     }
 
-    public Collection<String> getSkippedTrigramsInOptSearch() {
+    public List<TrigramOccurence> getSkippedTrigramsInOptSearch() {
         return unprocessedTrigrams;
     }
 
