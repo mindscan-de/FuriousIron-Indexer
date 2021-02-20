@@ -137,9 +137,9 @@ public class Search {
     public Set<String> collectDocumentIdsForTrigramsOpt( Collection<String> uniqueTrigramsFromWord ) {
         HashSet<String> resultSet = new HashSet<String>();
 
-        List<TrigramOccurence> sortedTrigrams = getTrigramOccurencesSortedByOccurence( uniqueTrigramsFromWord );
+        List<TrigramOccurence> sortedTrigramOccurences = getTrigramOccurencesSortedByOccurence( uniqueTrigramsFromWord );
 
-        for (TrigramOccurence trigramOccurence : sortedTrigrams) {
+        for (TrigramOccurence trigramOccurence : sortedTrigramOccurences) {
             System.out.println( "Debug-TrigramOccurence: " + trigramOccurence.toString() );
         }
         // fill with first document list (shortest), it can only get shorter at this time, 
@@ -148,7 +148,7 @@ public class Search {
 
         long start = System.currentTimeMillis();
 
-        Iterator<TrigramOccurence> collectedOccurencesIterator = sortedTrigrams.iterator();
+        Iterator<TrigramOccurence> collectedOccurencesIterator = sortedTrigramOccurences.iterator();
         if (collectedOccurencesIterator.hasNext()) {
             String firstTrigram = collectedOccurencesIterator.next().getTrigram();
             resultSet = new HashSet<String>( getDocumentsForTrigram( firstTrigram ) );
