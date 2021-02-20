@@ -49,6 +49,7 @@ import de.mindscan.furiousiron.index.cache.WordlistCache;
 import de.mindscan.furiousiron.index.trigram.SearchTrigramIndex;
 import de.mindscan.furiousiron.index.trigram.TrigramOccurence;
 import de.mindscan.furiousiron.indexer.SimpleWordUtils;
+import de.mindscan.furiousiron.util.StopWatch;
 
 /**
  * 
@@ -146,7 +147,7 @@ public class Search {
         // so we don't need to reallocate like in the previous implementation, and adding 
         // even more atomic integers and do atomic increments... 
 
-        long start = System.currentTimeMillis();
+        StopWatch retainAllStopWatch = StopWatch.createStarted();
 
         Iterator<TrigramOccurence> collectedOccurencesIterator = sortedTrigramOccurences.iterator();
         if (collectedOccurencesIterator.hasNext()) {
@@ -177,8 +178,8 @@ public class Search {
                 break;
             }
         }
-        long end = System.currentTimeMillis();
-        System.out.println( "Time to reduce via retainAll: " + (end - start) );
+        retainAllStopWatch.stop();
+        System.out.println( "Time to reduce via retainAll: " + (retainAllStopWatch.getElapsedTime()) );
 
         List<TrigramOccurence> skippedTrigrams = new ArrayList<>();
         long ignoredElements = 0L;
