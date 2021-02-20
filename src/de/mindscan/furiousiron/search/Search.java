@@ -217,14 +217,6 @@ public class Search {
         return resultSet;
     }
 
-    private void setSkippedTrigramsInOptSearch( List<TrigramOccurence> skippedTrigrams ) {
-        this.unprocessedTrigrams = skippedTrigrams;
-    }
-
-    public List<TrigramOccurence> getSkippedTrigramsInOptSearch() {
-        return unprocessedTrigrams;
-    }
-
     public String getDocumentContent( String path ) {
         DocumentId documentId = DocumentId.createDocumentIDFromRelativePath( Paths.get( path ) );
 
@@ -248,7 +240,7 @@ public class Search {
     }
 
     private TrigramOccurence getTrigramOccurence( String trigram ) {
-        return this.theSearchTrigramIndex.loadDocumentCountForTrigram( trigram );
+        return theSearchTrigramIndex.loadDocumentCountForTrigram( trigram );
     }
 
     private Collection<String> getDocumentsForTrigram( String trigram ) {
@@ -265,6 +257,14 @@ public class Search {
 
     public SearchQueryCache getSearchQueryCache() {
         return theSearchQueryCache;
+    }
+
+    private void setSkippedTrigramsInOptSearch( List<TrigramOccurence> skippedTrigrams ) {
+        this.unprocessedTrigrams = skippedTrigrams;
+    }
+
+    public List<TrigramOccurence> getSkippedTrigramsInOptSearch() {
+        return unprocessedTrigrams;
     }
 
 }
