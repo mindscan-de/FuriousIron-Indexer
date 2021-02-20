@@ -39,7 +39,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import de.mindscan.furiousiron.document.DocumentId;
@@ -92,7 +91,7 @@ public class Search {
         // extract words from searchterm 
         Collection<String> uniqueTrigramsFromWord = SimpleWordUtils.getUniqueTrigramsFromWord( processedSearchTerm );
 
-        Set<String> documentIdsForOneWord = collectDocumentIdsForTrigrams( uniqueTrigramsFromWord );
+        Set<String> documentIdsForOneWord = collectDocumentIdsForTrigramsOpt( uniqueTrigramsFromWord );
 
         // check, that a word is part of a page
         List<SearchResultCandidates> searchResult = new ArrayList<>();
@@ -119,7 +118,7 @@ public class Search {
         // extract words from searchterm 
         Collection<String> uniqueTrigramsFromWord = SimpleWordUtils.getUniqueTrigramsFromWord( processedSearchTerm );
 
-        Set<String> documentIdsForOneWord = collectDocumentIdsForTrigrams( uniqueTrigramsFromWord );
+        Set<String> documentIdsForOneWord = collectDocumentIdsForTrigramsOpt( uniqueTrigramsFromWord );
 
         // check, that a word is part of a page
         Map<String, SearchResultCandidates> searchResult = new HashMap<>();
@@ -133,21 +132,6 @@ public class Search {
         }
 
         return searchResult;
-    }
-
-    private Set<String> collectDocumentIdsForTrigrams( Collection<String> uniqueTrigramsFromWord ) {
-        Map<String, AtomicInteger> documentIdCount = new HashMap<>();
-
-        int maxSize = uniqueTrigramsFromWord.size();
-
-        for (String trigram : uniqueTrigramsFromWord) {
-            Collection<String> documentIds = getDocumentsForTrigram( trigram );
-
-            documentIds.stream().forEach( docId -> documentIdCount.computeIfAbsent( docId, x -> new AtomicInteger( 0 ) ).incrementAndGet() );
-        }
-
-        return documentIdCount.entrySet().stream().filter( entry -> (entry.getValue().intValue() == maxSize) ).map( entry -> entry.getKey() )
-                        .collect( Collectors.toSet() );
     }
 
     public Set<String> collectDocumentIdsForTrigramsOpt( Collection<String> uniqueTrigramsFromWord ) {
