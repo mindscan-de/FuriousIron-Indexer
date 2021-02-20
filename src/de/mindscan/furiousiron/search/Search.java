@@ -137,14 +137,9 @@ public class Search {
     public Set<String> collectDocumentIdsForTrigramsOpt( Collection<String> uniqueTrigramsFromWord ) {
         HashSet<String> resultSet = new HashSet<String>();
 
-        // convert trigrams to TrigramOccurences
-        List<TrigramOccurence> collectedOccurences = uniqueTrigramsFromWord.stream().map( ( trigram ) -> this.getTrigramOccurence( trigram ) )
-                        .collect( Collectors.toList() );
+        List<TrigramOccurence> sortedTrigrams = getTrigramOccurencesSortedByOccurence( uniqueTrigramsFromWord );
 
-        // sort uniqueTrigramsFromWord by number of expected results in increasing order.
-        collectedOccurences.sort( Comparator.<TrigramOccurence> comparingLong( occurence -> occurence.getOccurenceCount() ) );
-
-        for (TrigramOccurence trigramOccurence : collectedOccurences) {
+        for (TrigramOccurence trigramOccurence : sortedTrigrams) {
             System.out.println( "Debug-TrigramOccurence: " + trigramOccurence.toString() );
         }
         // fill with first document list (shortest), it can only get shorter at this time, 
@@ -153,7 +148,7 @@ public class Search {
 
         long start = System.currentTimeMillis();
 
-        Iterator<TrigramOccurence> collectedOccurencesIterator = collectedOccurences.iterator();
+        Iterator<TrigramOccurence> collectedOccurencesIterator = sortedTrigrams.iterator();
         if (collectedOccurencesIterator.hasNext()) {
             String firstTrigram = collectedOccurencesIterator.next().getTrigram();
             resultSet = new HashSet<String>( getDocumentsForTrigram( firstTrigram ) );
@@ -199,6 +194,16 @@ public class Search {
         System.out.println( "Skipped Elements: " + ignoredElements );
 
         return resultSet;
+    }
+
+    private List<TrigramOccurence> getTrigramOccurencesSortedByOccurence( Collection<String> uniqueTrigramsFromWord ) {
+        // convert trigrams to TrigramOccurences
+        List<TrigramOccurence> collectedOccurences = uniqueTrigramsFromWord.stream().map( ( trigram ) -> this.getTrigramOccurence( trigram ) )
+                        .collect( Collectors.toList() );
+
+        // sort uniqueTrigramsFromWord by number of expected results in increasing order.
+        collectedOccurences.sort( Comparator.<TrigramOccurence> comparingLong( occurence -> occurence.getOccurenceCount() ) );
+        return collectedOccurences;
     }
 
     public String getDocumentContent( String path ) {
