@@ -66,6 +66,7 @@ public class Search {
     private SearchTrigramIndex theSearchTrigramIndex;
     // for performance
     private SearchQueryCache theSearchQueryCache;
+    // for performance measurements
     private List<TrigramOccurence> unprocessedTrigrams;
 
     /**
@@ -140,7 +141,7 @@ public class Search {
         int maxSize = uniqueTrigramsFromWord.size();
 
         for (String trigram : uniqueTrigramsFromWord) {
-            Collection<String> documentIds = theSearchTrigramIndex.getDocumentIdsForTrigram( trigram );
+            Collection<String> documentIds = getDocumentsForTrigram( trigram );
 
             documentIds.stream().forEach( docId -> documentIdCount.computeIfAbsent( docId, x -> new AtomicInteger( 0 ) ).incrementAndGet() );
         }
@@ -171,7 +172,7 @@ public class Search {
         Iterator<TrigramOccurence> collectedOccurencesIterator = collectedOccurences.iterator();
         if (collectedOccurencesIterator.hasNext()) {
             String firstTrigram = collectedOccurencesIterator.next().getTrigram();
-            resultSet = new HashSet<String>( theSearchTrigramIndex.getDocumentIdsForTrigram( firstTrigram ) );
+            resultSet = new HashSet<String>( getDocumentsForTrigram( firstTrigram ) );
             System.out.println( "Reduction starts from: " + resultSet.size() + " for " + firstTrigram );
         }
 
@@ -242,28 +243,22 @@ public class Search {
         return "The Content you looked for, could not be retrived.";
     }
 
-    /**
-     * @param documentID
-     * @return 
-     */
     public List<String> getDocumentWordlist( String documentID ) {
         return theWordlistCache.loadWordList( documentID );
     }
 
-    public TrigramOccurence getTrigramOccurence( String trigram ) {
+    private TrigramOccurence getTrigramOccurence( String trigram ) {
         return this.theSearchTrigramIndex.loadDocumentCountForTrigram( trigram );
     }
 
-    /**
-     * @return
-     */
+    private Collection<String> getDocumentsForTrigram( String trigram ) {
+        return theSearchTrigramIndex.getDocumentIdsForTrigram( trigram );
+    }
+
     public MetadataCache getMetaDataCache() {
         return theMetadataCache;
     }
 
-    /**
-     * @return
-     */
     public WordlistCache getWordlistCache() {
         return theWordlistCache;
     }
