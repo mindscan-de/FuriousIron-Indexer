@@ -60,18 +60,34 @@ public class SimpleClassifier implements Classifier {
         else if (fileNameAsString.endsWith( ".xtend" )) {
             documentMetaData.addClass( "filetype", "xtend" );
         }
+        else if (fileNameAsString.endsWith( ".xtext" )) {
+            documentMetaData.addClass( "filetype", "xtext" );
+        }
         else if (fileNameAsString.endsWith( ".MF" )) {
             documentMetaData.addClass( "filetype", "manifest" );
+        }
+        else if (fileNameAsString.endsWith( ".json" )) {
+            documentMetaData.addClass( "filetype", "json" );
         }
         else if (fileNameAsString.endsWith( ".txt" ) || fileNameAsString.endsWith( ".text" )) {
             documentMetaData.addClass( "filetype", "text" );
         }
+        else if (fileNameAsString.endsWith( ".properties" ) || fileNameAsString.endsWith( ".ini" )) {
+            documentMetaData.addClass( "filetype", "ini" );
+        }
         else if (fileNameAsString.endsWith( ".md" ) || fileNameAsString.endsWith( ".MD" )) {
             documentMetaData.addClass( "filetype", "markdown" );
         }
-        else if (fileNameAsString.endsWith( ".xml" ) || fileNameAsString.endsWith( ".pom" )) {
+        else if (fileNameAsString.endsWith( ".xml" )) {
             documentMetaData.addClass( "filetype", "xml" );
         }
+        else if (fileNameAsString.endsWith( ".pom" )) {
+            documentMetaData.addClass( "filetype", "pom" );
+        }
+        else if (fileNameAsString.endsWith( ".html" ) || fileNameAsString.endsWith( ".html" )) {
+            documentMetaData.addClass( "filetype", "html" );
+        }
+
     }
 
     /** 
