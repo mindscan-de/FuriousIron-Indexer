@@ -78,11 +78,8 @@ public class SimpleClassifier implements Classifier {
         else if (fileNameAsString.endsWith( ".md" ) || fileNameAsString.endsWith( ".MD" )) {
             documentMetaData.addClass( "filetype", "markdown" );
         }
-        else if (fileNameAsString.endsWith( ".xml" )) {
+        else if (fileNameAsString.endsWith( ".xml" ) || fileNameAsString.endsWith( ".pom" )) {
             documentMetaData.addClass( "filetype", "xml" );
-        }
-        else if (fileNameAsString.endsWith( ".pom" )) {
-            documentMetaData.addClass( "filetype", "pom" );
         }
         else if (fileNameAsString.endsWith( ".html" ) || fileNameAsString.endsWith( ".html" )) {
             documentMetaData.addClass( "filetype", "html" );
