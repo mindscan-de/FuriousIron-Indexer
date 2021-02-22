@@ -1,4 +1,4 @@
-## Tasks (nide to have)
+## Tasks (nice to have)
 
 * create a source only version of the file
 * create more meta info for the file
