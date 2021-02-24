@@ -68,6 +68,7 @@ public class Search {
     private SearchQueryCache theSearchQueryCache;
     // for performance measurements
     private List<TrigramOccurence> unprocessedTrigrams;
+    private List<TrigramOccurence> sortedTrigramOccurences;
 
     /**
      * @param indexFolder The folder, where the index root is located
@@ -190,6 +191,7 @@ public class Search {
         }
 
         // save the skipped tri-grams for later optimized/optimizing searches.
+        this.setSortedTrigramOccurences( sortedTrigramOccurences );
         this.setSkippedTrigramsInOptSearch( skippedTrigrams );
 
         System.out.println( "Skipped Elements: " + ignoredElements );
@@ -257,4 +259,11 @@ public class Search {
         return unprocessedTrigrams;
     }
 
+    private void setSortedTrigramOccurences( List<TrigramOccurence> sortedTrigramOccurences ) {
+        this.sortedTrigramOccurences = sortedTrigramOccurences;
+    }
+
+    public List<TrigramOccurence> getSortedTrigramOccurences() {
+        return sortedTrigramOccurences;
+    }
 }
