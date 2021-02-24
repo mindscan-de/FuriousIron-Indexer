@@ -68,7 +68,6 @@ public class Search {
     private SearchQueryCache theSearchQueryCache;
     // for performance measurements
     private List<TrigramOccurence> unprocessedTrigrams;
-    private List<TrigramOccurence> sortedTrigramOccurences;
 
     /**
      * @param indexFolder The folder, where the index root is located
@@ -139,9 +138,9 @@ public class Search {
     public Set<String> collectDocumentIdsForTrigramsOpt( Collection<String> uniqueTrigramsFromWord ) {
         HashSet<String> resultSet = new HashSet<String>();
 
-        List<TrigramOccurence> sortedTrigramOccurences = getTrigramOccurencesSortedByOccurence( uniqueTrigramsFromWord );
+        List<TrigramOccurence> sortedTrigramOccurrences = getTrigramOccurrencesSortedByOccurrence( uniqueTrigramsFromWord );
 
-        for (TrigramOccurence trigramOccurence : sortedTrigramOccurences) {
+        for (TrigramOccurence trigramOccurence : sortedTrigramOccurrences) {
             System.out.println( "Debug-TrigramOccurence: " + trigramOccurence.toString() );
         }
         // fill with first document list (shortest), it can only get shorter at this time, 
@@ -150,7 +149,7 @@ public class Search {
 
         StopWatch retainAllStopWatch = StopWatch.createStarted();
 
-        Iterator<TrigramOccurence> collectedOccurencesIterator = sortedTrigramOccurences.iterator();
+        Iterator<TrigramOccurence> collectedOccurencesIterator = sortedTrigramOccurrences.iterator();
         if (collectedOccurencesIterator.hasNext()) {
             String firstTrigram = collectedOccurencesIterator.next().getTrigram();
             resultSet = new HashSet<String>( getDocumentsForTrigram( firstTrigram ) );
@@ -191,7 +190,6 @@ public class Search {
         }
 
         // save the skipped tri-grams for later optimized/optimizing searches.
-        this.setSortedTrigramOccurences( sortedTrigramOccurences );
         this.setSkippedTrigramsInOptSearch( skippedTrigrams );
 
         System.out.println( "Skipped Elements: " + ignoredElements );
@@ -199,14 +197,14 @@ public class Search {
         return resultSet;
     }
 
-    private List<TrigramOccurence> getTrigramOccurencesSortedByOccurence( Collection<String> uniqueTrigramsFromWord ) {
+    public List<TrigramOccurence> getTrigramOccurrencesSortedByOccurrence( Collection<String> uniqueTrigramsFromWord ) {
         // convert trigrams to TrigramOccurences
-        List<TrigramOccurence> collectedOccurences = uniqueTrigramsFromWord.stream().map( ( trigram ) -> this.getTrigramOccurence( trigram ) )
+        List<TrigramOccurence> collectedOccurrences = uniqueTrigramsFromWord.stream().map( ( trigram ) -> this.getTrigramOccurrence( trigram ) )
                         .collect( Collectors.toList() );
 
         // sort uniqueTrigramsFromWord by number of expected results in increasing order.
-        collectedOccurences.sort( Comparator.<TrigramOccurence> comparingLong( occurence -> occurence.getOccurenceCount() ) );
-        return collectedOccurences;
+        collectedOccurrences.sort( Comparator.<TrigramOccurence> comparingLong( occurence -> occurence.getOccurenceCount() ) );
+        return collectedOccurrences;
     }
 
     public String getDocumentContent( String path ) {
@@ -231,7 +229,7 @@ public class Search {
         return theWordlistCache.loadWordList( documentID );
     }
 
-    private TrigramOccurence getTrigramOccurence( String trigram ) {
+    private TrigramOccurence getTrigramOccurrence( String trigram ) {
         return theSearchTrigramIndex.loadDocumentCountForTrigram( trigram );
     }
 
@@ -259,11 +257,4 @@ public class Search {
         return unprocessedTrigrams;
     }
 
-    private void setSortedTrigramOccurences( List<TrigramOccurence> sortedTrigramOccurences ) {
-        this.sortedTrigramOccurences = sortedTrigramOccurences;
-    }
-
-    public List<TrigramOccurence> getSortedTrigramOccurences() {
-        return sortedTrigramOccurences;
-    }
 }
