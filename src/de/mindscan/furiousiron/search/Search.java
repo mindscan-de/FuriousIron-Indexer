@@ -173,7 +173,7 @@ public class Search {
             resultSet.retainAll( documentIds );
             System.out.println( "Reduction to: " + resultSet.size() + " using trigram: " + trigram.getTrigram() );
 
-            if ((documentIds.size() >> 5) > resultSet.size()) {
+            if (documentIds.size() > (48 * resultSet.size())) {
                 // stop if it is too imbalanced... we probably already are in X+10% range of maximal search results
                 break;
             }
