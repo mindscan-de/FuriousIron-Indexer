@@ -50,6 +50,8 @@ import de.mindscan.furiousiron.index.trigram.SearchTrigramIndex;
 import de.mindscan.furiousiron.index.trigram.TrigramOccurence;
 import de.mindscan.furiousiron.indexer.SimpleWordUtils;
 import de.mindscan.furiousiron.util.StopWatch;
+import de.mindscan.furiousiron.util.TrigramUsage;
+import de.mindscan.furiousiron.util.TrigramUsage.TrigramUsageState;
 
 /**
  * 
@@ -139,6 +141,7 @@ public class Search {
         HashSet<String> resultSet = new HashSet<String>();
 
         List<TrigramOccurence> sortedTrigramOccurrences = getTrigramOccurrencesSortedByOccurrence( uniqueTrigramsFromWord );
+        List<TrigramUsage> trigramUsage = new ArrayList<>( uniqueTrigramsFromWord.size() );
 
         for (TrigramOccurence trigramOccurence : sortedTrigramOccurrences) {
             System.out.println( "Debug-TrigramOccurence: " + trigramOccurence.toString() );
@@ -149,34 +152,58 @@ public class Search {
 
         StopWatch retainAllStopWatch = StopWatch.createStarted();
 
+        long previousSetSize = 0L;
+
         Iterator<TrigramOccurence> collectedOccurencesIterator = sortedTrigramOccurrences.iterator();
         if (collectedOccurencesIterator.hasNext()) {
-            String firstTrigram = collectedOccurencesIterator.next().getTrigram();
+            TrigramOccurence firstTrigramOccurence = collectedOccurencesIterator.next();
+            String firstTrigram = firstTrigramOccurence.getTrigram();
             resultSet = new HashSet<String>( getDocumentsForTrigram( firstTrigram ) );
             System.out.println( "Reduction starts from: " + resultSet.size() + " for " + firstTrigram );
+
+            trigramUsage.add( new TrigramUsage( firstTrigramOccurence, TrigramUsageState.SUCCESS ) );
+            previousSetSize = firstTrigramOccurence.getOccurenceCount();
         }
 
+        // we make at least one round of reducing the number of document candidates
+        // to combine the set of the first and second trigram's associated documents
         while (collectedOccurencesIterator.hasNext()) {
             TrigramOccurence trigram = collectedOccurencesIterator.next();
 
-            // TODO if reject rate is too small compared to the number of documentIds, we might want to skip anyways.
-            // attention at first search ...
             Collection<String> documentIds = theSearchTrigramIndex.getDocumentIdsForTrigram( trigram.getTrigram() );
+
+            // At the moment this code is fast enough. the only bottleneck is to load
+            // the json documents from disk. The retainall operation is not that slow,
+            // as i was expecting.
 
             // sorting trigrams leads to a highly imbalanced (retain) comparison, 
             // resultSet will become smaller and smaller and the documentIds are becoming bigger and bigger.
-            // so it might be important to optimize this implementation.
+            // so it might be important to optimize this implementation?
 
             // in case of majority of time consumed here, this retainAll operation has to be switched to a 
             // more efficient mode e.g. Skiplists or we are looking for each resultset-item via a bloomfilter
             // in documentIds-Collection, where the documentIds are the bloomfilter-hashed eleemnts.
+
             resultSet.retainAll( documentIds );
-            System.out.println( "Reduction to: " + resultSet.size() + " using trigram: " + trigram.getTrigram() );
+            int currentSetSize = resultSet.size();
+
+            // collect the success of the tr 
+            if (currentSetSize == previousSetSize) {
+                trigramUsage.add( new TrigramUsage( trigram, TrigramUsageState.FAILED ) );
+            }
+            else if (currentSetSize < previousSetSize) {
+                trigramUsage.add( new TrigramUsage( trigram, TrigramUsageState.SUCCESS ) );
+            }
+
+            System.out.println( "Reduction to: " + currentSetSize + " using trigram: " + trigram.getTrigram() );
 
             if (documentIds.size() > (48 * resultSet.size())) {
                 // stop if it is too imbalanced... we probably already are in X+10% range of maximal search results
                 break;
             }
+
+            previousSetSize = currentSetSize;
+
         }
         retainAllStopWatch.stop();
         System.out.println( "Time to reduce via retainAll: " + (retainAllStopWatch.getElapsedTime()) );
