@@ -197,7 +197,7 @@ public class Search {
 
             System.out.println( "Reduction to: " + remainingSize + " using trigram: " + trigram.getTrigram() );
 
-            if (trigram.getOccurenceCount() > (48 * resultSet.size())) {
+            if (trigram.getOccurenceCount() > (48 * remainingSize)) {
                 // stop if it is too imbalanced... we probably already are in X+10% range of maximal search results
                 break;
             }
