@@ -23,9 +23,7 @@
  * SOFTWARE.
  * 
  */
-package de.mindscan.furiousiron.util;
-
-import de.mindscan.furiousiron.index.trigram.TrigramOccurence;
+package de.mindscan.furiousiron.index.trigram;
 
 /**
  * 

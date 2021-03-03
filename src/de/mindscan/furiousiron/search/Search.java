@@ -48,10 +48,10 @@ import de.mindscan.furiousiron.index.cache.SearchQueryCache;
 import de.mindscan.furiousiron.index.cache.WordlistCache;
 import de.mindscan.furiousiron.index.trigram.SearchTrigramIndex;
 import de.mindscan.furiousiron.index.trigram.TrigramOccurence;
+import de.mindscan.furiousiron.index.trigram.TrigramUsage;
+import de.mindscan.furiousiron.index.trigram.TrigramUsage.TrigramUsageState;
 import de.mindscan.furiousiron.indexer.SimpleWordUtils;
 import de.mindscan.furiousiron.util.StopWatch;
-import de.mindscan.furiousiron.util.TrigramUsage;
-import de.mindscan.furiousiron.util.TrigramUsage.TrigramUsageState;
 
 /**
  * 
