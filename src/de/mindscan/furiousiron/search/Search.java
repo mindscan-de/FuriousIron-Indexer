@@ -185,24 +185,24 @@ public class Search {
             // in documentIds-Collection, where the documentIds are the bloomfilter-hashed eleemnts.
 
             resultSet.retainAll( documentIds );
-            int currentSetSize = resultSet.size();
+            int remainingSize = resultSet.size();
 
             // collect the success of the tr 
-            if (currentSetSize == previousSetSize) {
+            if (remainingSize == previousSetSize) {
                 trigramUsage.add( new TrigramUsage( trigram, TrigramUsageState.FAILED ) );
             }
-            else if (currentSetSize < previousSetSize) {
+            else if (remainingSize < previousSetSize) {
                 trigramUsage.add( new TrigramUsage( trigram, TrigramUsageState.SUCCESS ) );
             }
 
-            System.out.println( "Reduction to: " + currentSetSize + " using trigram: " + trigram.getTrigram() );
+            System.out.println( "Reduction to: " + remainingSize + " using trigram: " + trigram.getTrigram() );
 
             if (trigram.getOccurenceCount() > (48 * resultSet.size())) {
                 // stop if it is too imbalanced... we probably already are in X+10% range of maximal search results
                 break;
             }
 
-            previousSetSize = currentSetSize;
+            previousSetSize = remainingSize;
 
         }
         retainAllStopWatch.stop();
