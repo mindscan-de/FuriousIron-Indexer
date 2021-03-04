@@ -145,9 +145,9 @@ public class Search {
 
     public Set<String> collectDocumentIdsForTrigramsOpt( Collection<String> uniqueTrigramsFromWord ) {
         HashSet<String> resultSet = new HashSet<String>();
+        List<TrigramUsage> trigramUsage = new ArrayList<>( uniqueTrigramsFromWord.size() );
 
         List<TrigramOccurence> sortedTrigramOccurrences = getTrigramOccurrencesSortedByOccurrence( uniqueTrigramsFromWord );
-        List<TrigramUsage> trigramUsage = new ArrayList<>( uniqueTrigramsFromWord.size() );
 
         for (TrigramOccurence trigramOccurence : sortedTrigramOccurrences) {
             System.out.println( "Debug-TrigramOccurence: " + trigramOccurence.toString() );
@@ -169,8 +169,8 @@ public class Search {
             System.out.println( "Reduction starts from: " + resultSet.size() + " for " + firstTrigramOccurence.getTrigram() );
         }
 
-        // we make at least one round of reducing the number of document candidates
-        // to combine the set of the first and second trigram's associated documents
+        // we make at least one round of reducing the number of document candidates by combining the set of 
+        // the first and second trigram's associated documents and continue until it becomes inefficient
         while (collectedOccurencesIterator.hasNext()) {
             TrigramOccurence trigram = collectedOccurencesIterator.next();
 
