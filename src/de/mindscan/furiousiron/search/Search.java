@@ -32,6 +32,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -70,6 +71,7 @@ public class Search {
     private SearchQueryCache theSearchQueryCache;
     // for performance measurements
     private List<TrigramOccurence> unprocessedTrigrams;
+    // for optimizations of later stages
     private List<TrigramUsage> trigramUsage;
 
     /**
@@ -82,6 +84,9 @@ public class Search {
         theWordlistCache = new WordlistCache( indexFolder );
         theSearchTrigramIndex = new SearchTrigramIndex( indexFolder );
         theSearchQueryCache = new SearchQueryCache( indexFolder );
+
+        unprocessedTrigrams = Collections.emptyList();
+        trigramUsage = Collections.emptyList();
     }
 
     /**
