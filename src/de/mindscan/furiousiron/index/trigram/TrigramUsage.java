@@ -26,9 +26,17 @@
 package de.mindscan.furiousiron.index.trigram;
 
 /**
+ * This class will help to keep track with the successful or failed usage of a 
+ * trigram for whatever reason you can think of. 
  * 
+ * The original use case is to determine, whether a trigram was successful in
+ * eliminating part of the list of document id's. If no reduction was achieved
+ * it is reported as a Failed attempt. This helps later on to sort the successful
+ * words (eliminating words) over the non-successful ones and maybe to project
+ * their probable success for the later document-to-word-elimination.
  */
 public class TrigramUsage {
+
     public enum TrigramUsageState {
         UNKNOWN, SUCCESS, FAILED
     }
@@ -46,15 +54,12 @@ public class TrigramUsage {
         this.state = state;
     }
 
-    /**
-     * @return the state
-     */
-    public TrigramUsageState getState() {
-        return state;
-    }
-
     public String getTrigram() {
         return trigram;
+    }
+
+    public TrigramUsageState getState() {
+        return state;
     }
 
     public boolean isSuccess() {
@@ -63,5 +68,9 @@ public class TrigramUsage {
 
     public boolean isFailure() {
         return state == TrigramUsageState.FAILED;
+    }
+
+    public boolean isUnknown() {
+        return state == TrigramUsageState.UNKNOWN;
     }
 }
