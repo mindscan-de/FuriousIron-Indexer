@@ -70,6 +70,7 @@ public class Search {
     private SearchQueryCache theSearchQueryCache;
     // for performance measurements
     private List<TrigramOccurence> unprocessedTrigrams;
+    private List<TrigramUsage> trigramUsage;
 
     /**
      * @param indexFolder The folder, where the index root is located
@@ -146,14 +147,12 @@ public class Search {
         for (TrigramOccurence trigramOccurence : sortedTrigramOccurrences) {
             System.out.println( "Debug-TrigramOccurence: " + trigramOccurence.toString() );
         }
-        // fill with first document list (shortest), it can only get shorter at this time, 
-        // so we don't need to reallocate like in the previous implementation, and adding 
-        // even more atomic integers and do atomic increments... 
 
         long previousSetSize = 0L;
 
         StopWatch retainAllStopWatch = StopWatch.createStarted();
 
+        // fill resultSet with first document list (shortest), it will only get shorter 
         Iterator<TrigramOccurence> collectedOccurencesIterator = sortedTrigramOccurrences.iterator();
         if (collectedOccurencesIterator.hasNext()) {
             TrigramOccurence firstTrigramOccurence = collectedOccurencesIterator.next();
@@ -198,7 +197,7 @@ public class Search {
             System.out.println( "Reduction to: " + remainingSize + " using trigram: " + trigram.getTrigram() );
 
             if (trigram.getOccurenceCount() > (48 * remainingSize)) {
-                // stop if it is too imbalanced... we probably already are in X+10% range of maximal search results
+                // stop if it is too unbalanced... we probably already are in X+10% range of maximal search results
                 break;
             }
 
@@ -217,6 +216,7 @@ public class Search {
 
         // save the skipped tri-grams for later optimized/optimizing searches.
         this.setSkippedTrigramsInOptSearch( skippedTrigrams );
+        this.setTrigramUsage( trigramUsage );
 
         System.out.println( "Skipped Elements: " + ignoredElements );
 
@@ -283,4 +283,11 @@ public class Search {
         return unprocessedTrigrams;
     }
 
+    private void setTrigramUsage( List<TrigramUsage> trigramUsage ) {
+        this.trigramUsage = trigramUsage;
+    }
+
+    public List<TrigramUsage> getTrigramUsage() {
+        return trigramUsage;
+    }
 }
