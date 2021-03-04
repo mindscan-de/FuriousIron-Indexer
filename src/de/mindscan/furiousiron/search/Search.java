@@ -150,19 +150,19 @@ public class Search {
         // so we don't need to reallocate like in the previous implementation, and adding 
         // even more atomic integers and do atomic increments... 
 
-        StopWatch retainAllStopWatch = StopWatch.createStarted();
-
         long previousSetSize = 0L;
+
+        StopWatch retainAllStopWatch = StopWatch.createStarted();
 
         Iterator<TrigramOccurence> collectedOccurencesIterator = sortedTrigramOccurrences.iterator();
         if (collectedOccurencesIterator.hasNext()) {
             TrigramOccurence firstTrigramOccurence = collectedOccurencesIterator.next();
-            String firstTrigram = firstTrigramOccurence.getTrigram();
-            resultSet = new HashSet<String>( getDocumentsForTrigram( firstTrigram ) );
-            System.out.println( "Reduction starts from: " + resultSet.size() + " for " + firstTrigram );
+            resultSet = new HashSet<String>( getDocumentsForTrigram( firstTrigramOccurence.getTrigram() ) );
 
             trigramUsage.add( new TrigramUsage( firstTrigramOccurence, TrigramUsageState.SUCCESS ) );
             previousSetSize = firstTrigramOccurence.getOccurenceCount();
+
+            System.out.println( "Reduction starts from: " + resultSet.size() + " for " + firstTrigramOccurence.getTrigram() );
         }
 
         // we make at least one round of reducing the number of document candidates
@@ -203,7 +203,6 @@ public class Search {
             }
 
             previousSetSize = remainingSize;
-
         }
         retainAllStopWatch.stop();
         System.out.println( "Time to reduce via retainAll: " + (retainAllStopWatch.getElapsedTime()) );
