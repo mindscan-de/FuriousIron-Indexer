@@ -26,16 +26,17 @@
 package de.mindscan.furiousiron.index.trigram;
 
 /**
+ * This class contains a trigram and its count of occurrences. In case of the trigram
+ * index occurence means, in how many documents this particular trigram occurrs. But
+ * this class may also be used to count the number of word occurrences as well.
  * 
+ * Actually a word could be seen as an ngram-occurrence.
  */
 public class TrigramOccurence {
 
     private String trigram;
     private long occurenceCount;
 
-    /**
-     * 
-     */
     public TrigramOccurence( String trigram, long occurenceCount ) {
         this.trigram = trigram;
         this.occurenceCount = occurenceCount;
