@@ -32,21 +32,21 @@ package de.mindscan.furiousiron.index.trigram;
  * 
  * Actually a word could be seen as an ngram-occurrence.
  */
-public class TrigramOccurence {
+public class TrigramOccurrence {
 
     private String trigram;
-    private long occurenceCount;
+    private long occurrenceCount;
 
-    public TrigramOccurence( String trigram, long occurenceCount ) {
+    public TrigramOccurrence( String trigram, long occurrenceCount ) {
         this.trigram = trigram;
-        this.occurenceCount = occurenceCount;
+        this.occurrenceCount = occurrenceCount;
     }
 
     /**
      * @return the occurenceCount
      */
     public long getOccurenceCount() {
-        return occurenceCount;
+        return occurrenceCount;
     }
 
     /**
@@ -61,6 +61,6 @@ public class TrigramOccurence {
      */
     @Override
     public String toString() {
-        return "'" + trigram + "': " + occurenceCount;
+        return "'" + trigram + "': " + occurrenceCount;
     }
 }

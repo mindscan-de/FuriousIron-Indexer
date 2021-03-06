@@ -48,7 +48,7 @@ import de.mindscan.furiousiron.index.cache.MetadataCache;
 import de.mindscan.furiousiron.index.cache.SearchQueryCache;
 import de.mindscan.furiousiron.index.cache.WordlistCache;
 import de.mindscan.furiousiron.index.trigram.SearchTrigramIndex;
-import de.mindscan.furiousiron.index.trigram.TrigramOccurence;
+import de.mindscan.furiousiron.index.trigram.TrigramOccurrence;
 import de.mindscan.furiousiron.index.trigram.TrigramUsage;
 import de.mindscan.furiousiron.index.trigram.TrigramUsage.TrigramUsageState;
 import de.mindscan.furiousiron.indexer.SimpleWordUtils;
@@ -70,7 +70,7 @@ public class Search {
     // for performance
     private SearchQueryCache theSearchQueryCache;
     // for performance measurements
-    private List<TrigramOccurence> unprocessedTrigrams;
+    private List<TrigramOccurrence> unprocessedTrigrams;
     // for optimizations of later stages
     private List<TrigramUsage> trigramUsage;
 
@@ -147,9 +147,9 @@ public class Search {
         HashSet<String> resultSet = new HashSet<String>();
         List<TrigramUsage> trigramUsage = new ArrayList<>( uniqueTrigramsFromWord.size() );
 
-        List<TrigramOccurence> sortedTrigramOccurrences = getTrigramOccurrencesSortedByOccurrence( uniqueTrigramsFromWord );
+        List<TrigramOccurrence> sortedTrigramOccurrences = getTrigramOccurrencesSortedByOccurrence( uniqueTrigramsFromWord );
 
-        for (TrigramOccurence trigramOccurence : sortedTrigramOccurrences) {
+        for (TrigramOccurrence trigramOccurence : sortedTrigramOccurrences) {
             System.out.println( "Debug-TrigramOccurence: " + trigramOccurence.toString() );
         }
 
@@ -158,9 +158,9 @@ public class Search {
         StopWatch retainAllStopWatch = StopWatch.createStarted();
 
         // fill resultSet with first document list (shortest), it will only get shorter 
-        Iterator<TrigramOccurence> collectedOccurencesIterator = sortedTrigramOccurrences.iterator();
+        Iterator<TrigramOccurrence> collectedOccurencesIterator = sortedTrigramOccurrences.iterator();
         if (collectedOccurencesIterator.hasNext()) {
-            TrigramOccurence firstTrigramOccurence = collectedOccurencesIterator.next();
+            TrigramOccurrence firstTrigramOccurence = collectedOccurencesIterator.next();
             resultSet = new HashSet<String>( getDocumentsForTrigram( firstTrigramOccurence.getTrigram() ) );
 
             trigramUsage.add( new TrigramUsage( firstTrigramOccurence, TrigramUsageState.SUCCESS ) );
@@ -172,7 +172,7 @@ public class Search {
         // we make at least one round of reducing the number of document candidates by combining the set of 
         // the first and second trigram's associated documents and continue until it becomes inefficient
         while (collectedOccurencesIterator.hasNext()) {
-            TrigramOccurence trigram = collectedOccurencesIterator.next();
+            TrigramOccurrence trigram = collectedOccurencesIterator.next();
 
             Collection<String> documentIds = theSearchTrigramIndex.getDocumentIdsForTrigram( trigram.getTrigram() );
 
@@ -211,10 +211,10 @@ public class Search {
         retainAllStopWatch.stop();
         System.out.println( "Time to reduce via retainAll: " + (retainAllStopWatch.getElapsedTime()) );
 
-        List<TrigramOccurence> skippedTrigrams = new ArrayList<>();
+        List<TrigramOccurrence> skippedTrigrams = new ArrayList<>();
         long ignoredElements = 0L;
         while (collectedOccurencesIterator.hasNext()) {
-            TrigramOccurence skippedTrigram = collectedOccurencesIterator.next();
+            TrigramOccurrence skippedTrigram = collectedOccurencesIterator.next();
             ignoredElements += skippedTrigram.getOccurenceCount();
             skippedTrigrams.add( skippedTrigram );
         }
@@ -228,13 +228,13 @@ public class Search {
         return resultSet;
     }
 
-    public List<TrigramOccurence> getTrigramOccurrencesSortedByOccurrence( Collection<String> uniqueTrigramsFromWord ) {
+    public List<TrigramOccurrence> getTrigramOccurrencesSortedByOccurrence( Collection<String> uniqueTrigramsFromWord ) {
         // convert trigrams to TrigramOccurences
-        List<TrigramOccurence> collectedOccurrences = uniqueTrigramsFromWord.stream().map( ( trigram ) -> this.getTrigramOccurrence( trigram ) )
+        List<TrigramOccurrence> collectedOccurrences = uniqueTrigramsFromWord.stream().map( ( trigram ) -> this.getTrigramOccurrence( trigram ) )
                         .collect( Collectors.toList() );
 
         // sort uniqueTrigramsFromWord by number of expected results in increasing order.
-        collectedOccurrences.sort( Comparator.<TrigramOccurence> comparingLong( occurence -> occurence.getOccurenceCount() ) );
+        collectedOccurrences.sort( Comparator.<TrigramOccurrence> comparingLong( occurence -> occurence.getOccurenceCount() ) );
         return collectedOccurrences;
     }
 
@@ -260,7 +260,7 @@ public class Search {
         return theWordlistCache.loadWordList( documentID );
     }
 
-    private TrigramOccurence getTrigramOccurrence( String trigram ) {
+    private TrigramOccurrence getTrigramOccurrence( String trigram ) {
         return theSearchTrigramIndex.loadDocumentCountForTrigram( trigram );
     }
 
@@ -280,11 +280,11 @@ public class Search {
         return theSearchQueryCache;
     }
 
-    private void setSkippedTrigramsInOptSearch( List<TrigramOccurence> skippedTrigrams ) {
+    private void setSkippedTrigramsInOptSearch( List<TrigramOccurrence> skippedTrigrams ) {
         this.unprocessedTrigrams = skippedTrigrams;
     }
 
-    public List<TrigramOccurence> getSkippedTrigramsInOptSearch() {
+    public List<TrigramOccurrence> getSkippedTrigramsInOptSearch() {
         return unprocessedTrigrams;
     }
 

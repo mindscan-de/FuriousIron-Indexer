@@ -49,7 +49,7 @@ public class TrigramUsage {
         this.state = state;
     }
 
-    public TrigramUsage( TrigramOccurence trigram, TrigramUsageState state ) {
+    public TrigramUsage( TrigramOccurrence trigram, TrigramUsageState state ) {
         this.trigram = trigram.getTrigram();
         this.state = state;
     }
