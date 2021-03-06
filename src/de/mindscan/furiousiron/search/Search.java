@@ -164,7 +164,7 @@ public class Search {
             resultSet = new HashSet<String>( getDocumentsForTrigram( firstTrigramOccurence.getTrigram() ) );
 
             trigramUsage.add( new TrigramUsage( firstTrigramOccurence, TrigramUsageState.SUCCESS ) );
-            previousSetSize = firstTrigramOccurence.getOccurenceCount();
+            previousSetSize = firstTrigramOccurence.getOccurrenceCount();
 
             System.out.println( "Reduction starts from: " + resultSet.size() + " for " + firstTrigramOccurence.getTrigram() );
         }
@@ -201,7 +201,7 @@ public class Search {
 
             System.out.println( "Reduction to: " + remainingSize + " using trigram: " + trigram.getTrigram() );
 
-            if (trigram.getOccurenceCount() > (48 * remainingSize)) {
+            if (trigram.getOccurrenceCount() > (48 * remainingSize)) {
                 // stop if it is too unbalanced... we probably already are in X+10% range of maximal search results
                 break;
             }
@@ -215,7 +215,7 @@ public class Search {
         long ignoredElements = 0L;
         while (collectedOccurencesIterator.hasNext()) {
             TrigramOccurrence skippedTrigram = collectedOccurencesIterator.next();
-            ignoredElements += skippedTrigram.getOccurenceCount();
+            ignoredElements += skippedTrigram.getOccurrenceCount();
             skippedTrigrams.add( skippedTrigram );
         }
 
@@ -234,7 +234,7 @@ public class Search {
                         .collect( Collectors.toList() );
 
         // sort uniqueTrigramsFromWord by number of expected results in increasing order.
-        collectedOccurrences.sort( Comparator.<TrigramOccurrence> comparingLong( occurence -> occurence.getOccurenceCount() ) );
+        collectedOccurrences.sort( Comparator.<TrigramOccurrence> comparingLong( occurence -> occurence.getOccurrenceCount() ) );
         return collectedOccurrences;
     }
 

@@ -203,7 +203,7 @@ public class WordlistProjectedTrigramOccurrenceCompiler implements WordlistCompi
 
     private static float projectWordOccurrenceByWord( String word, Search search ) {
         Collection<String> wordTrigrams = SimpleWordUtils.getUniqueTrigramsFromWord( word );
-        float occurrenceCount = search.getTrigramOccurrencesSortedByOccurrence( wordTrigrams ).get( 0 ).getOccurenceCount();
+        float occurrenceCount = search.getTrigramOccurrencesSortedByOccurrence( wordTrigrams ).get( 0 ).getOccurrenceCount();
         // return occurrenceCount; // * 4.0f / (word.length() + 1);
         return occurrenceCount * 4.0f / (word.length() + 1);
     }

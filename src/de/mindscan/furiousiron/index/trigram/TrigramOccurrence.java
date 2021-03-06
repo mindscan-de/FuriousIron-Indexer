@@ -45,7 +45,7 @@ public class TrigramOccurrence {
     /**
      * @return the occurenceCount
      */
-    public long getOccurenceCount() {
+    public long getOccurrenceCount() {
         return occurrenceCount;
     }
 
