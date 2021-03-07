@@ -31,7 +31,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import de.mindscan.furiousiron.index.trigram.TrigramUsage;
 import de.mindscan.furiousiron.indexer.SimpleWordUtils;
@@ -49,11 +48,11 @@ public class TrigramPenaltyStrategy {
 
         // create a map of the wordlist, and init with each word with a defaultscore
         Map<String, WordScore> wordMapScore = new HashMap<>();
-        wordlist.stream().map( word -> initWordScoce( wordMapScore, word ) ).collect( Collectors.toList() );
+        wordlist.stream().forEach( word -> initWordScoce( wordMapScore, word ) );
 
         // create a map of usages
         Map<String, TrigramUsage> usageMap = new HashMap<>();
-        usage.stream().map( ( tusage ) -> usageMap.put( tusage.getTrigram(), tusage ) ).collect( Collectors.toList() );
+        usage.stream().forEach( ngram -> usageMap.put( ngram.getTrigram(), ngram ) );
 
         for (String word : wordlist) {
             Collection<String> trigramsForWord = SimpleWordUtils.getUniqueTrigramsFromWord( word );
@@ -108,9 +107,8 @@ public class TrigramPenaltyStrategy {
         return wordlistToSort;
     }
 
-    private boolean initWordScoce( Map<String, WordScore> wordMapScore, String word ) {
+    private void initWordScoce( Map<String, WordScore> wordMapScore, String word ) {
         wordMapScore.put( word, new WordScore( word ) );
-        return true;
     }
 
     private int extracted( String word, Map<String, WordScore> wordMapScore ) {
