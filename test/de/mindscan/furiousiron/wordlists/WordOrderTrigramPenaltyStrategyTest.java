@@ -20,122 +20,122 @@ import de.mindscan.furiousiron.index.trigram.TrigramUsage;
 public class WordOrderTrigramPenaltyStrategyTest {
 
     @Test
-    public void testBuildOrderedWordlist_emptyWordlists_returnsNonNullValue() throws Exception {
-        // arrange
-        WordOrderTrigramPenaltyStrategy trigramPenaltyCompiler = new WordOrderTrigramPenaltyStrategy();
-
-        Collection<String> wordlist = Collections.emptyList();
-        Collection<TrigramUsage> usage = Collections.emptyList();
-
-        // act
-        Collection<String> result = trigramPenaltyCompiler.buildOrderedWordlist( wordlist, usage );
-
-        // assert
-        assertThat( result, not( nullValue() ) );
-    }
-
-    @Test
-    public void testBuildOrderedWordlist_NonEmptyWordlists_returnsSameWordlist() throws Exception {
-        // arrange
-        WordOrderTrigramPenaltyStrategy trigramPenaltyCompiler = new WordOrderTrigramPenaltyStrategy();
-
-        Collection<String> wordlist = createWordlist();
-        Collection<TrigramUsage> usage = createFullTrigramUsageList();
-
-        // act
-        Collection<String> result = trigramPenaltyCompiler.buildOrderedWordlist( wordlist, usage );
-
-        // assert
-        assertThat( result, containsInAnyOrder( wordlist.toArray() ) );
-    }
+        public void testBuildWordlist_emptyWordlists_returnsNonNullValue() throws Exception {
+            // arrange
+            WordOrderTrigramPenaltyStrategy trigramPenaltyCompiler = new WordOrderTrigramPenaltyStrategy();
+    
+            Collection<String> wordlist = Collections.emptyList();
+            Collection<TrigramUsage> usage = Collections.emptyList();
+    
+            // act
+            Collection<String> result = trigramPenaltyCompiler.buildWordlist( wordlist, usage );
+    
+            // assert
+            assertThat( result, not( nullValue() ) );
+        }
 
     @Test
-    public void testBuildOrderedWordlist_UseFullTrigramTruth_returnsWordlistmostImportant() throws Exception {
-        // arrange
-        WordOrderTrigramPenaltyStrategy trigramPenaltyCompiler = new WordOrderTrigramPenaltyStrategy();
-
-        Collection<String> wordlist = createWordlist();
-        Collection<TrigramUsage> usage = createFullTrigramUsageList();
-
-        // act
-        Collection<String> result = trigramPenaltyCompiler.buildOrderedWordlist( wordlist, usage );
-        List<String> foo = new ArrayList<>( result );
-        List<String> importantSublist = foo.subList( 0, 5 );
-
-        // assert
-        assertThat( importantSublist, containsInAnyOrder( "abstract", "index", "field", "store", "hashmap" ) );
-    }
+        public void testBuildWordlist_NonEmptyWordlists_returnsSameWordlist() throws Exception {
+            // arrange
+            WordOrderTrigramPenaltyStrategy trigramPenaltyCompiler = new WordOrderTrigramPenaltyStrategy();
+    
+            Collection<String> wordlist = createWordlist();
+            Collection<TrigramUsage> usage = createFullTrigramUsageList();
+    
+            // act
+            Collection<String> result = trigramPenaltyCompiler.buildWordlist( wordlist, usage );
+    
+            // assert
+            assertThat( result, containsInAnyOrder( wordlist.toArray() ) );
+        }
 
     @Test
-    public void testBuildOrderedWordlist_UseFullTrigramTruth_returnsWordlistMostUselessAtEnd() throws Exception {
-        // arrange
-        WordOrderTrigramPenaltyStrategy trigramPenaltyCompiler = new WordOrderTrigramPenaltyStrategy();
-
-        Collection<String> wordlist = createWordlist();
-        Collection<TrigramUsage> usage = createFullTrigramUsageList();
-
-        // act
-        Collection<String> result = trigramPenaltyCompiler.buildOrderedWordlist( wordlist, usage );
-        List<String> foo = new ArrayList<>( result );
-        List<String> importantSublist = foo.subList( 5, result.size() );
-
-        // assert
-        assertThat( importantSublist, containsInAnyOrder( "import", "class", "string", "package" ) );
-    }
-
-    @Test
-    public void testBuildOrderedWordlist_UseIncompleteTruth143_returnsWordlistMostFullAtStart() throws Exception {
-        // arrange
-        WordOrderTrigramPenaltyStrategy trigramPenaltyCompiler = new WordOrderTrigramPenaltyStrategy();
-
-        Collection<String> wordlist = createWordlist();
-        Collection<TrigramUsage> usage = createIncompleteTrigramUsageList_143();
-
-        // act
-        System.out.println( "143..." );
-        Collection<String> result = trigramPenaltyCompiler.buildOrderedWordlist( wordlist, usage );
-        List<String> foo = new ArrayList<>( result );
-        List<String> importantSublist = foo.subList( 0, 4 );
-
-        // assert
-        assertThat( importantSublist, containsInAnyOrder( "abstract", "store", "field", "index" ) );
-    }
+        public void testBuildWordlist_UseFullTrigramTruth_returnsWordlistmostImportant() throws Exception {
+            // arrange
+            WordOrderTrigramPenaltyStrategy trigramPenaltyCompiler = new WordOrderTrigramPenaltyStrategy();
+    
+            Collection<String> wordlist = createWordlist();
+            Collection<TrigramUsage> usage = createFullTrigramUsageList();
+    
+            // act
+            Collection<String> result = trigramPenaltyCompiler.buildWordlist( wordlist, usage );
+            List<String> foo = new ArrayList<>( result );
+            List<String> importantSublist = foo.subList( 0, 5 );
+    
+            // assert
+            assertThat( importantSublist, containsInAnyOrder( "abstract", "index", "field", "store", "hashmap" ) );
+        }
 
     @Test
-    public void testBuildOrderedWordlist_UseIncompleteTruth167_returnsWordlistMostFullAtStart() throws Exception {
-        // arrange
-        WordOrderTrigramPenaltyStrategy trigramPenaltyCompiler = new WordOrderTrigramPenaltyStrategy();
-
-        Collection<String> wordlist = createWordlist();
-        Collection<TrigramUsage> usage = createIncompleteTrigramUsageList_167();
-
-        // act
-        System.out.println( "167..." );
-        Collection<String> result = trigramPenaltyCompiler.buildOrderedWordlist( wordlist, usage );
-        List<String> foo = new ArrayList<>( result );
-        List<String> importantSublist = foo.subList( 0, 3 );
-
-        // assert
-        assertThat( importantSublist, containsInAnyOrder( "abstract", "store", "field" ) );
-    }
+        public void testBuildWordlist_UseFullTrigramTruth_returnsWordlistMostUselessAtEnd() throws Exception {
+            // arrange
+            WordOrderTrigramPenaltyStrategy trigramPenaltyCompiler = new WordOrderTrigramPenaltyStrategy();
+    
+            Collection<String> wordlist = createWordlist();
+            Collection<TrigramUsage> usage = createFullTrigramUsageList();
+    
+            // act
+            Collection<String> result = trigramPenaltyCompiler.buildWordlist( wordlist, usage );
+            List<String> foo = new ArrayList<>( result );
+            List<String> importantSublist = foo.subList( 5, result.size() );
+    
+            // assert
+            assertThat( importantSublist, containsInAnyOrder( "import", "class", "string", "package" ) );
+        }
 
     @Test
-    public void testBuildOrderedWordlist_UseIncompleteTruth169_returnsWordlistMostFullAtStart() throws Exception {
-        // arrange
-        WordOrderTrigramPenaltyStrategy trigramPenaltyCompiler = new WordOrderTrigramPenaltyStrategy();
+        public void testBuildWordlist_UseIncompleteTruth143_returnsWordlistMostFullAtStart() throws Exception {
+            // arrange
+            WordOrderTrigramPenaltyStrategy trigramPenaltyCompiler = new WordOrderTrigramPenaltyStrategy();
+    
+            Collection<String> wordlist = createWordlist();
+            Collection<TrigramUsage> usage = createIncompleteTrigramUsageList_143();
+    
+            // act
+            System.out.println( "143..." );
+            Collection<String> result = trigramPenaltyCompiler.buildWordlist( wordlist, usage );
+            List<String> foo = new ArrayList<>( result );
+            List<String> importantSublist = foo.subList( 0, 4 );
+    
+            // assert
+            assertThat( importantSublist, containsInAnyOrder( "abstract", "store", "field", "index" ) );
+        }
 
-        Collection<String> wordlist = createWordlist();
-        Collection<TrigramUsage> usage = createIncompleteTrigramUsageList_169();
+    @Test
+        public void testBuildWordlist_UseIncompleteTruth167_returnsWordlistMostFullAtStart() throws Exception {
+            // arrange
+            WordOrderTrigramPenaltyStrategy trigramPenaltyCompiler = new WordOrderTrigramPenaltyStrategy();
+    
+            Collection<String> wordlist = createWordlist();
+            Collection<TrigramUsage> usage = createIncompleteTrigramUsageList_167();
+    
+            // act
+            System.out.println( "167..." );
+            Collection<String> result = trigramPenaltyCompiler.buildWordlist( wordlist, usage );
+            List<String> foo = new ArrayList<>( result );
+            List<String> importantSublist = foo.subList( 0, 3 );
+    
+            // assert
+            assertThat( importantSublist, containsInAnyOrder( "abstract", "store", "field" ) );
+        }
 
-        // act
-        System.out.println( "169..." );
-        Collection<String> result = trigramPenaltyCompiler.buildOrderedWordlist( wordlist, usage );
-        List<String> foo = new ArrayList<>( result );
-        List<String> importantSublist = foo.subList( 0, 3 );
-
-        // assert
-        assertThat( importantSublist, containsInAnyOrder( "abstract", "store", "field" ) );
-    }
+    @Test
+        public void testBuildWordlist_UseIncompleteTruth169_returnsWordlistMostFullAtStart() throws Exception {
+            // arrange
+            WordOrderTrigramPenaltyStrategy trigramPenaltyCompiler = new WordOrderTrigramPenaltyStrategy();
+    
+            Collection<String> wordlist = createWordlist();
+            Collection<TrigramUsage> usage = createIncompleteTrigramUsageList_169();
+    
+            // act
+            System.out.println( "169..." );
+            Collection<String> result = trigramPenaltyCompiler.buildWordlist( wordlist, usage );
+            List<String> foo = new ArrayList<>( result );
+            List<String> importantSublist = foo.subList( 0, 3 );
+    
+            // assert
+            assertThat( importantSublist, containsInAnyOrder( "abstract", "store", "field" ) );
+        }
 
     private List<String> createWordlist() {
         return Arrays.asList( "import", "package", "class", "index", "store", "abstract", "field", "hashmap", "string" );
