@@ -39,7 +39,7 @@ import de.mindscan.furiousiron.indexer.SimpleWordUtils;
 /**
  * 
  */
-public class WordlistTrigramPenaltyCompiler {
+public class WordOrderTrigramPenaltyStrategy {
     public static class WordScore {
         private String word;
         private int score;
