@@ -25,6 +25,8 @@
  */
 package de.mindscan.furiousiron.wordlists;
 
+import java.util.Collection;
+
 /**
  * 
  */
@@ -40,5 +42,9 @@ public class WordlistCompilerFactory {
 
     public static WordlistCompiler createToLowercaseCompiler() {
         return new WordlistLowercasedCompiler();
+    }
+
+    public static WordlistCompiler createOrderedWordlistCompiler( Collection<String> orderedWordlist ) {
+        return new WordlistOrderedWordlistCompiler( orderedWordlist );
     }
 }
