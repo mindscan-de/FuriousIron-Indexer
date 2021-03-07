@@ -40,57 +40,6 @@ import de.mindscan.furiousiron.indexer.SimpleWordUtils;
  * 
  */
 public class TrigramPenaltyStrategy {
-    public static class WordScore {
-        private String word;
-        private int score;
-
-        public WordScore( String word ) {
-            this( word, 1 );
-        }
-
-        public WordScore( String word, int score ) {
-            this.word = word;
-            this.score = score;
-        }
-
-        /**
-         * @param i
-         */
-        public void increase( int i ) {
-            this.score += i;
-        }
-
-        public void increase( long i ) {
-            this.score += (int) i;
-        }
-
-        /**
-         * @param i
-         */
-        public void decrease( int i ) {
-            this.score -= i;
-        }
-
-        public void decrease( long i ) {
-            this.score -= (int) i;
-        }
-
-        /**
-         * @return the score
-         */
-        public int getScore() {
-            return score;
-        }
-
-        /** 
-         * {@inheritDoc}
-         */
-        @Override
-        public String toString() {
-            return "'" + word + "': " + score;
-        }
-    }
-
     public Collection<String> buildWordlist( Collection<String> wordlist, Collection<TrigramUsage> usage ) {
 
         // no word list -> nothing to do here
