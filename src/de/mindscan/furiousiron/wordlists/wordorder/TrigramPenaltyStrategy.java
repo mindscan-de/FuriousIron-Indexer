@@ -23,7 +23,7 @@
  * SOFTWARE.
  * 
  */
-package de.mindscan.furiousiron.wordlists;
+package de.mindscan.furiousiron.wordlists.wordorder;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,7 +39,7 @@ import de.mindscan.furiousiron.indexer.SimpleWordUtils;
 /**
  * 
  */
-public class WordOrderTrigramPenaltyStrategy {
+public class TrigramPenaltyStrategy {
     public static class WordScore {
         private String word;
         private int score;

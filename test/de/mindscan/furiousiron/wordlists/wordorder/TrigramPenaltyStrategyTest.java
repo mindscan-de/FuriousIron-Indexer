@@ -1,4 +1,4 @@
-package de.mindscan.furiousiron.wordlists;
+package de.mindscan.furiousiron.wordlists.wordorder;
 
 import static de.mindscan.furiousiron.index.trigram.TrigramUsage.TrigramUsageState.FAILED;
 import static de.mindscan.furiousiron.index.trigram.TrigramUsage.TrigramUsageState.SUCCESS;
@@ -16,13 +16,14 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import de.mindscan.furiousiron.index.trigram.TrigramUsage;
+import de.mindscan.furiousiron.wordlists.wordorder.TrigramPenaltyStrategy;
 
-public class WordOrderTrigramPenaltyStrategyTest {
+public class TrigramPenaltyStrategyTest {
 
     @Test
         public void testBuildWordlist_emptyWordlists_returnsNonNullValue() throws Exception {
             // arrange
-            WordOrderTrigramPenaltyStrategy trigramPenaltyCompiler = new WordOrderTrigramPenaltyStrategy();
+            TrigramPenaltyStrategy trigramPenaltyCompiler = new TrigramPenaltyStrategy();
     
             Collection<String> wordlist = Collections.emptyList();
             Collection<TrigramUsage> usage = Collections.emptyList();
@@ -37,7 +38,7 @@ public class WordOrderTrigramPenaltyStrategyTest {
     @Test
         public void testBuildWordlist_NonEmptyWordlists_returnsSameWordlist() throws Exception {
             // arrange
-            WordOrderTrigramPenaltyStrategy trigramPenaltyCompiler = new WordOrderTrigramPenaltyStrategy();
+            TrigramPenaltyStrategy trigramPenaltyCompiler = new TrigramPenaltyStrategy();
     
             Collection<String> wordlist = createWordlist();
             Collection<TrigramUsage> usage = createFullTrigramUsageList();
@@ -52,7 +53,7 @@ public class WordOrderTrigramPenaltyStrategyTest {
     @Test
         public void testBuildWordlist_UseFullTrigramTruth_returnsWordlistmostImportant() throws Exception {
             // arrange
-            WordOrderTrigramPenaltyStrategy trigramPenaltyCompiler = new WordOrderTrigramPenaltyStrategy();
+            TrigramPenaltyStrategy trigramPenaltyCompiler = new TrigramPenaltyStrategy();
     
             Collection<String> wordlist = createWordlist();
             Collection<TrigramUsage> usage = createFullTrigramUsageList();
@@ -69,7 +70,7 @@ public class WordOrderTrigramPenaltyStrategyTest {
     @Test
         public void testBuildWordlist_UseFullTrigramTruth_returnsWordlistMostUselessAtEnd() throws Exception {
             // arrange
-            WordOrderTrigramPenaltyStrategy trigramPenaltyCompiler = new WordOrderTrigramPenaltyStrategy();
+            TrigramPenaltyStrategy trigramPenaltyCompiler = new TrigramPenaltyStrategy();
     
             Collection<String> wordlist = createWordlist();
             Collection<TrigramUsage> usage = createFullTrigramUsageList();
@@ -86,7 +87,7 @@ public class WordOrderTrigramPenaltyStrategyTest {
     @Test
         public void testBuildWordlist_UseIncompleteTruth143_returnsWordlistMostFullAtStart() throws Exception {
             // arrange
-            WordOrderTrigramPenaltyStrategy trigramPenaltyCompiler = new WordOrderTrigramPenaltyStrategy();
+            TrigramPenaltyStrategy trigramPenaltyCompiler = new TrigramPenaltyStrategy();
     
             Collection<String> wordlist = createWordlist();
             Collection<TrigramUsage> usage = createIncompleteTrigramUsageList_143();
@@ -104,7 +105,7 @@ public class WordOrderTrigramPenaltyStrategyTest {
     @Test
         public void testBuildWordlist_UseIncompleteTruth167_returnsWordlistMostFullAtStart() throws Exception {
             // arrange
-            WordOrderTrigramPenaltyStrategy trigramPenaltyCompiler = new WordOrderTrigramPenaltyStrategy();
+            TrigramPenaltyStrategy trigramPenaltyCompiler = new TrigramPenaltyStrategy();
     
             Collection<String> wordlist = createWordlist();
             Collection<TrigramUsage> usage = createIncompleteTrigramUsageList_167();
@@ -122,7 +123,7 @@ public class WordOrderTrigramPenaltyStrategyTest {
     @Test
         public void testBuildWordlist_UseIncompleteTruth169_returnsWordlistMostFullAtStart() throws Exception {
             // arrange
-            WordOrderTrigramPenaltyStrategy trigramPenaltyCompiler = new WordOrderTrigramPenaltyStrategy();
+            TrigramPenaltyStrategy trigramPenaltyCompiler = new TrigramPenaltyStrategy();
     
             Collection<String> wordlist = createWordlist();
             Collection<TrigramUsage> usage = createIncompleteTrigramUsageList_169();
