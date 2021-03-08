@@ -73,6 +73,7 @@ public class Search {
     private List<TrigramOccurrence> unprocessedTrigrams;
     // for optimizations of later stages
     private List<TrigramUsage> trigramUsage;
+    private List<TrigramOccurrence> lastSearchOccurences;
 
     /**
      * @param indexFolder The folder, where the index root is located
@@ -148,6 +149,8 @@ public class Search {
         List<TrigramUsage> trigramUsage = new ArrayList<>( uniqueTrigramsFromWord.size() );
 
         List<TrigramOccurrence> sortedTrigramOccurrences = getTrigramOccurrencesSortedByOccurrence( uniqueTrigramsFromWord );
+
+        setLastQueryTrigramOccurrences( sortedTrigramOccurrences );
 
         for (TrigramOccurrence trigramOccurence : sortedTrigramOccurrences) {
             System.out.println( "Debug-TrigramOccurence: " + trigramOccurence.toString() );
@@ -294,5 +297,13 @@ public class Search {
 
     public List<TrigramUsage> getTrigramUsage() {
         return trigramUsage;
+    }
+
+    private void setLastQueryTrigramOccurrences( List<TrigramOccurrence> lastSearchOccurences ) {
+        this.lastSearchOccurences = lastSearchOccurences;
+    }
+
+    public List<TrigramOccurrence> getLastQueryTrigramOccurences() {
+        return lastSearchOccurences;
     }
 }
