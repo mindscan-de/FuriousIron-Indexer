@@ -31,8 +31,10 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,6 +44,53 @@ import de.mindscan.furiousiron.document.DocumentMetadata;
  * 
  */
 public class SimpleWordUtils {
+
+    /**
+     * @param documentMetaData
+     * @param fileToIndex
+     * @return
+     */
+    public static Map<String, Integer> buildTrigramTermFrequency( DocumentMetadata documentMetaData, Path fileToIndex ) throws IOException {
+        List<String> allLines = Files.readAllLines( fileToIndex );
+
+        // collect the words per line
+        List<List<String>> collectedWordsPerLine = allLines.stream().map( SimpleWordUtils::toLowerCase ).map( SimpleWordUtils::nonwordsplitter )
+                        .filter( SimpleWordUtils::onlyNonEmpy ).collect( Collectors.toList() );
+
+        // collect the 
+        Map<String, Integer> collectedWords = new HashMap<>();
+
+        // collect count of words per document
+        collectedWordsPerLine.stream().flatMap( List::stream ).filter( SimpleWordUtils::atLeastThreeCharsLong )
+                        .forEach( word -> increaseWordCount( collectedWords, word ) );
+
+        // now 
+        Map<String, Integer> ttfMap = new HashMap<>();
+        collectedWords.forEach( ( word, count ) -> increaseTTFCount( ttfMap, word, count ) );
+
+        return ttfMap;
+    }
+
+    private static void increaseTTFCount( Map<String, Integer> ttfMap, String word, Integer count ) {
+        Collection<String> uniqueTrigramsFromWord = getUniqueTrigramsFromWord( word );
+        for (String trigram : uniqueTrigramsFromWord) {
+            if (!ttfMap.containsKey( trigram )) {
+                ttfMap.put( trigram, count );
+            }
+            else {
+                ttfMap.put( trigram, ttfMap.get( trigram ) + count );
+            }
+        }
+    }
+
+    private static void increaseWordCount( Map<String, Integer> collectedWords, String word ) {
+        if (!collectedWords.containsKey( word )) {
+            collectedWords.put( word, 1 );
+        }
+        else {
+            collectedWords.put( word, collectedWords.get( word ) + 1 );
+        }
+    }
 
     public static List<String> buildUniqueWordlist( DocumentMetadata documentMetaData, Path fileToIndex ) throws IOException {
         List<String> allLines = Files.readAllLines( fileToIndex );
@@ -65,7 +114,7 @@ public class SimpleWordUtils {
     }
 
     static List<String> nonwordsplitter( String string ) {
-        String[] splitted = string.split( "[ /\\+\\-\\*\t\n\r\\.:;,\\(\\)\\{\\}\\[\\]]" );
+        String[] splitted = string.split( "[ /\\+\\-\\*\t\n\r\"\\.:;,\\(\\)\\{\\}\\[\\]]" );
         return Arrays.stream( splitted ).map( x -> x.trim() ).filter( x -> x != null && x.length() > 0 ).collect( Collectors.toList() );
     }
 
