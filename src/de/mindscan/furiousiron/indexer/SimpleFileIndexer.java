@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Deque;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import de.mindscan.furiousiron.classifier.Classifier;
@@ -83,9 +84,11 @@ public class SimpleFileIndexer {
         index.getDocumentCache().createDocumentCopy( documentId, fileToIndex );
 
         // get unique word list for document
+        Map<String, Integer> ttfList = SimpleWordUtils.buildTrigramTermFrequency( documentMetaData, fileToIndex );
         List<String> uniqueWordlist = SimpleWordUtils.buildUniqueWordlist( documentMetaData, fileToIndex );
         Set<String> uniqueTrigramlist = SimpleWordUtils.getUniqueTrigramsFromWordList( uniqueWordlist );
 
+        index.getWordlistCache().addTTFList( documentId, ttfList );
         index.getWordlistCache().addUniqueWordlist( documentId, uniqueWordlist );
         index.getWordlistCache().addUniqueTrigrams( documentId, uniqueTrigramlist );
         index.getInverseTrigramIndex().addTrigramsForDocument( documentId, uniqueTrigramlist );
