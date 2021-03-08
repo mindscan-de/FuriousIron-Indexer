@@ -114,7 +114,7 @@ public class SimpleWordUtils {
     }
 
     static List<String> nonwordsplitter( String string ) {
-        String[] splitted = string.split( "[ /\\+\\-\\*\t\n\r\"\\.:;,\\(\\)\\{\\}\\[\\]]" );
+        String[] splitted = string.split( "[ /\\+\\-\\*\t\n\r\\.:;,\\(\\)\\{\\}\\[\\]]" );
         return Arrays.stream( splitted ).map( x -> x.trim() ).filter( x -> x != null && x.length() > 0 ).collect( Collectors.toList() );
     }
 
