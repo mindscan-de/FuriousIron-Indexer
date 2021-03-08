@@ -34,7 +34,9 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import com.google.gson.Gson;
@@ -60,6 +62,11 @@ public class WordlistCache {
      * file suffix for files containing the trigrams of the original document 
      */
     public final static String TRIGRAMS_FILE_SUFFIX = ".trigrams";
+
+    /**
+     * file suffix for files containing the count of the trigrams of the original document 
+     */
+    public final static String TRIGRAMSTERMFREQUENCY_FILE_SUFFIX = ".ttfcount";
 
     private Path cacheFolder;
 
@@ -116,6 +123,24 @@ public class WordlistCache {
             e.printStackTrace();
         }
 
+    }
+
+    /**
+     * @param documentId
+     * @param ttfList
+     */
+    public void addTTFList( DocumentId documentId, Map<String, Integer> ttfList ) {
+        Path trigramsDocumentPath = CachingPathUtils.getDocumentPath( cacheFolder, documentId, TRIGRAMSTERMFREQUENCY_FILE_SUFFIX );
+
+        CachingPathUtils.createTargetDirectoryIfNotExist( trigramsDocumentPath );
+
+        try (BufferedWriter writer = Files.newBufferedWriter( trigramsDocumentPath, StandardCharsets.UTF_8 )) {
+            Gson gson = new Gson();
+            writer.write( gson.toJson( new TreeMap<>( ttfList ) ) );
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
