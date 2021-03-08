@@ -263,6 +263,10 @@ public class Search {
         return theWordlistCache.loadWordList( documentID );
     }
 
+    public Map<String, Integer> getTrigramTermFrequencyData( String documentID ) {
+        return theWordlistCache.loadTTFData( documentID );
+    }
+
     private TrigramOccurrence getTrigramOccurrence( String trigram ) {
         return theSearchTrigramIndex.loadDocumentCountForTrigram( trigram );
     }

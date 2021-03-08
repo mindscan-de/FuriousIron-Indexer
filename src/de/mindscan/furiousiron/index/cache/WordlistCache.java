@@ -143,4 +143,20 @@ public class WordlistCache {
         }
     }
 
+    public Map<String, Integer> loadTTFData( String documentId ) {
+        Path wordlistDocumentPath = CachingPathUtils.getDocumentPathFromMD5( cacheFolder, documentId, TRIGRAMSTERMFREQUENCY_FILE_SUFFIX );
+
+        try (BufferedReader jsonBufferedReader = Files.newBufferedReader( wordlistDocumentPath, StandardCharsets.UTF_8 )) {
+            Gson gson = new Gson();
+            @SuppressWarnings( "unchecked" )
+            Map<String, Integer> result = gson.fromJson( jsonBufferedReader, TreeMap.class );
+            return result;
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Collections.emptyMap();
+    }
+
 }
