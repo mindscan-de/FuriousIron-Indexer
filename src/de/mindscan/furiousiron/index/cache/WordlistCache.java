@@ -28,6 +28,7 @@ package de.mindscan.furiousiron.index.cache;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -40,6 +41,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import de.mindscan.furiousiron.document.DocumentId;
 
@@ -148,8 +150,10 @@ public class WordlistCache {
 
         try (BufferedReader jsonBufferedReader = Files.newBufferedReader( wordlistDocumentPath, StandardCharsets.UTF_8 )) {
             Gson gson = new Gson();
-            @SuppressWarnings( "unchecked" )
-            Map<String, Integer> result = gson.fromJson( jsonBufferedReader, TreeMap.class );
+
+            Type type = new TypeToken<TreeMap<String, Integer>>() {
+            }.getType();
+            Map<String, Integer> result = gson.fromJson( jsonBufferedReader, type );
             return result;
         }
         catch (IOException e) {
