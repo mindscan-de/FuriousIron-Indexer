@@ -25,9 +25,12 @@
  */
 package de.mindscan.furiousiron.search;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -257,6 +260,20 @@ public class Search {
         }
 
         return "The Content you looked for, could not be retrived.";
+    }
+
+    public List<String> getDocumentContentLines( String documentIdmd5 ) {
+        DocumentId documentId = DocumentId.createDocumentIDFromMD5( documentIdmd5 );
+
+        try (BufferedReader bufferedReader = new BufferedReader(
+                        new InputStreamReader( theFileCache.getContentAsStream( documentId ), StandardCharsets.UTF_8 ) )) {
+            return bufferedReader.lines().collect( Collectors.toList() );
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return List.of();
     }
 
     public List<String> getDocumentWordlist( String documentID ) {
