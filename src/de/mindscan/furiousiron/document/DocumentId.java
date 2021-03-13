@@ -43,6 +43,10 @@ public class DocumentId {
         return createDocumentIDFromRelativePath( baseCrawlerFolder.relativize( fileToIndex ) );
     }
 
+    public static DocumentId createDocumentIDFromMD5( String md5sum ) {
+        return new DocumentId( md5sum, null );
+    }
+
     public static DocumentId createDocumentIDFromRelativePath( Path relativePathToCrawlingDirectory ) {
         try {
             // TODO: calculate universal path and use this for calculation of Path digest instead.
