@@ -130,6 +130,10 @@ public class SimpleWordUtils {
         return new HashSet<>( trigramsplitter( word ) );
     }
 
+    public static Collection<String> getTrigramsFromLine( String word ) {
+        return trigramsplitter( word );
+    }
+
     public static Set<String> getUniqueTrigramsFromWordList( List<String> flatWordList ) {
         List<List<String>> collectedTrigramsForEachWord = flatWordList.stream().map( SimpleWordUtils::trigramsplitter ).distinct()
                         .collect( Collectors.toList() );
