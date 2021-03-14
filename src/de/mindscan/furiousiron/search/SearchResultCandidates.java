@@ -39,13 +39,14 @@ public class SearchResultCandidates {
     private String documentId;
     private DocumentMetadata metadata;
     private List<String> worddata;
+    private String preview;
 
     /**
      * 
      */
     public SearchResultCandidates( String documentId ) {
         this.documentId = documentId;
-
+        this.preview = null;
     }
 
     // load the metadata, and the wordlists
@@ -97,4 +98,16 @@ public class SearchResultCandidates {
     public String getDocumentId() {
         return documentId;
     }
+
+    public void setPreview( String preview ) {
+        this.preview = preview;
+    }
+
+    public String getPreview() {
+        if (preview == null) {
+            return "Sorry, no pewview available.";
+        }
+        return preview;
+    }
+
 }
