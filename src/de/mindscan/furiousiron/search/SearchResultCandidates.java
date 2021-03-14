@@ -105,7 +105,7 @@ public class SearchResultCandidates {
 
     public String getPreview() {
         if (preview == null) {
-            return "Sorry, no pewview available.";
+            return "Sorry, no search preview available for this search result candidate.";
         }
         return preview;
     }
