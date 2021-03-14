@@ -76,6 +76,7 @@ public class Search {
     private List<TrigramOccurrence> unprocessedTrigrams;
     // for optimizations of later stages
     private List<TrigramUsage> trigramUsage;
+    // this is something which should not be stored here - subject to refactoring.
     private List<TrigramOccurrence> lastSearchOccurences;
 
     /**
