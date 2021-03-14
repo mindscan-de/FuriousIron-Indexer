@@ -26,6 +26,7 @@
 package de.mindscan.furiousiron.search;
 
 import java.util.List;
+import java.util.Map;
 
 import de.mindscan.furiousiron.document.DocumentMetadata;
 import de.mindscan.furiousiron.index.cache.MetadataCache;
@@ -39,7 +40,7 @@ public class SearchResultCandidates {
     private String documentId;
     private DocumentMetadata metadata;
     private List<String> worddata;
-    private String preview;
+    private Map<Integer, String> preview;
 
     /**
      * 
@@ -99,14 +100,11 @@ public class SearchResultCandidates {
         return documentId;
     }
 
-    public void setPreview( String preview ) {
-        this.preview = preview;
+    public void setPreview( Map<Integer, String> map ) {
+        this.preview = map;
     }
 
-    public String getPreview() {
-        if (preview == null) {
-            return "Sorry, no search preview available for this search result candidate.";
-        }
+    public Map<Integer, String> getPreview() {
         return preview;
     }
 
