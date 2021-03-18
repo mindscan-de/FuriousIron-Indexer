@@ -28,6 +28,7 @@ package de.mindscan.furiousiron.index.cache;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -36,8 +37,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * 
@@ -54,6 +58,11 @@ public class SearchQueryCache {
      */
     public final static String CACHE_FILE_SUFFIX = ".querycache";
 
+    /** 
+     * file suffix for files containing the latest preview data 
+     */
+    public final static String CACHE_PREVIEW_SUFFIX = ".previewcache";
+
     private Path cacheFolder;
 
     /**
@@ -65,6 +74,12 @@ public class SearchQueryCache {
 
     public boolean isQueryResultAvailable( String queryKeyId ) {
         Path searchQueryDocumentPath = CachingPathUtils.getDocumentPathFromMD5( cacheFolder, queryKeyId, CACHE_FILE_SUFFIX );
+
+        return Files.exists( searchQueryDocumentPath );
+    }
+
+    public boolean isPreviewAvailable( String queryKeyId ) {
+        Path searchQueryDocumentPath = CachingPathUtils.getDocumentPathFromMD5( cacheFolder, queryKeyId, CACHE_PREVIEW_SUFFIX );
 
         return Files.exists( searchQueryDocumentPath );
     }
@@ -84,6 +99,25 @@ public class SearchQueryCache {
         return Collections.emptyList();
     }
 
+    public Map<String, Map<Integer, String>> loadPreviewResult( String queryKeyId ) {
+        Path searchQueryDocumentPath = CachingPathUtils.getDocumentPathFromMD5( cacheFolder, queryKeyId, CACHE_PREVIEW_SUFFIX );
+
+        Type type = new TypeToken<TreeMap<String, TreeMap<Integer, String>>>() {
+        }.getType();
+
+        try (BufferedReader jsonBufferedReader = Files.newBufferedReader( searchQueryDocumentPath, StandardCharsets.UTF_8 )) {
+            Gson gson = new Gson();
+            @SuppressWarnings( "unchecked" )
+            Map<String, Map<Integer, String>> result = (Map<String, Map<Integer, String>>) gson.fromJson( jsonBufferedReader, type );
+            return result;
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Collections.emptyMap();
+    }
+
     public void saveQueryResult( String queryKeyId, Collection<String> documentIds ) {
         Path searchQueryDocumentPath = CachingPathUtils.getDocumentPathFromMD5( cacheFolder, queryKeyId, CACHE_FILE_SUFFIX );
 
@@ -96,6 +130,21 @@ public class SearchQueryCache {
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void savePreviewResult( String queryKeyId, Map<String, Map<Integer, String>> previewData ) {
+        Path searchQueryDocumentPath = CachingPathUtils.getDocumentPathFromMD5( cacheFolder, queryKeyId, CACHE_PREVIEW_SUFFIX );
+
+        CachingPathUtils.createTargetDirectoryIfNotExist( searchQueryDocumentPath );
+
+        try (BufferedWriter writer = Files.newBufferedWriter( searchQueryDocumentPath, StandardCharsets.UTF_8 )) {
+            Gson gson = new Gson();
+            writer.write( gson.toJson( previewData ) );
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
