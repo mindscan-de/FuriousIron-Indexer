@@ -162,7 +162,7 @@ public class OrNodeTest {
         String result = node.toString();
 
         // assert
-        assertThat( result, equalTo( "[ 'OR', [ [ 'TEXT', 'test' ] ] ]" ) );
+        assertThat( result, equalTo( "[ 'OR', [ [ 'TEXT', 'test', false ] ] ]" ) );
     }
 
     @Test
@@ -176,7 +176,7 @@ public class OrNodeTest {
         String result = node.toString();
 
         // assert
-        assertThat( result, equalTo( "[ 'OR', [ [ 'TEXT', 'first' ], [ 'TEXT', 'second' ] ] ]" ) );
+        assertThat( result, equalTo( "[ 'OR', [ [ 'TEXT', 'first', false ], [ 'TEXT', 'second', false ] ] ]" ) );
     }
 
     private List<QueryNode> createListWithTestTextNode() {

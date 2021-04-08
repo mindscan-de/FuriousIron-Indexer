@@ -92,7 +92,7 @@ public class TextNodeTest {
         String result = node.toString();
 
         // assert
-        assertThat( result, equalTo( "[ 'TEXT', '' ]" ) );
+        assertThat( result, equalTo( "[ 'TEXT', '', false ]" ) );
     }
 
     @Test
@@ -104,7 +104,7 @@ public class TextNodeTest {
         String result = node.toString();
 
         // assert
-        assertThat( result, equalTo( "[ 'TEXT', 'AAA' ]" ) );
+        assertThat( result, equalTo( "[ 'TEXT', 'AAA', false ]" ) );
     }
 
     @Test
@@ -116,7 +116,7 @@ public class TextNodeTest {
         String result = node.toString();
 
         // assert
-        assertThat( result, equalTo( "[ 'TEXT', 'BBB' ]" ) );
+        assertThat( result, equalTo( "[ 'TEXT', 'BBB', false ]" ) );
     }
 
 }

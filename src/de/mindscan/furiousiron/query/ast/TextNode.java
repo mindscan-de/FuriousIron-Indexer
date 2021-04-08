@@ -33,14 +33,22 @@ import java.util.Collections;
  */
 public class TextNode implements QueryNode {
 
-    private String word;
+    private String text;
+    private boolean fullTextMatch;
 
     /**
      * @param string
      */
-    public TextNode( String word ) {
-        this.word = word;
+    public TextNode( String text ) {
+        this( text, false );
+    }
 
+    /**
+     * @param string
+     */
+    public TextNode( String text, boolean mustMatch ) {
+        this.text = text;
+        this.fullTextMatch = mustMatch;
     }
 
     /** 
@@ -48,7 +56,7 @@ public class TextNode implements QueryNode {
      */
     @Override
     public String getContent() {
-        return word;
+        return text;
     }
 
     /** 
@@ -57,6 +65,10 @@ public class TextNode implements QueryNode {
     @Override
     public boolean hasChildren() {
         return false;
+    }
+
+    public boolean isFullTextMatch() {
+        return fullTextMatch;
     }
 
     /** 
@@ -77,10 +89,12 @@ public class TextNode implements QueryNode {
         // print and Node
         sb.append( "[ 'TEXT', '" );
 
-        sb.append( word );
+        sb.append( text );
 
         // end of Node
-        sb.append( "' ]" );
+        sb.append( "', " );
+        sb.append( fullTextMatch );
+        sb.append( " ]" );
 
         return sb.toString();
     }

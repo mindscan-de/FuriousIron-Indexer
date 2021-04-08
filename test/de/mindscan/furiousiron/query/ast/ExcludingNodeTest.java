@@ -71,7 +71,7 @@ public class ExcludingNodeTest {
         String result = node.toString();
 
         // assert
-        assertThat( result, equalTo( "[ 'EXCLUDING', [ [ 'TEXT', 'test' ] ] ]" ) );
+        assertThat( result, equalTo( "[ 'EXCLUDING', [ [ 'TEXT', 'test', false ] ] ]" ) );
     }
 
 }

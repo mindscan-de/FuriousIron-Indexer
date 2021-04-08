@@ -188,7 +188,7 @@ public class AndNodeTest {
         String result = node.toString();
 
         // assert
-        assertThat( result, equalTo( "[ 'AND', [ [ 'TEXT', 'test' ] ] ]" ) );
+        assertThat( result, equalTo( "[ 'AND', [ [ 'TEXT', 'test', false ] ] ]" ) );
     }
 
     @Test
@@ -202,7 +202,7 @@ public class AndNodeTest {
         String result = node.toString();
 
         // assert
-        assertThat( result, equalTo( "[ 'AND', [ [ 'TEXT', 'first' ], [ 'TEXT', 'second' ] ] ]" ) );
+        assertThat( result, equalTo( "[ 'AND', [ [ 'TEXT', 'first', false ], [ 'TEXT', 'second', false ] ] ]" ) );
     }
 
     private List<QueryNode> createListWithTestTextNode() {
