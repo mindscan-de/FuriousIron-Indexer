@@ -71,7 +71,7 @@ public class IncludingNodeTest {
         String result = node.toString();
 
         // assert
-        assertThat( result, equalTo( "[ 'INCLUDING', [ [ 'TEXT', 'test', false ] ] ]" ) );
+        assertThat( result, equalTo( "[ 'INCLUDING', [ [ 'TEXT', 'test' ] ] ]" ) );
     }
 
 }
