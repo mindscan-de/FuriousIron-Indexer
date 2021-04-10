@@ -35,6 +35,7 @@ import de.mindscan.furiousiron.core.ast.EmptyCoreNode;
 import de.mindscan.furiousiron.core.ast.TrigramsCoreNode;
 import de.mindscan.furiousiron.query.ast.AndNode;
 import de.mindscan.furiousiron.query.ast.EmptyNode;
+import de.mindscan.furiousiron.query.ast.ExactMatchingTextNode;
 import de.mindscan.furiousiron.query.ast.ExcludingNode;
 import de.mindscan.furiousiron.query.ast.IncludingNode;
 import de.mindscan.furiousiron.query.ast.OrNode;
@@ -66,6 +67,14 @@ public class CoreSearchCompiler {
         // Compile parsedAST into a technical AST
         if (ast instanceof TextNode) {
             // we only have lower case tri-grams indexed
+            return new TrigramsCoreNode( ast.getContent().toLowerCase() );
+        }
+
+        // TODO: also support phrases
+        if (ast instanceof ExactMatchingTextNode) {
+            // ATTENTION: this will not work for phrases
+            // FOR PHRASES we need to segment it into words and produce multiple trigrams
+            // FOR PHRASES it is essentially an AND list /see andnode-processing.
             return new TrigramsCoreNode( ast.getContent().toLowerCase() );
         }
 
