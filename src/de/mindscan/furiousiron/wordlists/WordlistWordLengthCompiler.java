@@ -43,6 +43,7 @@ import de.mindscan.furiousiron.search.Search;
 /**
  * 
  */
+@Deprecated
 public class WordlistWordLengthCompiler implements WordlistCompiler {
 
     public QueryNode compile( QueryNode ast, Search search ) {

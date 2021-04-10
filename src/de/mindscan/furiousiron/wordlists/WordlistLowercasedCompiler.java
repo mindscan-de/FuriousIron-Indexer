@@ -41,6 +41,7 @@ import de.mindscan.furiousiron.search.Search;
  * This will create a lowercase but natural order compiler. Because the wordlists are stored in lowercase, to catch 
  * camelcase spellings easily. (and to save compute in comparing the strings, without tolowercase every string.
  */
+@Deprecated
 public class WordlistLowercasedCompiler implements WordlistCompiler {
 
     /** 
