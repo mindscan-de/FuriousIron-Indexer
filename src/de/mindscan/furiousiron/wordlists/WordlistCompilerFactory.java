@@ -32,10 +32,6 @@ import java.util.Collection;
  */
 public class WordlistCompilerFactory {
 
-    public static WordlistCompiler createTrigramOccurrenceCompiler() {
-        return new WordlistProjectedTrigramOccurrenceCompiler();
-    }
-
     public static WordlistCompiler createWordLengthbasedCompiler() {
         return new WordlistWordLengthCompiler();
     }
