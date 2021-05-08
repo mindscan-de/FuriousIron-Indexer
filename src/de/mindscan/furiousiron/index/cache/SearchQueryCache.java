@@ -147,4 +147,11 @@ public class SearchQueryCache {
 
     }
 
+    public void saveQuery( String qkey, String prettyPrintedQuery ) {
+        // TODO Auto-generated method stub
+        // TODO: save the search query to learn something about the queries, so that these can be
+        //       pre-cached after creating a new index.
+
+    }
+
 }
