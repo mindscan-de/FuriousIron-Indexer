@@ -34,6 +34,7 @@ import java.util.Map;
 
 import de.mindscan.furiousiron.query.ast.AndNode;
 import de.mindscan.furiousiron.query.ast.EmptyNode;
+import de.mindscan.furiousiron.query.ast.ExactMatchingTextNode;
 import de.mindscan.furiousiron.query.ast.ExcludingNode;
 import de.mindscan.furiousiron.query.ast.IncludingNode;
 import de.mindscan.furiousiron.query.ast.OrNode;
@@ -74,6 +75,10 @@ public class WordlistOrderedWordlistCompiler implements WordlistCompiler {
 
         if (ast instanceof TextNode) {
             return new TextNode( ast.getContent().toLowerCase() );
+        }
+
+        if (ast instanceof ExactMatchingTextNode) {
+            return new ExactMatchingTextNode( ast.getContent().toLowerCase() );
         }
 
         if (ast instanceof AndNode) {
