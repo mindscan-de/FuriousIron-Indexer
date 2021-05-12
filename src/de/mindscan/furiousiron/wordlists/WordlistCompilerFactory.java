@@ -32,16 +32,6 @@ import java.util.Collection;
  */
 public class WordlistCompilerFactory {
 
-    @Deprecated
-    public static WordlistCompiler createWordLengthbasedCompiler() {
-        return new WordlistWordLengthCompiler();
-    }
-
-    @Deprecated
-    public static WordlistCompiler createToLowercaseCompiler() {
-        return new WordlistLowercasedCompiler();
-    }
-
     public static WordlistCompiler createOrderedWordlistCompiler( Collection<String> orderedWordlist ) {
         return new WordlistOrderedWordlistCompiler( orderedWordlist );
     }
