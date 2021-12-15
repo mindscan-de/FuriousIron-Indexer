@@ -33,6 +33,32 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * 
+ * A DocumentId is calculated from a location of a document. 
+ * 
+ * Each location should result for the most time in a unique document id. This makes the forward step, 
+ * if a query asks for a document at a particular location easy. Also all Paths in between can also be 
+ * calculated, without some kind of inverse index.
+ * 
+ * Attention: 
+ * 
+ * But this also means, you can enumerate the indexed directories. It depends on your security requirements
+ * whether this is a desired feature or not. A search engine for public code may be able to do this trade-off. 
+ * If your thread model differs, you might need a secure DocumentId function, where the directories can not
+ * be enumerated using a dictionary attack or something similar. You may avoid dictionary lookups by a signing
+ * key for for each requested DocumentId. But maybe even then you may still be exploitable by measuring timing
+ * information.
+ * 
+ * The cryptographic hash function used is MD5.
+ * 
+ * Our reason to use this hash function is not necessarily for security but we use its property to rarely
+ * produce collisions.
+ * 
+ * For a search engine we also want to efficiently know, whether a certain Path or URL is already in the 
+ * index. This kind of information can be stored in a BloomFilter without accessing the index. The appealing
+ * thing is, that the index, can be stored in a flat manner and can be scaled/distributed horizontally, but
+ * can also managed to be saved in a directory structure. by using parts of the DocumentId (the hash code)
+ * as the "directory"-key.
+ *   
  */
 public class DocumentId {
 
