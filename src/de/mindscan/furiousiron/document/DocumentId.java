@@ -39,31 +39,22 @@ public class DocumentId {
     private String md5hex;
     private Path relativePathToCrawlingDirectory;
 
-    public static DocumentId createDocumentID( Path fileToIndex, Path baseCrawlerFolder ) {
-        return createDocumentIDFromRelativePath( baseCrawlerFolder.relativize( fileToIndex ) );
-    }
-
     public static DocumentId createDocumentIDFromMD5( String md5sum ) {
         return new DocumentId( md5sum, null );
     }
 
+    public static DocumentId createDocumentID( Path fileToIndex, Path baseCrawlerFolder ) {
+        return createDocumentIDFromRelativePath( baseCrawlerFolder.relativize( fileToIndex ) );
+    }
+
     public static DocumentId createDocumentIDFromRelativePath( Path relativePathToCrawlingDirectory ) {
         try {
-            // TODO: calculate universal path and use this for calculation of Path digest instead.
-
             byte[] relativePathAsBytes = relativePathToCrawlingDirectory.toString().getBytes( "UTF-8" );
 
             MessageDigest md5sum = MessageDigest.getInstance( "MD5" );
             byte[] md5 = md5sum.digest( relativePathAsBytes );
 
-            BigInteger md5bi = new BigInteger( 1, md5 );
-            String md5hex = md5bi.toString( 16 );
-
-            while (md5hex.length() < 32) {
-                md5hex = "0" + md5hex;
-            }
-
-            return new DocumentId( md5hex, relativePathToCrawlingDirectory );
+            return new DocumentId( convertToHex( md5 ), relativePathToCrawlingDirectory );
         }
         catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -73,6 +64,21 @@ public class DocumentId {
         }
 
         return null;
+    }
+
+    public static String convertToHex( byte[] md5 ) {
+        BigInteger md5bi = new BigInteger( 1, md5 );
+        String md5hex = md5bi.toString( 16 );
+
+        while (md5hex.length() < 32) {
+            md5hex = "0" + md5hex;
+        }
+        return md5hex;
+    }
+
+    public static String convertToHex2( byte[] md5 ) {
+        BigInteger md5bi = new BigInteger( 1, md5 );
+        return String.format( "%032x", md5bi );
     }
 
     DocumentId( String md5hex, Path relativePathToCrawlingDirectory ) {
