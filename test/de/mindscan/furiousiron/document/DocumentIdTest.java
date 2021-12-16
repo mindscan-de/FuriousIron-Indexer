@@ -62,4 +62,28 @@ public class DocumentIdTest {
         assertThat( documentPath, equalTo( Paths.get( "another/location.path.txt" ) ) );
     }
 
+    @Test
+    public void testGetDocumentLocation_SetMyLocationPath_returnsMyLocationWindowsMode() throws Exception {
+        // arrange
+        DocumentId documentId = new DocumentId( "myDocumentKey", Paths.get( "my/location/path.txt" ) );
+
+        // act
+        String documentPath = documentId.getDocumentLocation();
+
+        // assert
+        assertThat( documentPath, equalTo( "my\\location\\path.txt" ) );
+    }
+
+    @Test
+    public void testGetDocumentLocation_SetAnotherLocationPath_returnsAnotherLocationWindowsMode() throws Exception {
+        // arrange
+        DocumentId documentId = new DocumentId( "myDocumentKey", Paths.get( "another/location/path.txt" ) );
+
+        // act
+        String documentPath = documentId.getDocumentLocation();
+
+        // assert
+        assertThat( documentPath, equalTo( "another\\location\\path.txt" ) );
+    }
+
 }
