@@ -79,7 +79,7 @@ public class SimpleFileIndexer {
         DocumentMetadata documentMetaData = DocumentMetadata.createDocumentMetadata( documentId, fileToIndex );
 
         System.out.println( documentId.getDocumentKey() );
-        System.out.println( documentId.getRelativePathToCrawlingDirectory() );
+        System.out.println( documentId.getDocumentLocation() );
 
         // store a copy of the document in the cache
         index.getDocumentCache().createDocumentCopy( documentId, fileToIndex );

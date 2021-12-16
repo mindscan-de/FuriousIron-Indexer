@@ -30,7 +30,7 @@ import java.nio.file.Path;
 /**
  * This class maps a single documentKey to a documentLocation.
  * 
- * This class may be extended by a contentKey.   
+ * This class may be extended by a documentContentKey.   
  */
 public class DocumentId {
 
@@ -56,10 +56,17 @@ public class DocumentId {
     }
 
     /**
-     * @return the documentLocation for this document.
+     * @return the documentLocationPath object for this document.
      */
-    public Path getRelativePathToCrawlingDirectory() {
+    public Path getDocumentLocationPath() {
         return documentLocation;
+    }
+
+    /**
+     * @return the documentLocation for this document
+     */
+    public String getDocumentLocation() {
+        return documentLocation.toString();
     }
 
 }

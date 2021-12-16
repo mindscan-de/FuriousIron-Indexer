@@ -39,8 +39,8 @@ public class DocumentMetadata {
     // The DocumentId - Usually a hash sum based on the (relative) path. currently encoded in hex. (This should be more compact, like base_62 (0-9a-zA-Z))
     // thus the index size can be reduced, and a larger hash function can be used like SHA256,SHA384 instead of MD5
     private final String documentKey;
-    private final String relativePath;
-    private final String simpleFilename;
+    private final String documentLocation;
+    private final String documentSimpleFilename;
     private long fileSize = 0;
     private long numberOfLines = 0;
     private final Map<String, String> classifierMap;
@@ -52,11 +52,11 @@ public class DocumentMetadata {
      */
     public static DocumentMetadata createDocumentMetadata( DocumentId documentId, Path fileToIndex ) {
 
-        String relativePath = documentId.getRelativePathToCrawlingDirectory().toString();
+        String documentLocation = documentId.getDocumentLocation();
         String simpleFilename = fileToIndex.getFileName().toString();
         String documentKey = documentId.getDocumentKey();
 
-        DocumentMetadata documentMetadata = new DocumentMetadata( documentKey, relativePath, simpleFilename );
+        DocumentMetadata documentMetadata = new DocumentMetadata( documentKey, documentLocation, simpleFilename );
 
         try {
             // Map<String, Object> attributes = Files.readAttributes( fileToIndex, "*", LinkOption.NOFOLLOW_LINKS );
@@ -76,13 +76,13 @@ public class DocumentMetadata {
     }
 
     /**
-     * @param relativePath 
+     * @param documentLocation 
      * @param documentKey 
      */
-    DocumentMetadata( String documentKey, String relativePath, String simpleFilename ) {
+    DocumentMetadata( String documentKey, String documentLocation, String documentSimpleFilename ) {
         this.documentKey = documentKey;
-        this.relativePath = relativePath;
-        this.simpleFilename = simpleFilename;
+        this.documentLocation = documentLocation;
+        this.documentSimpleFilename = documentSimpleFilename;
         this.classifierMap = new HashMap<>();
     }
 
@@ -91,11 +91,11 @@ public class DocumentMetadata {
     }
 
     public String getRelativePath() {
-        return relativePath;
+        return documentLocation;
     }
 
     public String getSimpleFilename() {
-        return simpleFilename;
+        return documentSimpleFilename;
     }
 
     /** 
@@ -103,7 +103,7 @@ public class DocumentMetadata {
      */
     @Override
     public String toString() {
-        return documentKey + "@" + relativePath;
+        return documentKey + "@" + documentLocation;
     }
 
     public long getFileSize() {
