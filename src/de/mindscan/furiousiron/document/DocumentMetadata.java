@@ -86,7 +86,7 @@ public class DocumentMetadata {
         this.classifierMap = new HashMap<>();
     }
 
-    public String getDocumentId() {
+    public String getDocumentKey() {
         return documentKey;
     }
 
