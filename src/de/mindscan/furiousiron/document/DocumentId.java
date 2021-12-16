@@ -51,7 +51,7 @@ public class DocumentId {
     /**
      * @return the documentKey for this document
      */
-    public String getMD5hex() {
+    public String getDocumentKey() {
         return documentKey;
     }
 

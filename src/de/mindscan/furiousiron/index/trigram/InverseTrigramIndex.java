@@ -63,7 +63,7 @@ public class InverseTrigramIndex {
      */
     public void addTrigramsForDocument( DocumentId documentId, Collection<String> uniqueTrigramlist ) {
         for (String trigramKey : uniqueTrigramlist) {
-            inverseIndex.computeIfAbsent( trigramKey, this::createEmptyTrigramIndex ).add( documentId.getMD5hex() );
+            inverseIndex.computeIfAbsent( trigramKey, this::createEmptyTrigramIndex ).add( documentId.getDocumentKey() );
         }
     }
 

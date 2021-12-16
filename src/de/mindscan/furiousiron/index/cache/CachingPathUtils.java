@@ -40,7 +40,7 @@ public class CachingPathUtils {
 //     public static final int NUMBER_OF_DOCUMENT_ID_LAYERS = 1;
 
     public static Path getDocumentPath( Path basePath, DocumentId documentId, String fileSuffix ) {
-        return getDocumentPathFromMD5( basePath, documentId.getMD5hex(), fileSuffix );
+        return getDocumentPathFromMD5( basePath, documentId.getDocumentKey(), fileSuffix );
     }
 
     public static Path getDocumentPathFromMD5( Path basePath, String documentIdMD5, String fileSuffix ) {

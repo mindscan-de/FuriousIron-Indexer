@@ -78,7 +78,7 @@ public class SimpleFileIndexer {
         DocumentId documentId = DocumentIdFactory.createDocumentID( fileToIndex, crawlFolder );
         DocumentMetadata documentMetaData = DocumentMetadata.createDocumentMetadata( documentId, fileToIndex );
 
-        System.out.println( documentId.getMD5hex() );
+        System.out.println( documentId.getDocumentKey() );
         System.out.println( documentId.getRelativePathToCrawlingDirectory() );
 
         // store a copy of the document in the cache

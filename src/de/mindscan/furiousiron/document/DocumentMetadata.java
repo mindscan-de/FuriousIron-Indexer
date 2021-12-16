@@ -38,7 +38,7 @@ public class DocumentMetadata {
 
     // The DocumentId - Usually a hash sum based on the (relative) path. currently encoded in hex. (This should be more compact, like base_62 (0-9a-zA-Z))
     // thus the index size can be reduced, and a larger hash function can be used like SHA256,SHA384 instead of MD5
-    private final String documentId;
+    private final String documentKey;
     private final String relativePath;
     private final String simpleFilename;
     private long fileSize = 0;
@@ -54,9 +54,9 @@ public class DocumentMetadata {
 
         String relativePath = documentId.getRelativePathToCrawlingDirectory().toString();
         String simpleFilename = fileToIndex.getFileName().toString();
-        String documentMD5 = documentId.getMD5hex();
+        String documentKey = documentId.getDocumentKey();
 
-        DocumentMetadata documentMetadata = new DocumentMetadata( documentMD5, relativePath, simpleFilename );
+        DocumentMetadata documentMetadata = new DocumentMetadata( documentKey, relativePath, simpleFilename );
 
         try {
             // Map<String, Object> attributes = Files.readAttributes( fileToIndex, "*", LinkOption.NOFOLLOW_LINKS );
@@ -77,17 +77,17 @@ public class DocumentMetadata {
 
     /**
      * @param relativePath 
-     * @param documentId 
+     * @param documentKey 
      */
-    DocumentMetadata( String documentId, String relativePath, String simpleFilename ) {
-        this.documentId = documentId;
+    DocumentMetadata( String documentKey, String relativePath, String simpleFilename ) {
+        this.documentKey = documentKey;
         this.relativePath = relativePath;
         this.simpleFilename = simpleFilename;
         this.classifierMap = new HashMap<>();
     }
 
     public String getDocumentId() {
-        return documentId;
+        return documentKey;
     }
 
     public String getRelativePath() {
@@ -103,7 +103,7 @@ public class DocumentMetadata {
      */
     @Override
     public String toString() {
-        return documentId + "@" + relativePath;
+        return documentKey + "@" + relativePath;
     }
 
     public long getFileSize() {
