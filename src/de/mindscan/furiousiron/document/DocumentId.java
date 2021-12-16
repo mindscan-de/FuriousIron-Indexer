@@ -56,14 +56,14 @@ public class DocumentId {
     }
 
     /**
-     * @return the documentLocationPath object for this document.
+     * @return the original documentLocationPath object for this document.
      */
     public Path getDocumentLocationPath() {
         return documentLocation;
     }
 
     /**
-     * @return the documentLocation for this document
+     * @return the original documentLocation for this document
      */
     public String getDocumentLocation() {
         return documentLocation.toString();
