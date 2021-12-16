@@ -46,6 +46,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import de.mindscan.furiousiron.document.DocumentId;
+import de.mindscan.furiousiron.document.DocumentIdFactory;
 import de.mindscan.furiousiron.index.cache.DocumentCache;
 import de.mindscan.furiousiron.index.cache.MetadataCache;
 import de.mindscan.furiousiron.index.cache.SearchQueryCache;
@@ -246,7 +247,7 @@ public class Search {
     }
 
     public String getDocumentContent( String path ) {
-        DocumentId documentId = DocumentId.createDocumentIDFromRelativePath( Paths.get( path ) );
+        DocumentId documentId = DocumentIdFactory.createDocumentIDFromRelativePath( Paths.get( path ) );
 
         try (InputStream fileContentReader = theFileCache.getContentAsStream( documentId ); ByteArrayOutputStream result = new ByteArrayOutputStream()) {
             byte[] buffer = new byte[1024];
@@ -264,7 +265,7 @@ public class Search {
     }
 
     public List<String> getDocumentContentLines( String documentIdmd5 ) {
-        DocumentId documentId = DocumentId.createDocumentIDFromMD5( documentIdmd5 );
+        DocumentId documentId = DocumentIdFactory.createDocumentIDFromMD5( documentIdmd5 );
 
         try (BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader( theFileCache.getContentAsStream( documentId ), StandardCharsets.UTF_8 ) )) {
