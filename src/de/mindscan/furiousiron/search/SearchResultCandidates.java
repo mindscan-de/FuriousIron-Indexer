@@ -73,7 +73,7 @@ public class SearchResultCandidates {
         }
 
         // check, whether the searched word is in the meta data
-        if (metadata.getSimpleFilename().toLowerCase().contains( wordtoLookFor )) {
+        if (metadata.getDocumentSimpleName().toLowerCase().contains( wordtoLookFor )) {
             return true;
         }
 

@@ -53,10 +53,10 @@ public class DocumentMetadata {
     public static DocumentMetadata createDocumentMetadata( DocumentId documentId, Path fileToIndex ) {
 
         String documentLocation = documentId.getDocumentLocation();
-        String simpleFilename = fileToIndex.getFileName().toString();
+        String documentSimpleName = fileToIndex.getFileName().toString();
         String documentKey = documentId.getDocumentKey();
 
-        DocumentMetadata documentMetadata = new DocumentMetadata( documentKey, documentLocation, simpleFilename );
+        DocumentMetadata documentMetadata = new DocumentMetadata( documentKey, documentLocation, documentSimpleName );
 
         try {
             // Map<String, Object> attributes = Files.readAttributes( fileToIndex, "*", LinkOption.NOFOLLOW_LINKS );
@@ -94,7 +94,7 @@ public class DocumentMetadata {
         return documentLocation;
     }
 
-    public String getSimpleFilename() {
+    public String getDocumentSimpleName() {
         return documentSimpleFilename;
     }
 
