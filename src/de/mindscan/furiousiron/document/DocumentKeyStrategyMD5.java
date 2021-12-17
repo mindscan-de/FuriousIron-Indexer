@@ -25,8 +25,8 @@
  */
 package de.mindscan.furiousiron.document;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -42,14 +42,11 @@ public class DocumentKeyStrategyMD5 implements DocumentKeyStrategy {
     @Override
     public String generateDocumentKey( Path relativePath ) {
         try {
-            byte[] relativePathAsBytes = relativePath.toString().getBytes( "UTF-8" );
+            byte[] relativePathAsBytes = relativePath.toString().getBytes( StandardCharsets.UTF_8 );
 
             MessageDigest md5sum = MessageDigest.getInstance( "MD5" );
             byte[] md5 = md5sum.digest( relativePathAsBytes );
             return convertToHex( md5 );
-        }
-        catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
         }
         catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
