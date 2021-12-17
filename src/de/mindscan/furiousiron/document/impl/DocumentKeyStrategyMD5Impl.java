@@ -38,6 +38,16 @@ import de.mindscan.furiousiron.document.DocumentKeyStrategy;
  */
 public class DocumentKeyStrategyMD5Impl implements DocumentKeyStrategy {
 
+    private int base;
+
+    public DocumentKeyStrategyMD5Impl() {
+        this( 16 );
+    }
+
+    public DocumentKeyStrategyMD5Impl( int base ) {
+        this.base = base;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -48,7 +58,7 @@ public class DocumentKeyStrategyMD5Impl implements DocumentKeyStrategy {
 
             MessageDigest md5sum = MessageDigest.getInstance( "MD5" );
             byte[] md5 = md5sum.digest( relativePathAsBytes );
-            return convertToHex( md5 );
+            return convertBase( md5 );
         }
         catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -57,20 +67,36 @@ public class DocumentKeyStrategyMD5Impl implements DocumentKeyStrategy {
         return null;
     }
 
-    private String convertToHex( byte[] md5 ) {
+    private String convertBase( byte[] md5 ) {
         BigInteger md5bi = new BigInteger( 1, md5 );
-        String md5hex = md5bi.toString( 16 );
 
-        while (md5hex.length() < 32) {
-            md5hex = "0" + md5hex;
+        switch (base) {
+            case 36: {
+                String alphaNum = md5bi.toString( 36 );
+
+                while (alphaNum.length() < 25) {
+                    alphaNum = "0" + alphaNum;
+                }
+
+                return alphaNum;
+            }
+            case 16:
+            default: {
+                String md5hex = md5bi.toString( 16 );
+
+                while (md5hex.length() < 32) {
+                    md5hex = "0" + md5hex;
+                }
+                return md5hex;
+            }
         }
-        return md5hex;
     }
 
-    @SuppressWarnings( "unused" )
-    private String convertToHex2( byte[] md5 ) {
-        BigInteger md5bi = new BigInteger( 1, md5 );
-        return String.format( "%032x", md5bi );
-    }
+    // TODO: this was an idea, when 
+//    @SuppressWarnings( "unused" )
+//    private String convertToHex2( byte[] md5 ) {
+//        BigInteger md5bi = new BigInteger( 1, md5 );
+//        return String.format( "%032x", md5bi );
+//    }
 
 }
