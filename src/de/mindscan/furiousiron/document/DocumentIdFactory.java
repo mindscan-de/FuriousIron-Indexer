@@ -71,22 +71,43 @@ import java.security.NoSuchAlgorithmException;
 
 public class DocumentIdFactory {
 
-    public static DocumentId createDocumentIDFromMD5( String md5sum ) {
-        return new DocumentId( md5sum, null );
+    /**
+     * This method will produce a DocumentId Object, from a documentKey, without a Path reference. 
+     * (e.g. Useful for accessing a cached document)
+     * 
+     * @param documentKey The documentKey
+     * @return the DocumentId
+     */
+    public static DocumentId createDocumentIDFromDocumentKey( String documentKey ) {
+        return new DocumentId( documentKey, null );
     }
 
-    public static DocumentId createDocumentID( Path fileToIndex, Path baseCrawlerFolder ) {
-        return createDocumentIDFromRelativePath( baseCrawlerFolder.relativize( fileToIndex ) );
+    /**
+     * This method will produce a DocumentId Object, from a fileToIdex, located in a baseFolder.
+     * This will relativize the fileToIndex to a given BaseFolder.
+     * 
+     * @param fileToIndex file to index, where we want a DocumentId for
+     * @param baseFolder base directory to relitivize the indexed file.  
+     * @return the DocumentId
+     */
+    public static DocumentId createDocumentID( Path fileToIndex, Path baseFolder ) {
+        return createDocumentIDFromRelativePath( baseFolder.relativize( fileToIndex ) );
     }
 
-    public static DocumentId createDocumentIDFromRelativePath( Path relativePathToCrawlingDirectory ) {
+    /**
+     * This method will produce a DocumentId Object, from a relativized Path.
+     * 
+     * @param relativePath the path to calculate the documentId for
+     * @return the DocumentId
+     */
+    public static DocumentId createDocumentIDFromRelativePath( Path relativePath ) {
         try {
-            byte[] relativePathAsBytes = relativePathToCrawlingDirectory.toString().getBytes( "UTF-8" );
+            byte[] relativePathAsBytes = relativePath.toString().getBytes( "UTF-8" );
 
             MessageDigest md5sum = MessageDigest.getInstance( "MD5" );
             byte[] md5 = md5sum.digest( relativePathAsBytes );
 
-            return new DocumentId( DocumentIdFactory.convertToHex( md5 ), relativePathToCrawlingDirectory );
+            return new DocumentId( DocumentIdFactory.convertToHex( md5 ), relativePath );
         }
         catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -98,7 +119,7 @@ public class DocumentIdFactory {
         return null;
     }
 
-    public static String convertToHex( byte[] md5 ) {
+    static String convertToHex( byte[] md5 ) {
         BigInteger md5bi = new BigInteger( 1, md5 );
         String md5hex = md5bi.toString( 16 );
 
@@ -108,7 +129,7 @@ public class DocumentIdFactory {
         return md5hex;
     }
 
-    public static String convertToHex2( byte[] md5 ) {
+    static String convertToHex2( byte[] md5 ) {
         BigInteger md5bi = new BigInteger( 1, md5 );
         return String.format( "%032x", md5bi );
     }

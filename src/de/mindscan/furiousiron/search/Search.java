@@ -265,7 +265,7 @@ public class Search {
     }
 
     public List<String> getDocumentContentLines( String documentIdmd5 ) {
-        DocumentId documentId = DocumentIdFactory.createDocumentIDFromMD5( documentIdmd5 );
+        DocumentId documentId = DocumentIdFactory.createDocumentIDFromDocumentKey( documentIdmd5 );
 
         try (BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader( theFileCache.getContentAsStream( documentId ), StandardCharsets.UTF_8 ) )) {
