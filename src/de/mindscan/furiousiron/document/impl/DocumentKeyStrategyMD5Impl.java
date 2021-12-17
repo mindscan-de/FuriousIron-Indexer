@@ -72,6 +72,8 @@ public class DocumentKeyStrategyMD5Impl implements DocumentKeyStrategy {
             case 36: {
                 String alphaNum = md5bi.toString( 36 );
 
+                // ATTN: This happens 1/14 times (for once), 1/14*36 (for two rounds), 1/14*36*36 (for three times)
+                // no need to optimize on this level
                 while (alphaNum.length() < 25) {
                     alphaNum = "0" + alphaNum;
                 }
@@ -82,9 +84,12 @@ public class DocumentKeyStrategyMD5Impl implements DocumentKeyStrategy {
             default: {
                 String md5hex = md5bi.toString( 16 );
 
+                // ATTN: This happens 1/16 times (for once), 1/256 (for two rounds), 1/4096(for three times)
+                // no need to optimize on this level                
                 while (md5hex.length() < 32) {
                     md5hex = "0" + md5hex;
                 }
+
                 return md5hex;
             }
         }
