@@ -53,7 +53,7 @@ public class DocumentCache {
      */
     public final static String CACHED_FILE_SUFFIX = ".originalContent";
 
-    private Path cacheFolder;
+    private Path documentCacheFolder;
 
     /**
      * C'tor 
@@ -61,7 +61,7 @@ public class DocumentCache {
      */
     public DocumentCache( Path indexFolder ) {
         // this.indexFolder = indexFolder;
-        this.cacheFolder = indexFolder.resolve( CACHED_DOCUMENTS_FOLDER );
+        this.documentCacheFolder = indexFolder.resolve( CACHED_DOCUMENTS_FOLDER );
     }
 
     /**
@@ -73,7 +73,7 @@ public class DocumentCache {
      * @param fileToIndex the path to the document to store
      */
     public void createDocumentCopy( DocumentId documentId, Path fileToIndex ) {
-        Path documentTargetFilePath = CachingPathUtils.buildCachePathFromDocumentId( cacheFolder, documentId, CACHED_FILE_SUFFIX );
+        Path documentTargetFilePath = CachingPathUtils.buildCachePathFromDocumentId( documentCacheFolder, documentId, CACHED_FILE_SUFFIX );
 
         // TODO: create cache directory structure beforehand.
         // can be enforced completely beforehand, so this calculation doesn't need 
@@ -90,13 +90,13 @@ public class DocumentCache {
     }
 
     public InputStream getContentAsStream( DocumentId documentId ) throws IOException {
-        Path documentContentPath = CachingPathUtils.buildCachePathFromDocumentId( cacheFolder, documentId, CACHED_FILE_SUFFIX );
+        Path documentContentPath = CachingPathUtils.buildCachePathFromDocumentId( documentCacheFolder, documentId, CACHED_FILE_SUFFIX );
 
         if (Files.exists( documentContentPath )) {
             return Files.newInputStream( documentContentPath, StandardOpenOption.READ );
         }
         else {
-            String content = "Sorry, the document you requested can't be found in the cache.";
+            String content = "Sorry, the document you requested, is not present in the cache.";
             return new ByteArrayInputStream( content.getBytes( StandardCharsets.UTF_8 ) );
         }
     }

@@ -70,17 +70,17 @@ public class WordlistCache {
      */
     public final static String TRIGRAMSTERMFREQUENCY_FILE_SUFFIX = ".ttfcount";
 
-    private Path cacheFolder;
+    private Path wordlistCacheFolder;
 
     /**
      * @param indexFolder
      */
     public WordlistCache( Path indexFolder ) {
-        this.cacheFolder = indexFolder.resolve( CACHED_WORDLISTS_FOLDER );
+        this.wordlistCacheFolder = indexFolder.resolve( CACHED_WORDLISTS_FOLDER );
     }
 
     public void addUniqueWordlist( DocumentId documentId, List<String> uniqueWordlist ) {
-        Path wordlistDocumentPath = CachingPathUtils.buildCachePathFromDocumentId( cacheFolder, documentId, WORDLIST_FILE_SUFFIX );
+        Path wordlistDocumentPath = CachingPathUtils.buildCachePathFromDocumentId( wordlistCacheFolder, documentId, WORDLIST_FILE_SUFFIX );
 
         CachingPathUtils.createTargetDirectoryIfNotExist( wordlistDocumentPath );
 
@@ -94,7 +94,7 @@ public class WordlistCache {
     }
 
     public List<String> loadWordList( String documentKey ) {
-        Path wordlistDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( cacheFolder, documentKey, WORDLIST_FILE_SUFFIX );
+        Path wordlistDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( wordlistCacheFolder, documentKey, WORDLIST_FILE_SUFFIX );
 
         try (BufferedReader jsonBufferedReader = Files.newBufferedReader( wordlistDocumentPath, StandardCharsets.UTF_8 )) {
             Gson gson = new Gson();
@@ -113,7 +113,7 @@ public class WordlistCache {
      * @param uniqueTrigramlist
      */
     public void addUniqueTrigrams( DocumentId documentId, Set<String> uniqueTrigramlist ) {
-        Path trigramsDocumentPath = CachingPathUtils.buildCachePathFromDocumentId( cacheFolder, documentId, TRIGRAMS_FILE_SUFFIX );
+        Path trigramsDocumentPath = CachingPathUtils.buildCachePathFromDocumentId( wordlistCacheFolder, documentId, TRIGRAMS_FILE_SUFFIX );
 
         CachingPathUtils.createTargetDirectoryIfNotExist( trigramsDocumentPath );
 
@@ -132,7 +132,7 @@ public class WordlistCache {
      * @param ttfList
      */
     public void addTTFList( DocumentId documentId, Map<String, Integer> ttfList ) {
-        Path trigramsDocumentPath = CachingPathUtils.buildCachePathFromDocumentId( cacheFolder, documentId, TRIGRAMSTERMFREQUENCY_FILE_SUFFIX );
+        Path trigramsDocumentPath = CachingPathUtils.buildCachePathFromDocumentId( wordlistCacheFolder, documentId, TRIGRAMSTERMFREQUENCY_FILE_SUFFIX );
 
         CachingPathUtils.createTargetDirectoryIfNotExist( trigramsDocumentPath );
 
@@ -146,7 +146,7 @@ public class WordlistCache {
     }
 
     public Map<String, Integer> loadTTFData( String documentKey ) {
-        Path wordlistDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( cacheFolder, documentKey, TRIGRAMSTERMFREQUENCY_FILE_SUFFIX );
+        Path wordlistDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( wordlistCacheFolder, documentKey, TRIGRAMSTERMFREQUENCY_FILE_SUFFIX );
 
         try (BufferedReader jsonBufferedReader = Files.newBufferedReader( wordlistDocumentPath, StandardCharsets.UTF_8 )) {
             Gson gson = new Gson();

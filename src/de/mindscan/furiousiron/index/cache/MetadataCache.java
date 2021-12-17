@@ -52,17 +52,17 @@ public class MetadataCache {
      */
     public final static String METADATA_FILE_SUFFIX = ".metadata";
 
-    private Path cacheFolder;
+    private Path metadataCacheFolder;
 
     /**
      * @param indexFolder
      */
     public MetadataCache( Path indexFolder ) {
-        this.cacheFolder = indexFolder.resolve( CACHED_METADATA_FOLDER );
+        this.metadataCacheFolder = indexFolder.resolve( CACHED_METADATA_FOLDER );
     }
 
     public void addDocumentMetadata( DocumentId documentId, DocumentMetadata documentMetaData ) {
-        Path metadataDocumentPath = CachingPathUtils.buildCachePathFromDocumentId( cacheFolder, documentId, METADATA_FILE_SUFFIX );
+        Path metadataDocumentPath = CachingPathUtils.buildCachePathFromDocumentId( metadataCacheFolder, documentId, METADATA_FILE_SUFFIX );
 
         CachingPathUtils.createTargetDirectoryIfNotExist( metadataDocumentPath );
 
@@ -77,7 +77,7 @@ public class MetadataCache {
     }
 
     public DocumentMetadata loadMetadata( String documentKey ) {
-        Path metadataDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( cacheFolder, documentKey, METADATA_FILE_SUFFIX );
+        Path metadataDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( metadataCacheFolder, documentKey, METADATA_FILE_SUFFIX );
 
         try (BufferedReader jsonBufferedReader = Files.newBufferedReader( metadataDocumentPath, StandardCharsets.UTF_8 )) {
             Gson gson = new Gson();
