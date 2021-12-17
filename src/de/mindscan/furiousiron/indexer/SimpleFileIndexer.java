@@ -37,6 +37,7 @@ import de.mindscan.furiousiron.classifier.SimpleClassifier;
 import de.mindscan.furiousiron.document.DocumentId;
 import de.mindscan.furiousiron.document.DocumentIdFactory;
 import de.mindscan.furiousiron.document.DocumentMetadata;
+import de.mindscan.furiousiron.document.DocumentMetadataFactory;
 import de.mindscan.furiousiron.index.Index;
 
 /**
@@ -76,7 +77,7 @@ public class SimpleFileIndexer {
 
     private void updateIndexWithSingleFile( Path fileToIndex, Path crawlFolder, Path indexFolder ) throws IOException {
         DocumentId documentId = DocumentIdFactory.createDocumentID( fileToIndex, crawlFolder );
-        DocumentMetadata documentMetaData = DocumentMetadata.createDocumentMetadata( documentId, fileToIndex );
+        DocumentMetadata documentMetaData = DocumentMetadataFactory.createDocumentMetadata( documentId, fileToIndex );
 
         System.out.println( documentId.getDocumentKey() );
         System.out.println( documentId.getDocumentLocation() );

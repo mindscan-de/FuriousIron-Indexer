@@ -25,9 +25,6 @@
  */
 package de.mindscan.furiousiron.document;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,36 +43,6 @@ public class DocumentMetadata {
     private long fileSize = 0;
     private long numberOfLines = 0;
     private final Map<String, String> classifierMap;
-
-    /**
-     * @param documentId The documentId 
-     * @param fileToIndex The file which should be indexed. This file is given for reference, so some file details can be collected.
-     * @return
-     */
-    public static DocumentMetadata createDocumentMetadata( DocumentId documentId, Path fileToIndex ) {
-
-        String documentLocation = documentId.getDocumentLocation();
-        String documentSimpleName = fileToIndex.getFileName().toString();
-        String documentKey = documentId.getDocumentKey();
-
-        DocumentMetadata documentMetadata = new DocumentMetadata( documentKey, documentLocation, documentSimpleName );
-
-        try {
-            // Map<String, Object> attributes = Files.readAttributes( fileToIndex, "*", LinkOption.NOFOLLOW_LINKS );
-            documentMetadata.setFileSize( Files.size( fileToIndex ) );
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // TODO: collect some file statistics / information ( filetype, contenttype, last modified date, created date, ...)
-        // TODO: date of indexing
-        // TODO: number of unique words
-        // TODO: number of unique trigrams in document
-        // TODO: get/create documentid of parent directory(ies). -> source code navigation
-
-        return documentMetadata;
-    }
 
     /**
      * @param documentLocation 
