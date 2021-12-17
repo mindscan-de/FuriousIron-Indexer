@@ -39,13 +39,13 @@ public class CachingPathUtils {
 
 //     public static final int NUMBER_OF_DOCUMENT_ID_LAYERS = 1;
 
-    public static Path getDocumentPath( Path basePath, DocumentId documentId, String fileSuffix ) {
-        return getDocumentPathFromMD5( basePath, documentId.getDocumentKey(), fileSuffix );
+    public static Path buildCachePathFromDocumentKey( Path basePath, DocumentId documentId, String fileSuffix ) {
+        return buildCachePathFromDocumentKey( basePath, documentId.getDocumentKey(), fileSuffix );
     }
 
-    public static Path getDocumentPathFromMD5( Path basePath, String documentIdMD5, String fileSuffix ) {
-        String filename = documentIdMD5 + fileSuffix;
-        String firstLayer = documentIdMD5.substring( 0, 2 );
+    public static Path buildCachePathFromDocumentKey( Path basePath, String documentKey, String indexFileSuffix ) {
+        String filename = documentKey + indexFileSuffix;
+        String firstLayer = documentKey.substring( 0, 2 );
 
         return basePath.resolve( Paths.get( firstLayer, filename ) );
 //        switch (NUMBER_OF_DOCUMENT_ID_LAYERS) {

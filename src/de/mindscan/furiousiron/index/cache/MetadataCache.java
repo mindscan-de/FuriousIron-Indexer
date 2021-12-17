@@ -62,7 +62,7 @@ public class MetadataCache {
     }
 
     public void addDocumentMetadata( DocumentId documentId, DocumentMetadata documentMetaData ) {
-        Path metadataDocumentPath = CachingPathUtils.getDocumentPath( cacheFolder, documentId, METADATA_FILE_SUFFIX );
+        Path metadataDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( cacheFolder, documentId, METADATA_FILE_SUFFIX );
 
         CachingPathUtils.createTargetDirectoryIfNotExist( metadataDocumentPath );
 
@@ -76,8 +76,8 @@ public class MetadataCache {
 
     }
 
-    public DocumentMetadata loadMetadata( String documentId ) {
-        Path metadataDocumentPath = CachingPathUtils.getDocumentPathFromMD5( cacheFolder, documentId, METADATA_FILE_SUFFIX );
+    public DocumentMetadata loadMetadata( String documentKey ) {
+        Path metadataDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( cacheFolder, documentKey, METADATA_FILE_SUFFIX );
 
         try (BufferedReader jsonBufferedReader = Files.newBufferedReader( metadataDocumentPath, StandardCharsets.UTF_8 )) {
             Gson gson = new Gson();

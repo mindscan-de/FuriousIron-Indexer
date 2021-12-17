@@ -73,19 +73,19 @@ public class SearchQueryCache {
     }
 
     public boolean isQueryResultAvailable( String queryKeyId ) {
-        Path searchQueryDocumentPath = CachingPathUtils.getDocumentPathFromMD5( cacheFolder, queryKeyId, CACHE_FILE_SUFFIX );
+        Path searchQueryDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( cacheFolder, queryKeyId, CACHE_FILE_SUFFIX );
 
         return Files.exists( searchQueryDocumentPath );
     }
 
     public boolean isPreviewAvailable( String queryKeyId ) {
-        Path searchQueryDocumentPath = CachingPathUtils.getDocumentPathFromMD5( cacheFolder, queryKeyId, CACHE_PREVIEW_SUFFIX );
+        Path searchQueryDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( cacheFolder, queryKeyId, CACHE_PREVIEW_SUFFIX );
 
         return Files.exists( searchQueryDocumentPath );
     }
 
     public List<String> loadQueryResult( String queryKeyId ) {
-        Path searchQueryDocumentPath = CachingPathUtils.getDocumentPathFromMD5( cacheFolder, queryKeyId, CACHE_FILE_SUFFIX );
+        Path searchQueryDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( cacheFolder, queryKeyId, CACHE_FILE_SUFFIX );
 
         try (BufferedReader jsonBufferedReader = Files.newBufferedReader( searchQueryDocumentPath, StandardCharsets.UTF_8 )) {
             Gson gson = new Gson();
@@ -100,7 +100,7 @@ public class SearchQueryCache {
     }
 
     public Map<String, Map<Integer, String>> loadPreviewResult( String queryKeyId ) {
-        Path searchQueryDocumentPath = CachingPathUtils.getDocumentPathFromMD5( cacheFolder, queryKeyId, CACHE_PREVIEW_SUFFIX );
+        Path searchQueryDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( cacheFolder, queryKeyId, CACHE_PREVIEW_SUFFIX );
 
         Type type = new TypeToken<TreeMap<String, TreeMap<Integer, String>>>() {
         }.getType();
@@ -119,7 +119,7 @@ public class SearchQueryCache {
     }
 
     public void saveQueryResult( String queryKeyId, Collection<String> documentIds ) {
-        Path searchQueryDocumentPath = CachingPathUtils.getDocumentPathFromMD5( cacheFolder, queryKeyId, CACHE_FILE_SUFFIX );
+        Path searchQueryDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( cacheFolder, queryKeyId, CACHE_FILE_SUFFIX );
 
         CachingPathUtils.createTargetDirectoryIfNotExist( searchQueryDocumentPath );
 
@@ -133,7 +133,7 @@ public class SearchQueryCache {
     }
 
     public void savePreviewResult( String queryKeyId, Map<String, Map<Integer, String>> previewData ) {
-        Path searchQueryDocumentPath = CachingPathUtils.getDocumentPathFromMD5( cacheFolder, queryKeyId, CACHE_PREVIEW_SUFFIX );
+        Path searchQueryDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( cacheFolder, queryKeyId, CACHE_PREVIEW_SUFFIX );
 
         CachingPathUtils.createTargetDirectoryIfNotExist( searchQueryDocumentPath );
 
