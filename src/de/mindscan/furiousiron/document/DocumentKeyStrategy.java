@@ -28,7 +28,9 @@ package de.mindscan.furiousiron.document;
 import java.nio.file.Path;
 
 /**
- * 
+ * Using Path instead of a String can lead to undesired outcomes under Linux and Windows, because the path separator
+ * is different. And therefore the DocumentKey based on the Path will exhibit different values under Windows than
+ * under Linux or Unix.
  */
 public interface DocumentKeyStrategy {
 
