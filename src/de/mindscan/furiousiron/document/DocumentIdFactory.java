@@ -25,11 +25,7 @@
  */
 package de.mindscan.furiousiron.document;
 
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
 import java.nio.file.Path;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * 
@@ -71,6 +67,8 @@ import java.security.NoSuchAlgorithmException;
 
 public class DocumentIdFactory {
 
+    private static DocumentKeyStrategy documentKeyStrategy = new DocumentKeyStrategyMD5();
+
     /**
      * This method will produce a DocumentId Object, from a documentKey, without a Path reference. 
      * (e.g. Useful for accessing a cached document)
@@ -101,37 +99,7 @@ public class DocumentIdFactory {
      * @return the DocumentId
      */
     public static DocumentId createDocumentIDFromRelativePath( Path relativePath ) {
-        try {
-            byte[] relativePathAsBytes = relativePath.toString().getBytes( "UTF-8" );
-
-            MessageDigest md5sum = MessageDigest.getInstance( "MD5" );
-            byte[] md5 = md5sum.digest( relativePathAsBytes );
-
-            return new DocumentId( DocumentIdFactory.convertToHex( md5 ), relativePath );
-        }
-        catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    static String convertToHex( byte[] md5 ) {
-        BigInteger md5bi = new BigInteger( 1, md5 );
-        String md5hex = md5bi.toString( 16 );
-
-        while (md5hex.length() < 32) {
-            md5hex = "0" + md5hex;
-        }
-        return md5hex;
-    }
-
-    static String convertToHex2( byte[] md5 ) {
-        BigInteger md5bi = new BigInteger( 1, md5 );
-        return String.format( "%032x", md5bi );
+        return new DocumentId( documentKeyStrategy.generateDocumentKey( relativePath ), relativePath );
     }
 
 }
