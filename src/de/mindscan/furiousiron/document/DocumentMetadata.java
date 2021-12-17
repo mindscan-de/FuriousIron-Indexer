@@ -33,8 +33,6 @@ import java.util.Map;
  */
 public class DocumentMetadata {
 
-    // The DocumentId - Usually a hash sum based on the (relative) path. currently encoded in hex. (This should be more compact, like base_62 (0-9a-zA-Z))
-    // thus the index size can be reduced, and a larger hash function can be used like SHA256,SHA384 instead of MD5
     private final String documentKey;
     private final String documentLocation;
     private final String documentSimpleFilename;
