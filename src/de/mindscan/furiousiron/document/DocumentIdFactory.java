@@ -69,6 +69,15 @@ import de.mindscan.furiousiron.document.impl.DocumentKeyStrategyMD5Impl;
 
 public class DocumentIdFactory {
 
+    /**
+     * We may want to choose from a variety of DocumentKeyStrategies.
+     * 
+     * - MD5 (base 16, base 36)
+     * - SHA1 (base 16, base 36)
+     * - SHA256 (base 16, base 36)
+     * - HMAC_SHA256 (base16, base 36)
+     * 
+     */
     private static DocumentKeyStrategy documentKeyStrategy = new DocumentKeyStrategyMD5Impl();
 
     /**
