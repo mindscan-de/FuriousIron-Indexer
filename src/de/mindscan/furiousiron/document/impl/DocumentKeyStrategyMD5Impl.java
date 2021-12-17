@@ -34,6 +34,14 @@ import java.security.NoSuchAlgorithmException;
 import de.mindscan.furiousiron.document.DocumentKeyStrategy;
 
 /**
+ * This DocumentKey Strategy converts the given Path to a document key using the MD5 hash algorithm.
+ * 
+ * The hash algorithm produces a hash of length 128 bits. 
+ * 
+ * - In Base16 encoding the document keys are of length 32.
+ * - In Base36 encoding the document keys are of length 25. 
+ *   - Base36 is reasonable for filenames under windows and
+ *   - Base36 is the highest radix supported for BigIntegers
  * 
  */
 public class DocumentKeyStrategyMD5Impl implements DocumentKeyStrategy {
