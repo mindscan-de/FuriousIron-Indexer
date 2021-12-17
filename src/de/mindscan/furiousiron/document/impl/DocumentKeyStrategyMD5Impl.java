@@ -61,10 +61,8 @@ public class DocumentKeyStrategyMD5Impl implements DocumentKeyStrategy {
             return convertBase( md5 );
         }
         catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            throw new IllegalArgumentException( e );
         }
-
-        return null;
     }
 
     private String convertBase( byte[] md5 ) {
