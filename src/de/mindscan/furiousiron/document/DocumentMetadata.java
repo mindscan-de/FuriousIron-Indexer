@@ -38,13 +38,14 @@ public class DocumentMetadata {
     private final String documentSimpleFilename;
 
     // 
-    private long fileSize = 0;
-    private long numberOfLines = 0;
+    private long fileSize = 0L;
+    private long numberOfLines = 0L;
     private final Map<String, String> classifierMap;
 
     /**
      * @param documentLocation 
      * @param documentKey 
+     * @param documentSimpleFilename
      */
     DocumentMetadata( String documentKey, String documentLocation, String documentSimpleFilename ) {
         this.documentKey = documentKey;

@@ -55,4 +55,54 @@ public class DocumentMetadataTest {
         assertThat( result, equalTo( "another/simple/path.txt" ) );
     }
 
+    @Test
+    public void testGetFileSize_Ctor_returnsDefaultValueZero() throws Exception {
+        // arrange
+        DocumentMetadata metadata = new DocumentMetadata( "simpleDocumentKey", "another/simple/path.txt", "simpleFilename.txt" );
+
+        // act
+        long result = metadata.getFileSize();
+
+        // assert
+        assertThat( result, equalTo( 0L ) );
+    }
+
+    @Test
+    public void testSetFileSize_SetToLengthOne_returnsFilesizeOne() throws Exception {
+        // arrange
+        DocumentMetadata metadata = new DocumentMetadata( "simpleDocumentKey", "another/simple/path.txt", "simpleFilename.txt" );
+
+        // act
+        metadata.setFileSize( 1L );
+
+        // assert
+        long result = metadata.getFileSize();
+        assertThat( result, equalTo( 1L ) );
+    }
+
+    @Test
+    public void testSetNumberOfLines_Ctor_returnsDefaultZero() throws Exception {
+        // arrange
+        DocumentMetadata metadata = new DocumentMetadata( "simpleDocumentKey", "another/simple/path.txt", "simpleFilename.txt" );
+
+        // act
+        long result = metadata.getNumberOfLines();
+
+        // assert
+        assertThat( result, equalTo( 0L ) );
+    }
+
+    @Test
+    public void testSetNumberOfLines_SetToNumberOfLinesToOneThousand_returnsOneThousand() throws Exception {
+        // arrange
+        DocumentMetadata metadata = new DocumentMetadata( "simpleDocumentKey", "another/simple/path.txt", "simpleFilename.txt" );
+
+        // act
+        metadata.setNumberOfLines( 1000L );
+
+        // assert
+        long result = metadata.getNumberOfLines();
+        assertThat( result, equalTo( 1000L ) );
+    }
+
 }
