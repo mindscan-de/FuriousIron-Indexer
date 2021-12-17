@@ -62,7 +62,7 @@ public class MetadataCache {
     }
 
     public void addDocumentMetadata( DocumentId documentId, DocumentMetadata documentMetaData ) {
-        Path metadataDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( cacheFolder, documentId, METADATA_FILE_SUFFIX );
+        Path metadataDocumentPath = CachingPathUtils.buildCachePathFromDocumentId( cacheFolder, documentId, METADATA_FILE_SUFFIX );
 
         CachingPathUtils.createTargetDirectoryIfNotExist( metadataDocumentPath );
 

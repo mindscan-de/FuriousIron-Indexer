@@ -39,7 +39,7 @@ public class CachingPathUtils {
 
 //     public static final int NUMBER_OF_DOCUMENT_ID_LAYERS = 1;
 
-    public static Path buildCachePathFromDocumentKey( Path basePath, DocumentId documentId, String fileSuffix ) {
+    public static Path buildCachePathFromDocumentId( Path basePath, DocumentId documentId, String fileSuffix ) {
         return buildCachePathFromDocumentKey( basePath, documentId.getDocumentKey(), fileSuffix );
     }
 

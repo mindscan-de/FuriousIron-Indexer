@@ -80,7 +80,7 @@ public class WordlistCache {
     }
 
     public void addUniqueWordlist( DocumentId documentId, List<String> uniqueWordlist ) {
-        Path wordlistDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( cacheFolder, documentId, WORDLIST_FILE_SUFFIX );
+        Path wordlistDocumentPath = CachingPathUtils.buildCachePathFromDocumentId( cacheFolder, documentId, WORDLIST_FILE_SUFFIX );
 
         CachingPathUtils.createTargetDirectoryIfNotExist( wordlistDocumentPath );
 
@@ -113,7 +113,7 @@ public class WordlistCache {
      * @param uniqueTrigramlist
      */
     public void addUniqueTrigrams( DocumentId documentId, Set<String> uniqueTrigramlist ) {
-        Path trigramsDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( cacheFolder, documentId, TRIGRAMS_FILE_SUFFIX );
+        Path trigramsDocumentPath = CachingPathUtils.buildCachePathFromDocumentId( cacheFolder, documentId, TRIGRAMS_FILE_SUFFIX );
 
         CachingPathUtils.createTargetDirectoryIfNotExist( trigramsDocumentPath );
 
@@ -132,7 +132,7 @@ public class WordlistCache {
      * @param ttfList
      */
     public void addTTFList( DocumentId documentId, Map<String, Integer> ttfList ) {
-        Path trigramsDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( cacheFolder, documentId, TRIGRAMSTERMFREQUENCY_FILE_SUFFIX );
+        Path trigramsDocumentPath = CachingPathUtils.buildCachePathFromDocumentId( cacheFolder, documentId, TRIGRAMSTERMFREQUENCY_FILE_SUFFIX );
 
         CachingPathUtils.createTargetDirectoryIfNotExist( trigramsDocumentPath );
 
