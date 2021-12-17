@@ -1,4 +1,4 @@
-package de.mindscan.furiousiron.document;
+package de.mindscan.furiousiron.document.impl;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -7,12 +7,14 @@ import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Test;
 
-public class DocumentKeyStrategyMD5Test {
+import de.mindscan.furiousiron.document.impl.DocumentKeyStrategyMD5Impl;
+
+public class DocumentKeyStrategyMD5ImplTest {
 
     @Test
     public void testGenerateDocumentKey_aajava_returnsMD5Ofaajava() throws Exception {
         // arrange
-        DocumentKeyStrategyMD5 strategyMD5 = new DocumentKeyStrategyMD5();
+        DocumentKeyStrategyMD5Impl strategyMD5 = new DocumentKeyStrategyMD5Impl();
 
         // act
         String result = strategyMD5.generateDocumentKey( Paths.get( "a/a.java" ) );
@@ -24,7 +26,7 @@ public class DocumentKeyStrategyMD5Test {
     @Test
     public void testGenerateDocumentKey_abjava_returnsMD5Ofabjava() throws Exception {
         // arrange
-        DocumentKeyStrategyMD5 strategyMD5 = new DocumentKeyStrategyMD5();
+        DocumentKeyStrategyMD5Impl strategyMD5 = new DocumentKeyStrategyMD5Impl();
 
         // act
         String result = strategyMD5.generateDocumentKey( Paths.get( "a/b.java" ) );

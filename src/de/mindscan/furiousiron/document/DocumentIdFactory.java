@@ -27,6 +27,8 @@ package de.mindscan.furiousiron.document;
 
 import java.nio.file.Path;
 
+import de.mindscan.furiousiron.document.impl.DocumentKeyStrategyMD5Impl;
+
 /**
  * 
  * A DocumentId is calculated from a location of a document. 
@@ -67,7 +69,7 @@ import java.nio.file.Path;
 
 public class DocumentIdFactory {
 
-    private static DocumentKeyStrategy documentKeyStrategy = new DocumentKeyStrategyMD5();
+    private static DocumentKeyStrategy documentKeyStrategy = new DocumentKeyStrategyMD5Impl();
 
     /**
      * This method will produce a DocumentId Object, from a documentKey, without a Path reference. 

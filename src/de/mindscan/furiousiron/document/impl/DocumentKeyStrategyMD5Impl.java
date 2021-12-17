@@ -23,7 +23,7 @@
  * SOFTWARE.
  * 
  */
-package de.mindscan.furiousiron.document;
+package de.mindscan.furiousiron.document.impl;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -31,10 +31,12 @@ import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import de.mindscan.furiousiron.document.DocumentKeyStrategy;
+
 /**
  * 
  */
-public class DocumentKeyStrategyMD5 implements DocumentKeyStrategy {
+public class DocumentKeyStrategyMD5Impl implements DocumentKeyStrategy {
 
     /**
      * {@inheritDoc}
