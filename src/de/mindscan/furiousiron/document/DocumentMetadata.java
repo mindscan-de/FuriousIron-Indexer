@@ -41,6 +41,8 @@ public class DocumentMetadata {
     private final String documentKey;
     private final String documentLocation;
     private final String documentSimpleFilename;
+
+    // 
     private long fileSize = 0;
     private long numberOfLines = 0;
     private final Map<String, String> classifierMap;
