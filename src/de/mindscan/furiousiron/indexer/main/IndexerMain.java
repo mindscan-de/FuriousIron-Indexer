@@ -56,7 +56,18 @@ public class IndexerMain {
     }
 
     public static void main( String[] args ) {
+        long starttime = System.nanoTime();
+
         int exitCode = new CommandLine( new IndexerMainParameters() ).execute( args );
+
+        long endTime = System.nanoTime();
+
+        long deltatime = endTime - starttime;
+
+        long seconds = deltatime / 1000000000L;
+        long nanoseconds = deltatime % 1000000000L;
+
+        System.out.println( String.format( "Index took %d.%09d ", seconds, nanoseconds ) );
         System.exit( exitCode );
     }
 
