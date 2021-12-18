@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
+import java.util.Set;
 
 import de.mindscan.furiousiron.document.DocumentId;
 
@@ -36,6 +38,8 @@ import de.mindscan.furiousiron.document.DocumentId;
  * 
  */
 public class CachingPathUtils {
+
+    public static Set<Path> directoryAlreadyExists = new HashSet();
 
 //     public static final int NUMBER_OF_DOCUMENT_ID_LAYERS = 1;
 
@@ -63,13 +67,22 @@ public class CachingPathUtils {
      */
     static void createTargetDirectoryIfNotExist( Path targetDocumentPath ) {
         Path targetDirectoryPath = targetDocumentPath.getParent();
+
+        if (directoryAlreadyExists.contains( targetDirectoryPath )) {
+            return;
+        }
+
         if (!Files.isDirectory( targetDirectoryPath )) {
             try {
                 Files.createDirectories( targetDirectoryPath );
+                directoryAlreadyExists.add( targetDirectoryPath );
             }
             catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        else {
+            directoryAlreadyExists.add( targetDirectoryPath );
         }
     }
 
