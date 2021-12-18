@@ -106,10 +106,6 @@ public class WordlistCache extends DiskBasedCache {
         return Collections.emptyList();
     }
 
-    /**
-     * @param documentId
-     * @param uniqueTrigramlist
-     */
     public void addUniqueTrigrams( DocumentId documentId, Set<String> uniqueTrigramlist ) {
         Path trigramsDocumentPath = buildCacheTargetPathFromId( documentId, TRIGRAMS_FILE_SUFFIX );
 
@@ -125,10 +121,6 @@ public class WordlistCache extends DiskBasedCache {
 
     }
 
-    /**
-     * @param documentId
-     * @param ttfList
-     */
     public void addTTFList( DocumentId documentId, Map<String, Integer> ttfList ) {
         Path trigramsDocumentPath = buildCacheTargetPathFromId( documentId, TRIGRAMSTERMFREQUENCY_FILE_SUFFIX );
 

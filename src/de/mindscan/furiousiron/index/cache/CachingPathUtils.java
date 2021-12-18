@@ -68,6 +68,7 @@ public class CachingPathUtils {
     static void createTargetDirectoryIfNotExist( Path targetDocumentPath ) {
         Path targetDirectoryPath = targetDocumentPath.getParent();
 
+        // TODO: this cache doesn't do much. - maybe remove this 
         if (directoryAlreadyExists.contains( targetDirectoryPath )) {
             return;
         }
