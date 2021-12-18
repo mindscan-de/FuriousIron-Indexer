@@ -32,7 +32,16 @@ import de.mindscan.furiousiron.document.DocumentId;
 import de.mindscan.furiousiron.document.DocumentMetadata;
 
 /**
+ * This interface was firstly named Classifier, because it had just classified a file and given it some labels
+ * but in reality this is more of a MetadataExtractor, this  MetadataExtractor can be implemented as a second
+ * pass on an already indexed and cached file. Each DocumentId can be retrieved and be further analyzed and the
+ * metadata then can be updated and operated on.
  * 
+ * A First simple classifier / metadata extractor might deliver some hints about the file, such that it can then
+ * be processed and filtered due to its preliminary metadata.
+ * 
+ * By building a secondary index over the metadata, we also can achieve metadata search combined with original 
+ * search, also the metadata index can be build from the DocumentMetadata.
  */
 public interface Classifier {
 

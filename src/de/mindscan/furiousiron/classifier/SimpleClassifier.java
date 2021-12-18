@@ -42,6 +42,9 @@ import de.mindscan.furiousiron.document.DocumentMetadata;
  */
 public class SimpleClassifier implements Classifier {
 
+    public static final String DOCUMENT_CLASS_DOCUMENT_FILE_EXTENSION = "documentFileExtension";
+    public static final String DOCUMENT_CLASS_FILETYPE = "filetype";
+
     /** 
      * {@inheritDoc}
      */
@@ -51,38 +54,56 @@ public class SimpleClassifier implements Classifier {
         // but nevertheless, we want to implement a feature like this, and test it before spending too much time. 
         String fileNameAsString = fileToIndex.toString();
 
-        if (fileNameAsString.endsWith( ".java" )) {
-            documentMetaData.addClass( "filetype", "java" );
-        }
-        else if (fileNameAsString.endsWith( ".py" )) {
-            documentMetaData.addClass( "filetype", "python" );
-        }
-        else if (fileNameAsString.endsWith( ".xtend" )) {
-            documentMetaData.addClass( "filetype", "xtend" );
-        }
-        else if (fileNameAsString.endsWith( ".xtext" )) {
-            documentMetaData.addClass( "filetype", "xtext" );
-        }
-        else if (fileNameAsString.endsWith( ".MF" )) {
-            documentMetaData.addClass( "filetype", "manifest" );
-        }
-        else if (fileNameAsString.endsWith( ".json" )) {
-            documentMetaData.addClass( "filetype", "json" );
-        }
-        else if (fileNameAsString.endsWith( ".txt" ) || fileNameAsString.endsWith( ".text" )) {
-            documentMetaData.addClass( "filetype", "text" );
-        }
-        else if (fileNameAsString.endsWith( ".properties" ) || fileNameAsString.endsWith( ".ini" )) {
-            documentMetaData.addClass( "filetype", "ini" );
-        }
-        else if (fileNameAsString.endsWith( ".md" ) || fileNameAsString.endsWith( ".MD" )) {
-            documentMetaData.addClass( "filetype", "markdown" );
-        }
-        else if (fileNameAsString.endsWith( ".xml" ) || fileNameAsString.endsWith( ".pom" )) {
-            documentMetaData.addClass( "filetype", "xml" );
-        }
-        else if (fileNameAsString.endsWith( ".html" ) || fileNameAsString.endsWith( ".html" )) {
-            documentMetaData.addClass( "filetype", "html" );
+        int lastIndexOfDot = fileNameAsString.lastIndexOf( "." );
+        String substringAfterLastDot = fileNameAsString.substring( lastIndexOfDot );
+
+        documentMetaData.addClass( DOCUMENT_CLASS_DOCUMENT_FILE_EXTENSION, substringAfterLastDot );
+
+        switch (substringAfterLastDot) {
+//            case "java":
+//                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "java" );
+//                break;
+            case "py":
+                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "python" );
+                break;
+//            case "xtend":
+//                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "xtend" );
+//                break;
+//            case "xtext":
+//                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "xtext" );
+//                break;
+            case "MF":
+                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "manifest" );
+                break;
+//            case "json":
+//                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "json" );
+//                break;
+            case "txt":
+            case "text":
+                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "text" );
+                break;
+            case "properties":
+            case "ini":
+                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "ini" );
+                break;
+            case "md":
+            case "MD":
+            case "markdown":
+                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "markdown" );
+                break;
+//            case "xml":
+//                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "xml" );
+//                break;
+//            case "pom":
+//                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "pom" );
+//                break;
+            case "htm":
+            case "html":
+                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "html" );
+                break;
+            default:
+                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, substringAfterLastDot );
+                break;
         }
 
     }
@@ -99,7 +120,8 @@ public class SimpleClassifier implements Classifier {
             if ("java".equals( classifierMap.get( "filetype" ) )) {
                 // classify java content
                 int isAssert = hasWords( uniqueWordlist, "assertequals", "assertthat", "asserttrue", "assertfalse", "assertnull" );
-                int isJunit = hasWords( uniqueWordlist, "junit", "@before", "@test", "@ignore", "@beforeall", "@after", "@afterall", "@beforeclass" );
+                int isJunit = hasWords( uniqueWordlist, "junit", "jupiter", "@before", "@test", "@ignore", "@beforeall", "@after", "@afterall",
+                                "@beforeclass" );
                 int isMatcher = hasWords( uniqueWordlist, "hamcrest", "matchers", "equalto", "sameinstance" );
                 int isMockito = hasWords( uniqueWordlist, "mockito", "mock", "spy", "thenreturn" );
 
