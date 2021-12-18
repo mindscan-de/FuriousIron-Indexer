@@ -42,9 +42,6 @@ import de.mindscan.furiousiron.document.DocumentMetadata;
  */
 public class SimpleClassifier implements Classifier {
 
-    public static final String DOCUMENT_CLASS_DOCUMENT_FILE_EXTENSION = "documentFileExtension";
-    public static final String DOCUMENT_CLASS_FILETYPE = "filetype";
-
     /** 
      * {@inheritDoc}
      */
@@ -57,14 +54,14 @@ public class SimpleClassifier implements Classifier {
         int lastIndexOfDot = fileNameAsString.lastIndexOf( "." );
         String substringAfterLastDot = fileNameAsString.substring( lastIndexOfDot );
 
-        documentMetaData.addClass( DOCUMENT_CLASS_DOCUMENT_FILE_EXTENSION, substringAfterLastDot );
+        documentMetaData.addClass( DocumentClasses.FILE_EXTENSION, substringAfterLastDot );
 
         switch (substringAfterLastDot) {
 //            case "java":
 //                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "java" );
 //                break;
             case "py":
-                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "python" );
+                documentMetaData.addClass( DocumentClasses.FILE_TYPE, "python" );
                 break;
 //            case "xtend":
 //                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "xtend" );
@@ -73,23 +70,23 @@ public class SimpleClassifier implements Classifier {
 //                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "xtext" );
 //                break;
             case "MF":
-                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "manifest" );
+                documentMetaData.addClass( DocumentClasses.FILE_TYPE, "manifest" );
                 break;
 //            case "json":
 //                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "json" );
 //                break;
             case "txt":
             case "text":
-                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "text" );
+                documentMetaData.addClass( DocumentClasses.FILE_TYPE, "text" );
                 break;
             case "properties":
             case "ini":
-                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "ini" );
+                documentMetaData.addClass( DocumentClasses.FILE_TYPE, "ini" );
                 break;
             case "md":
             case "MD":
             case "markdown":
-                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "markdown" );
+                documentMetaData.addClass( DocumentClasses.FILE_TYPE, "markdown" );
                 break;
 //            case "xml":
 //                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "xml" );
@@ -99,10 +96,10 @@ public class SimpleClassifier implements Classifier {
 //                break;
             case "htm":
             case "html":
-                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "html" );
+                documentMetaData.addClass( DocumentClasses.FILE_TYPE, "html" );
                 break;
             default:
-                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, substringAfterLastDot );
+                documentMetaData.addClass( DocumentClasses.FILE_TYPE, substringAfterLastDot );
                 break;
         }
 
@@ -126,7 +123,7 @@ public class SimpleClassifier implements Classifier {
                 int isMockito = hasWords( uniqueWordlist, "mockito", "mock", "spy", "thenreturn" );
 
                 if (isAssert + isJunit + isMatcher + isMockito >= 2) {
-                    documentMetaData.addClass( "unit-test", "true" );
+                    documentMetaData.addClass( DocumentClasses.UNITTEST, "true" );
                 }
 
                 // TODO: classify an interface
