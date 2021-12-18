@@ -77,6 +77,9 @@ public class DocumentIdFactory {
      * - SHA256 (base 16, base 36)
      * - HMAC_SHA256 (base16, base 36)
      * 
+     * Using Base36 instead of Base16 will save about 20% inverse trigram index size - but currently not everything 
+     * is prepared for using Base36 or a configurable base size.
+     * 
      */
     private static DocumentKeyStrategy documentKeyStrategy = new DocumentKeyStrategyMD5Impl();
 
