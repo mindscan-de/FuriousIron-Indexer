@@ -40,27 +40,33 @@ public class DocumentMetadataFactory {
      * @return
      */
     public static DocumentMetadata createDocumentMetadata( DocumentId documentId, Path fileToIndex ) {
-    
+
         String documentLocation = documentId.getDocumentLocation();
         String documentSimpleName = fileToIndex.getFileName().toString();
         String documentKey = documentId.getDocumentKey();
-    
+
         DocumentMetadata documentMetadata = new DocumentMetadata( documentKey, documentLocation, documentSimpleName );
-    
+
         try {
             // Map<String, Object> attributes = Files.readAttributes( fileToIndex, "*", LinkOption.NOFOLLOW_LINKS );
+
+            // The crawler already provides BasicFileAttributes, which can be used and may prevent another systemcall.
+            // - size
+            // lastModified
+            // lastAccess
+
             documentMetadata.setFileSize( Files.size( fileToIndex ) );
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-    
+
         // TODO: collect some file statistics / information ( filetype, contenttype, last modified date, created date, ...)
         // TODO: date of indexing
         // TODO: number of unique words
         // TODO: number of unique trigrams in document
         // TODO: get/create documentid of parent directory(ies). -> source code navigation
-    
+
         return documentMetadata;
     }
 
