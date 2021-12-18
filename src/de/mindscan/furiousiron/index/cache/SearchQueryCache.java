@@ -46,7 +46,7 @@ import com.google.gson.reflect.TypeToken;
 /**
  * 
  */
-public class SearchQueryCache {
+public class SearchQueryCache extends DiskBasedCache {
 
     /**
      * folder in index Folder, where the SearchQueries and the document ids should be cached. 
@@ -63,29 +63,27 @@ public class SearchQueryCache {
      */
     public final static String CACHE_PREVIEW_SUFFIX = ".previewcache";
 
-    private Path searchQueryCacheFolder;
-
     /**
      * 
      */
     public SearchQueryCache( Path indexFolder ) {
-        this.searchQueryCacheFolder = indexFolder.resolve( CACHED_QUERY_FOLDER );
+        super( indexFolder.resolve( CACHED_QUERY_FOLDER ) );
     }
 
-    public boolean isQueryResultAvailable( String queryKeyId ) {
-        Path searchQueryDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( searchQueryCacheFolder, queryKeyId, CACHE_FILE_SUFFIX );
+    public boolean isQueryResultAvailable( String queryKey ) {
+        Path searchQueryDocumentPath = buildCacheTargetPathFromKey( queryKey, CACHE_FILE_SUFFIX );
 
         return Files.exists( searchQueryDocumentPath );
     }
 
-    public boolean isPreviewAvailable( String queryKeyId ) {
-        Path searchQueryDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( searchQueryCacheFolder, queryKeyId, CACHE_PREVIEW_SUFFIX );
+    public boolean isPreviewAvailable( String queryKey ) {
+        Path searchQueryDocumentPath = buildCacheTargetPathFromKey( queryKey, CACHE_PREVIEW_SUFFIX );
 
         return Files.exists( searchQueryDocumentPath );
     }
 
-    public List<String> loadQueryResult( String queryKeyId ) {
-        Path searchQueryDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( searchQueryCacheFolder, queryKeyId, CACHE_FILE_SUFFIX );
+    public List<String> loadQueryResult( String queryKey ) {
+        Path searchQueryDocumentPath = buildCacheTargetPathFromKey( queryKey, CACHE_FILE_SUFFIX );
 
         try (BufferedReader jsonBufferedReader = Files.newBufferedReader( searchQueryDocumentPath, StandardCharsets.UTF_8 )) {
             Gson gson = new Gson();
@@ -99,8 +97,8 @@ public class SearchQueryCache {
         return Collections.emptyList();
     }
 
-    public Map<String, Map<Integer, String>> loadPreviewResult( String queryKeyId ) {
-        Path searchQueryDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( searchQueryCacheFolder, queryKeyId, CACHE_PREVIEW_SUFFIX );
+    public Map<String, Map<Integer, String>> loadPreviewResult( String queryKey ) {
+        Path searchQueryDocumentPath = buildCacheTargetPathFromKey( queryKey, CACHE_PREVIEW_SUFFIX );
 
         Type type = new TypeToken<TreeMap<String, TreeMap<Integer, String>>>() {
         }.getType();
@@ -118,10 +116,10 @@ public class SearchQueryCache {
         return Collections.emptyMap();
     }
 
-    public void saveQueryResult( String queryKeyId, Collection<String> documentIds ) {
-        Path searchQueryDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( searchQueryCacheFolder, queryKeyId, CACHE_FILE_SUFFIX );
+    public void saveQueryResult( String queryKey, Collection<String> documentIds ) {
+        Path searchQueryDocumentPath = buildCacheTargetPathFromKey( queryKey, CACHE_FILE_SUFFIX );
 
-        CachingPathUtils.createTargetDirectoryIfNotExist( searchQueryDocumentPath );
+        createCacheTargetPath( searchQueryDocumentPath );
 
         try (BufferedWriter writer = Files.newBufferedWriter( searchQueryDocumentPath, StandardCharsets.UTF_8 )) {
             Gson gson = new Gson();
@@ -132,10 +130,10 @@ public class SearchQueryCache {
         }
     }
 
-    public void savePreviewResult( String queryKeyId, Map<String, Map<Integer, String>> previewData ) {
-        Path searchQueryDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( searchQueryCacheFolder, queryKeyId, CACHE_PREVIEW_SUFFIX );
+    public void savePreviewResult( String queryKey, Map<String, Map<Integer, String>> previewData ) {
+        Path searchQueryDocumentPath = buildCacheTargetPathFromKey( queryKey, CACHE_PREVIEW_SUFFIX );
 
-        CachingPathUtils.createTargetDirectoryIfNotExist( searchQueryDocumentPath );
+        createCacheTargetPath( searchQueryDocumentPath );
 
         try (BufferedWriter writer = Files.newBufferedWriter( searchQueryDocumentPath, StandardCharsets.UTF_8 )) {
             Gson gson = new Gson();
