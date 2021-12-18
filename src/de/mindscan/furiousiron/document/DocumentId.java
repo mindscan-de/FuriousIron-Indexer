@@ -30,7 +30,8 @@ import java.nio.file.Path;
 /**
  * This class maps a single documentKey to a documentLocation.
  * 
- * This class may be extended by a documentContentKey.   
+ * This class may be extended by a documentContentKey or list of documentContentKeys, in case the document 
+ * is split into smaller parts.
  */
 public class DocumentId {
 
