@@ -61,8 +61,8 @@ public class CachingPathUtils {
     /**
      * @param wordlistDocumentPath
      */
-    static void createTargetDirectoryIfNotExist( Path documentPath ) {
-        Path targetDirectoryPath = documentPath.getParent();
+    static void createTargetDirectoryIfNotExist( Path targetDocumentPath ) {
+        Path targetDirectoryPath = targetDocumentPath.getParent();
         if (!Files.isDirectory( targetDirectoryPath )) {
             try {
                 Files.createDirectories( targetDirectoryPath );
