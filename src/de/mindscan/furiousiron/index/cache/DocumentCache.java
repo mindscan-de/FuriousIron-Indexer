@@ -41,7 +41,7 @@ import de.mindscan.furiousiron.document.DocumentId;
  * not preserved, instead it is built from the document id. The file structure / file name and so on, should 
  * be obtained from the metadata / metainformation of the document. 
  */
-public class DocumentCache {
+public class DocumentCache extends DiskBasedCache {
 
     /**
      * folder in index Folder, where the 'downloaded' documents should be cached. 
@@ -53,15 +53,12 @@ public class DocumentCache {
      */
     public final static String CACHED_FILE_SUFFIX = ".originalContent";
 
-    private Path documentCacheFolder;
-
     /**
      * C'tor 
      * @param indexFolder path of folder, where to store the cached Documents. The documents 
      */
     public DocumentCache( Path indexFolder ) {
-        // this.indexFolder = indexFolder;
-        this.documentCacheFolder = indexFolder.resolve( CACHED_DOCUMENTS_FOLDER );
+        super( indexFolder.resolve( CACHED_DOCUMENTS_FOLDER ) );
     }
 
     /**
@@ -73,13 +70,15 @@ public class DocumentCache {
      * @param fileToIndex the path to the document to store
      */
     public void createDocumentCopy( DocumentId documentId, Path fileToIndex ) {
-        Path documentTargetFilePath = CachingPathUtils.buildCachePathFromDocumentId( documentCacheFolder, documentId, CACHED_FILE_SUFFIX );
+        Path documentTargetFilePath = buildCacheTargetPath( documentId, CACHED_FILE_SUFFIX );
 
-        // TODO: create cache directory structure beforehand.
+        // TODO: create cache directory structure beforehand
         // can be enforced completely beforehand, so this calculation doesn't need 
         // to be part of each document copy operation 
-        // it would be simple to create either 256 or 65536 folders / shards beforehand
-        CachingPathUtils.createTargetDirectoryIfNotExist( documentTargetFilePath );
+
+        // ATTN: this can be an expensive operation, if multiple documents are stored per directory
+        //       which should be the default case, all but the first calls are not necessary.
+        createCacheTargetPath( documentTargetFilePath );
 
         try {
             Files.copy( fileToIndex, documentTargetFilePath, StandardCopyOption.REPLACE_EXISTING );
@@ -90,7 +89,7 @@ public class DocumentCache {
     }
 
     public InputStream getContentAsStream( DocumentId documentId ) throws IOException {
-        Path documentContentPath = CachingPathUtils.buildCachePathFromDocumentId( documentCacheFolder, documentId, CACHED_FILE_SUFFIX );
+        Path documentContentPath = buildCacheTargetPath( documentId, CACHED_FILE_SUFFIX );
 
         if (Files.exists( documentContentPath )) {
             return Files.newInputStream( documentContentPath, StandardOpenOption.READ );
