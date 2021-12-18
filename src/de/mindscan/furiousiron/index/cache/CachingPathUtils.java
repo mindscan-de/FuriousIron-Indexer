@@ -39,7 +39,7 @@ import de.mindscan.furiousiron.document.DocumentId;
  */
 public class CachingPathUtils {
 
-    public static Set<Path> directoryAlreadyExists = new HashSet();
+    public static Set<Path> directoryAlreadyExists = new HashSet<>();
 
 //     public static final int NUMBER_OF_DOCUMENT_ID_LAYERS = 1;
 
