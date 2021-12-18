@@ -116,13 +116,13 @@ public class SimpleClassifier implements Classifier {
         if (documentMetaData.containsClass( "filetype" )) {
             if ("java".equals( classifierMap.get( "filetype" ) )) {
                 // classify java content
-                int isAssert = hasWords( uniqueWordlist, "assertequals", "assertthat", "asserttrue", "assertfalse", "assertnull" );
+                int isAssert = hasWords( uniqueWordlist, "assertequals", "assertthat", "asserttrue", "assertfalse", "assertnull", "assertj", "jassert" );
                 int isJunit = hasWords( uniqueWordlist, "junit", "jupiter", "@before", "@test", "@ignore", "@beforeall", "@after", "@afterall",
                                 "@beforeclass" );
                 int isMatcher = hasWords( uniqueWordlist, "hamcrest", "matchers", "equalto", "sameinstance" );
-                int isMockito = hasWords( uniqueWordlist, "mockito", "mock", "spy", "thenreturn" );
+                int isIsolationFramework = hasWords( uniqueWordlist, "mockito", "powermockito", "mock", "spy", "thenreturn" );
 
-                if (isAssert + isJunit + isMatcher + isMockito >= 2) {
+                if (isAssert + isJunit + isMatcher + isIsolationFramework >= 2) {
                     documentMetaData.addClass( DocumentClasses.UNITTEST, "true" );
                 }
 
