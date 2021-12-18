@@ -40,8 +40,12 @@ public class DiskBasedCache {
         this.cacheBaseFolder = cacheBaseFolder;
     }
 
-    public Path buildCacheTargetPath( DocumentId documentId, String fileSuffix ) {
+    public Path buildCacheTargetPathFromId( DocumentId documentId, String fileSuffix ) {
         return CachingPathUtils.buildCachePathFromDocumentId( cacheBaseFolder, documentId, fileSuffix );
+    }
+
+    public Path buildCacheTargetPathFromKey( String documentKey, String fileSuffix ) {
+        return CachingPathUtils.buildCachePathFromDocumentKey( cacheBaseFolder, documentKey, fileSuffix );
     }
 
     public void createCacheTargetPath( Path targetFilePath ) {

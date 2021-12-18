@@ -40,7 +40,7 @@ import de.mindscan.furiousiron.document.DocumentMetadata;
 /**
  * 
  */
-public class MetadataCache {
+public class MetadataCache extends DiskBasedCache {
 
     /**
      * folder in index Folder, where the 'metadata' documents should be cached. 
@@ -52,19 +52,17 @@ public class MetadataCache {
      */
     public final static String METADATA_FILE_SUFFIX = ".metadata";
 
-    private Path metadataCacheFolder;
-
     /**
      * @param indexFolder
      */
     public MetadataCache( Path indexFolder ) {
-        this.metadataCacheFolder = indexFolder.resolve( CACHED_METADATA_FOLDER );
+        super( indexFolder.resolve( CACHED_METADATA_FOLDER ) );
     }
 
     public void addDocumentMetadata( DocumentId documentId, DocumentMetadata documentMetaData ) {
-        Path metadataDocumentPath = CachingPathUtils.buildCachePathFromDocumentId( metadataCacheFolder, documentId, METADATA_FILE_SUFFIX );
+        Path metadataDocumentPath = buildCacheTargetPathFromId( documentId, METADATA_FILE_SUFFIX );
 
-        CachingPathUtils.createTargetDirectoryIfNotExist( metadataDocumentPath );
+        createCacheTargetPath( metadataDocumentPath );
 
         try (BufferedWriter writer = Files.newBufferedWriter( metadataDocumentPath, StandardCharsets.UTF_8 )) {
             Gson gson = new Gson();
@@ -77,7 +75,7 @@ public class MetadataCache {
     }
 
     public DocumentMetadata loadMetadata( String documentKey ) {
-        Path metadataDocumentPath = CachingPathUtils.buildCachePathFromDocumentKey( metadataCacheFolder, documentKey, METADATA_FILE_SUFFIX );
+        Path metadataDocumentPath = buildCacheTargetPathFromKey( documentKey, METADATA_FILE_SUFFIX );
 
         try (BufferedReader jsonBufferedReader = Files.newBufferedReader( metadataDocumentPath, StandardCharsets.UTF_8 )) {
             Gson gson = new Gson();

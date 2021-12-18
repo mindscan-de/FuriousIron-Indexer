@@ -70,7 +70,7 @@ public class DocumentCache extends DiskBasedCache {
      * @param fileToIndex the path to the document to store
      */
     public void createDocumentCopy( DocumentId documentId, Path fileToIndex ) {
-        Path documentTargetFilePath = buildCacheTargetPath( documentId, CACHED_FILE_SUFFIX );
+        Path documentTargetFilePath = buildCacheTargetPathFromId( documentId, CACHED_FILE_SUFFIX );
 
         // TODO: create cache directory structure beforehand
         // can be enforced completely beforehand, so this calculation doesn't need 
@@ -89,7 +89,7 @@ public class DocumentCache extends DiskBasedCache {
     }
 
     public InputStream getContentAsStream( DocumentId documentId ) throws IOException {
-        Path documentContentPath = buildCacheTargetPath( documentId, CACHED_FILE_SUFFIX );
+        Path documentContentPath = buildCacheTargetPathFromId( documentId, CACHED_FILE_SUFFIX );
 
         if (Files.exists( documentContentPath )) {
             return Files.newInputStream( documentContentPath, StandardOpenOption.READ );
