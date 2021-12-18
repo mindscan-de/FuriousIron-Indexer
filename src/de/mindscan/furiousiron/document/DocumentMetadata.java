@@ -40,7 +40,9 @@ public class DocumentMetadata {
     // 
     private long fileSize = 0L;
     private long numberOfLines = 0L;
-    private final Map<String, String> classifierMap;
+
+    // additional classes for the linked document.
+    private final Map<String, String> classesMap;
 
     /**
      * @param documentLocation 
@@ -51,7 +53,7 @@ public class DocumentMetadata {
         this.documentKey = documentKey;
         this.documentLocation = documentLocation;
         this.documentSimpleFilename = documentSimpleFilename;
-        this.classifierMap = new HashMap<>();
+        this.classesMap = new HashMap<>();
     }
 
     public String getDocumentKey() {
@@ -91,14 +93,14 @@ public class DocumentMetadata {
     }
 
     public void addClass( String key, String value ) {
-        this.classifierMap.put( key, value );
+        this.classesMap.put( key, value );
     }
 
     public boolean containsClass( String key ) {
-        return this.classifierMap.containsKey( key );
+        return this.classesMap.containsKey( key );
     }
 
     public Map<String, String> getClassifierMap() {
-        return this.classifierMap;
+        return this.classesMap;
     }
 }
