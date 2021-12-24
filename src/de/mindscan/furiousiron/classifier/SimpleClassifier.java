@@ -52,7 +52,7 @@ public class SimpleClassifier implements Classifier {
         String fileNameAsString = fileToIndex.toString();
 
         int lastIndexOfDot = fileNameAsString.lastIndexOf( "." );
-        String substringAfterLastDot = fileNameAsString.substring( lastIndexOfDot );
+        String substringAfterLastDot = fileNameAsString.substring( lastIndexOfDot + 1 );
 
         documentMetaData.addClass( DocumentClasses.FILE_EXTENSION, substringAfterLastDot );
 
