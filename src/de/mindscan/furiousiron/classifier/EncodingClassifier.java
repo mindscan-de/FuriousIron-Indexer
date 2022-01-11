@@ -26,6 +26,11 @@
 package de.mindscan.furiousiron.classifier;
 
 /**
+ * Text is usually encoded in different formats. This class should provide a list of labels, for a given file,
+ * which can then be used to convert the data correctly before building an index, the document can remain in its 
+ * original form, but we can add these content information to the meta index, such that this content can be 
+ * transformed to utf-8 if a non-raw cached copy is requested. 
+ * 
  * This is a classifier, which should answer, what encoding (ascii, utf-8, utf-16, cp1251) is given, what the language 
  * content is, e.g. chinese, japanese, korean, russian. What kind of new line encoding (linux, windows, mac), is it 
  * high entropy? (maybe zipped or encrypted?)
