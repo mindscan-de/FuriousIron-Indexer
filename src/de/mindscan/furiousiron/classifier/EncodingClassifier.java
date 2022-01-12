@@ -83,6 +83,21 @@ public class EncodingClassifier {
 
         Map<String, Boolean> classiferMap = new HashMap<>();
 
+        // visually develop the rules for content classification.
+        // first x second
+        // Q1:(00-7f)x(00-7f)
+        // Q2:(00-7f)x(80-ff)
+        // Q3:(80-ff)x(00-7f)
+        // Q4:(80-ff)x(80-ff)
+
+        // 0a0a -> linux encodings
+        // 0a20 -> linux encodings
+        // mac and windows encodings
+        // 0d0a > 0a0d  && 0a20 > 0
+        // 0a0d > 0d0a  // 0d20 > 0
+
+        // feff == 1 utf8
+
         return classiferMap;
     }
 
@@ -121,7 +136,6 @@ public class EncodingClassifier {
             }
         }
         try {
-
             System.out.println( "result:" + Boolean.toString( ImageIO.write( b, "png", new File( tofile ) ) ) );
         }
         catch (IOException e) {
