@@ -25,6 +25,18 @@
  */
 package de.mindscan.furiousiron.classifier;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.imageio.ImageIO;
+
+import de.mindscan.furiousiron.classifier.impl.CoOccurrenceMatrixImpl;
+
 /**
  * Text is usually encoded in different formats. This class should provide a list of labels, for a given file,
  * which can then be used to convert the data correctly before building an index, the document can remain in its 
@@ -46,4 +58,77 @@ package de.mindscan.furiousiron.classifier;
  */
 public class EncodingClassifier {
 
+    /**
+     * 
+     */
+    public EncodingClassifier() {
+    }
+
+    public Map<String, Boolean> classify( Path path, String tofile ) {
+
+        CoOccurrenceMatrixImpl com = new CoOccurrenceMatrixImpl();
+
+        try {
+            byte[] readAllBytes;
+            readAllBytes = Files.readAllBytes( path );
+            com.update( readAllBytes );
+            int[][] matrix = com.getMatrix();
+            // just for understanding the results graphically...
+            saveAsImage( matrix, tofile );
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        Map<String, Boolean> classiferMap = new HashMap<>();
+
+        return classiferMap;
+    }
+
+    /**
+     * @param matrix
+     */
+    private void saveAsImage( int[][] matrix, String tofile ) {
+        // TODO Auto-generated method stub
+
+        int yLength = matrix.length;
+        int xLength = matrix[0].length;
+        BufferedImage b = new BufferedImage( xLength, yLength, BufferedImage.TYPE_INT_RGB );
+
+        for (int y = 0; y < yLength; y += 16) {
+            for (int x = 0; x < xLength; x += 8) {
+                int rgb = 0x440000;
+                b.setRGB( x, y, rgb );
+            }
+        }
+
+        for (int y = 0; y < yLength; y += 8) {
+            for (int x = 0; x < xLength; x += 16) {
+                int rgb = 0x440000;
+                b.setRGB( x, y, rgb );
+            }
+        }
+
+        for (int y = 0; y < yLength; y++) {
+            for (int x = 0; x < xLength; x++) {
+                int value = matrix[y][x];
+                if (value != 0) {
+                    int times3 = value * 3;
+                    int rgb = times3 > 255 ? 0xffffff : (times3 << 16) + (times3 << 8) + (times3);
+                    b.setRGB( x, y, rgb );
+                }
+            }
+        }
+        try {
+
+            System.out.println( "result:" + Boolean.toString( ImageIO.write( b, "png", new File( tofile ) ) ) );
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        System.out.println( "end" );
+
+    }
 }
