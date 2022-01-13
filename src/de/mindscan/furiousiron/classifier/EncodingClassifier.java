@@ -90,6 +90,11 @@ public class EncodingClassifier {
         // Q3:(80-ff)x(00-7f)
         // Q4:(80-ff)x(80-ff)
 
+        // maybe we should train a CNN for each of these quadrants 128x128 instead of one 256x256
+        // by using with dilated convolutions to keep the number of layers low and then concatenate 
+        // the results of the 4 quadrants with a 2 layer FC network to calculate the common classes
+        // representation and a final decding layer for multi-class-predictions. 
+
         // 0a0a -> linux encodings
         // 0a20 -> linux encodings
         // mac and windows encodings
