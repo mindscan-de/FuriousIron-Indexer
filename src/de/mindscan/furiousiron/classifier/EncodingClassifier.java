@@ -93,13 +93,27 @@ public class EncodingClassifier {
         // maybe we should train a CNN for each of these quadrants 128x128 instead of one 256x256
         // by using with dilated convolutions to keep the number of layers low and then concatenate 
         // the results of the 4 quadrants with a 2 layer FC network to calculate the common classes
-        // representation and a final decding layer for multi-class-predictions. 
+        // representation and a final decoding layer for multi-class-predictions. 
 
+        // hard-coded rules... probably faster for each, but the code will not be very beautiful... and is cpu bound...
+        // but GPU bound may use thousands of gpu shaders or hundreds of tensor cores in parallel, and 128x128 grayscale 
+        // images should be quite fast and we should be able to classify about at least 100 images/textfiles per second.
+        // that should be fast enough for our current use case.
+        // 
+        // the interesting part is that we can provide multiple "images"/progresses per file, e.g. read the first 
+        // 8 k bytes, then after another 8k and so on, that means we can have millions of classifications for training
+        // 
         // 0a0a -> linux encodings
         // 0a20 -> linux encodings
         // mac and windows encodings
         // 0d0a > 0a0d  && 0a20 > 0
         // 0a0d > 0d0a  // 0d20 > 0
+        // utf8
+        // utf16
+        // natural language detection (english, russian, german, chinese, korean, japanese, .....)
+        // CP1252
+        // ISO-8859
+        // programming language detection (java, python, ?)
 
         // feff == 1 utf8
 
