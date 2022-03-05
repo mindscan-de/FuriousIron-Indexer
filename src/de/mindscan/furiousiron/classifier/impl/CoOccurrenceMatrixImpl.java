@@ -26,21 +26,19 @@
 package de.mindscan.furiousiron.classifier.impl;
 
 /**
- * 
+ * Co-occurrence matrix to analyze the content of files. The basic idea is to use 
+ * this matrix directly for machine learning to classify the content of the files.  
  */
 public class CoOccurrenceMatrixImpl {
 
-    // 256kbyte
-    private int[][] com = new int[256][256];
+    // 256kbyte (4*64kbyte)
+    private int[][] coMatrix = new int[256][256];
 
-    /**
-     * 
-     */
     public CoOccurrenceMatrixImpl() {
     }
 
     public void reset() {
-        com = new int[256][256];
+        coMatrix = new int[256][256];
     }
 
     public void update( byte[] byteSequence ) {
@@ -52,14 +50,16 @@ public class CoOccurrenceMatrixImpl {
             byte first = byteSequence[i];
             byte second = byteSequence[i + 1];
 
-            com[first][second]++;
+            coMatrix[first][second]++;
         }
 
-        // TODO: save the last byte and add it next time as first byte to the very first byte to the matrix... But maybe making an error here is just negligible, if
-        // the sequences are small enough / actually the result just must be good enough for a classification.
+        // TODO: 
+        // - save the last byte and add it next time as first byte to the very first byte to the matrix... 
+        // - maybe making an error here is just negligible, if the sequences are small enough / 
+        // - actually the result just must be good enough for a classification.
     }
 
     public int[][] getMatrix() {
-        return com;
+        return coMatrix;
     }
 }
