@@ -41,8 +41,6 @@ public class JavaASTClassifier implements Classifier {
      */
     @Override
     public void classify( DocumentId documentId, DocumentMetadata documentMetaData, Path fileToIndex ) {
-        // TODO Auto-generated method stub
-
         // TODO analysis of Java file using an AST parser?
 
         // class
