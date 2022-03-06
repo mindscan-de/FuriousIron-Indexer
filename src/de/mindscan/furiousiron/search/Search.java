@@ -81,8 +81,9 @@ public class Search {
     private List<TrigramOccurrence> lastSearchOccurences;
 
     /**
-     * @param indexFolder The folder, where the index root is located
+     * Ctor.
      * 
+     * @param indexFolder The folder, where the index root is located
      */
     public Search( Path indexFolder ) {
         theFileCache = new DocumentCache( indexFolder );
