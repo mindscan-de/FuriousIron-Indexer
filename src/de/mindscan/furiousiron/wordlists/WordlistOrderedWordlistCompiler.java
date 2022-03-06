@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +55,7 @@ public class WordlistOrderedWordlistCompiler implements WordlistCompiler {
      * Compare the words in given pre-defined ordered Wordlist.
      */
     public WordlistOrderedWordlistCompiler( Collection<String> orderedWordlist ) {
-        this.wordOrderMap = new HashMap<>();
+        this.wordOrderMap = new LinkedHashMap<>();
         // this.orderedWordlist = orderedWordlist;
 
         int index = 0;
