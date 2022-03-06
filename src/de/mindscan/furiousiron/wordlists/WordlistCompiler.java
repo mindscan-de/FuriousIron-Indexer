@@ -35,10 +35,6 @@ public interface WordlistCompiler {
 
     /**
      * This method will compile a search tree based on documents wordlist search.
-     * 
-     * @param ast
-     * @param search
-     * @return
      */
     QueryNode compile( QueryNode ast, Search search );
 
