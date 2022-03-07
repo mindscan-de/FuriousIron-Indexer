@@ -134,6 +134,10 @@ public class SimpleWordUtils {
         return trigramsplitter( word );
     }
 
+    public static Collection<String> getTrigramsFromLineFiltered( String word, Collection<String> filter ) {
+        return trigramsplitter( word, filter );
+    }
+
     public static Set<String> getUniqueTrigramsFromWordList( List<String> flatWordList ) {
         List<List<String>> collectedTrigramsForEachWord = flatWordList.stream().map( SimpleWordUtils::trigramsplitter ).distinct()
                         .collect( Collectors.toList() );
@@ -147,6 +151,17 @@ public class SimpleWordUtils {
         List<String> result = new ArrayList<>();
         for (int startIndex = 0; startIndex <= string.length() - 3; startIndex++) {
             result.add( string.substring( startIndex, startIndex + 3 ) );
+        }
+        return result;
+    }
+
+    static List<String> trigramsplitter( String string, Collection<String> filter ) {
+        List<String> result = new ArrayList<>();
+        for (int startIndex = 0; startIndex <= string.length() - 3; startIndex++) {
+            String substring = string.substring( startIndex, startIndex + 3 );
+            if (filter.contains( substring )) {
+                result.add( substring );
+            }
         }
         return result;
     }
