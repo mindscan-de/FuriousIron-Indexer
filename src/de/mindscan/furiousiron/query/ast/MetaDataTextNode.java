@@ -76,4 +76,24 @@ public class MetaDataTextNode implements KeyValueQueryNode {
         return Collections.emptyList();
     }
 
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+
+        // print and Node
+        sb.append( "[ 'METADATA', '" );
+
+        sb.append( key );
+        sb.append( "':'" );
+        sb.append( text );
+
+        // end of Node
+        sb.append( "' ]" );
+
+        return sb.toString();
+    }
+
 }
