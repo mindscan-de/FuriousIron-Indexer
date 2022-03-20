@@ -26,19 +26,30 @@
 package de.mindscan.furiousiron.query.ast;
 
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * 
  */
 public class MetaDataTextNode implements KeyValueQueryNode {
 
+    private String text;
+    private String key;
+
+    /**
+     * 
+     */
+    public MetaDataTextNode( String key, String textValue ) {
+        this.key = key;
+        this.text = textValue;
+    }
+
     /** 
      * {@inheritDoc}
      */
     @Override
     public String getContent() {
-        // TODO Auto-generated method stub
-        return null;
+        return text;
     }
 
     /** 
@@ -46,8 +57,7 @@ public class MetaDataTextNode implements KeyValueQueryNode {
      */
     @Override
     public String getKey() {
-        // TODO Auto-generated method stub
-        return null;
+        return key;
     }
 
     /** 
@@ -55,7 +65,6 @@ public class MetaDataTextNode implements KeyValueQueryNode {
      */
     @Override
     public boolean hasChildren() {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -64,8 +73,7 @@ public class MetaDataTextNode implements KeyValueQueryNode {
      */
     @Override
     public Collection<QueryNode> getChildren() {
-        // TODO Auto-generated method stub
-        return null;
+        return Collections.emptyList();
     }
 
 }
