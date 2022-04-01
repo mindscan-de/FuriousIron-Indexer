@@ -28,7 +28,14 @@ package de.mindscan.furiousiron.query;
 import de.mindscan.furiousiron.query.ast.QueryNode;
 
 /**
+ * A query AST transformer can be used for different things. It can be used to 
+ * compile the parsed query tree into primitive nodes or it can be used to 
+ * optimize the query AST for parallel processing, or reduced into smaller 
+ * trees, which can be used to perform searches on Metadata and such. The 
+ * idea is to provide smaller but serial transformations.
  * 
+ * Another intent would be the ability to transform a query AST in small steps
+ * and be able to transform the AST in small increments to it's final form.
  */
 @FunctionalInterface
 public interface ASTTransformer {
