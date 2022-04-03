@@ -72,4 +72,8 @@ public class QueryNodeListNode implements QueryNode {
         return new LinkedList<>( nodes );
     }
 
+    public List<QueryNode> getChildrenAsList() {
+        return new LinkedList<>( nodes );
+    }
+
 }
