@@ -30,6 +30,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 import de.mindscan.furiousiron.crawler.MetaDataFileCrawler;
+import de.mindscan.furiousiron.indexer.MetadataFileIndexer;
 import picocli.CommandLine;
 
 /**
@@ -49,8 +50,8 @@ public class MetaIndexerMain {
 
         System.out.println( String.format( "%d files found for meta data indexing.", filesToBeIndexed.size() ) );
 
-        // new indexer...
-        // metadataIndexer.buildIndex(filesToBeIndexed, crawlFolder, indexFolder );
+        MetadataFileIndexer metadataIndexer = new MetadataFileIndexer();
+        metadataIndexer.buildIndex( filesToBeIndexed, crawlFolder, indexFolder );
 
     }
 
