@@ -35,7 +35,7 @@ import picocli.CommandLine.Option;
  */
 public class MetaIndexerMainParameters implements Callable<Integer> {
 
-    @Option( names = "--crawlFolder", defaultValue = "D:\\Analysis\\CrawlerProjects\\IndexedNew", description = "The folder to index." )
+    @Option( names = "--crawlFolder", defaultValue = "D:\\Analysis\\CrawlerProjects\\IndexedNew\\cachedMetadata", description = "The folder to index." )
     private Path crawlFolder;
 
     @Option( names = "--indexFolder", defaultValue = "D:\\Analysis\\CrawlerProjects\\IndexedNew", description = "The folder where the index shall be stored." )
