@@ -32,6 +32,7 @@ public class DocumentClasses {
 
     public static final String FILE_EXTENSION = "fileext";
     public static final String FILE_TYPE = "filetype";
-    public static final String UNITTEST = "unit-test";
+    public static final String UNITTEST = "unittest";
+    public static final String UNITTEST_VALUE = "unittest";
 
 }

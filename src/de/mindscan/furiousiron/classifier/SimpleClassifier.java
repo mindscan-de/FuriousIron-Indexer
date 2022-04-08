@@ -123,7 +123,7 @@ public class SimpleClassifier implements Classifier {
                 int isIsolationFramework = hasWords( uniqueWordlist, "mockito", "powermockito", "mock", "spy", "thenreturn" );
 
                 if (isAssert + isJunit + isMatcher + isIsolationFramework >= 2) {
-                    documentMetaData.addClass( DocumentClasses.UNITTEST, "true" );
+                    documentMetaData.addClass( DocumentClasses.UNITTEST, DocumentClasses.UNITTEST_VALUE );
                 }
 
                 // TODO: classify an interface
