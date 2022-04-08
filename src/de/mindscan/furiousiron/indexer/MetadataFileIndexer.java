@@ -28,12 +28,19 @@ package de.mindscan.furiousiron.indexer;
 import java.nio.file.Path;
 import java.util.Deque;
 
+import de.mindscan.furiousiron.index.Index;
+
 /**
  * 
  */
 public class MetadataFileIndexer {
 
+    private Index index;
+
     public void buildIndex( Deque<Path> filesToBeIndexed, Path crawlFolder, Path indexFolder ) {
+        setIndex( new Index( indexFolder ) );
+
+        // index.getMetadataInverseTrigramIndex().init();
 
         for (Path fileToIndex : filesToBeIndexed) {
             try {
@@ -44,9 +51,27 @@ public class MetadataFileIndexer {
             }
         }
 
+        // index.getMetadataInverseTrigramIndex().save();
     }
 
     private void updateMetaIndexWithSingleFile( Path fileToIndex, Path crawlFolder, Path indexFolder ) {
+        // TODO: do what ever is needed to understand the metadata.
 
+        // extract documentid, 
+        // load metadata for documentid
+
+        // get all "values" and treat them as words
+        // split these "words" into trigrams
+
+        // index.getMetadataInverseTrigramIndex().addTrigramsForMetadata( documentId, );
     }
+
+    private void setIndex( Index index ) {
+        this.index = index;
+    }
+
+    public Index getIndex() {
+        return index;
+    }
+
 }
