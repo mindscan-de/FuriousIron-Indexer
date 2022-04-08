@@ -138,7 +138,7 @@ public class SimpleWordUtils {
         return trigramsplitter( word, filter );
     }
 
-    public static Set<String> getUniqueTrigramsFromWordList( List<String> flatWordList ) {
+    public static Set<String> getUniqueTrigramsFromWordList( Collection<String> flatWordList ) {
         List<List<String>> collectedTrigramsForEachWord = flatWordList.stream().map( SimpleWordUtils::trigramsplitter ).distinct()
                         .collect( Collectors.toList() );
 
