@@ -28,6 +28,7 @@ package de.mindscan.furiousiron.indexer;
 import java.nio.file.Path;
 import java.util.Deque;
 
+import de.mindscan.furiousiron.document.DocumentMetadata;
 import de.mindscan.furiousiron.index.Index;
 
 /**
@@ -56,14 +57,20 @@ public class MetadataFileIndexer {
 
     private void updateMetaIndexWithSingleFile( Path fileToIndex, Path crawlFolder, Path indexFolder ) {
         // TODO: do what ever is needed to understand the metadata.
-
         // extract documentid, 
+        // read the document id from the filename?
+        // DocumentID documentId = DocumentIdFactory.createDocumentID()
+        String documentKey = "";
+
         // load metadata for documentid
+        DocumentMetadata documentMetaData = index.getMetadataCache().loadMetadata( documentKey );
 
         // get all "values" and treat them as words
+        // documentMetaData.getAllValues();
+
         // split these "words" into trigrams
 
-        // index.getMetadataInverseTrigramIndex().addTrigramsForMetadata( documentId, );
+        // index.getMetadataInverseTrigramIndex().addTrigramsForMetadata( documentId, .... );
     }
 
     private void setIndex( Index index ) {
