@@ -29,6 +29,7 @@ import java.nio.file.Path;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import de.mindscan.furiousiron.crawler.MetaDataFileCrawler;
 import picocli.CommandLine;
 
 /**
@@ -43,11 +44,12 @@ public class MetaIndexerMain {
     public void run( Path crawlFolder, Path indexFolder ) {
         Deque<Path> filesToBeIndexed = new ArrayDeque<Path>();
 
-        // use a FileCrawler to find the filesToBeIndexed
-        // metaIndexCrawler.crawl( filesToBeIndexed::add, crawlFolder );
+        MetaDataFileCrawler metaIndexCrawler = new MetaDataFileCrawler();
+        metaIndexCrawler.crawl( filesToBeIndexed::add, crawlFolder );
 
         System.out.println( String.format( "%d files found for meta data indexing.", filesToBeIndexed.size() ) );
 
+        // new indexer...
         // metadataIndexer.buildIndex(filesToBeIndexed, crawlFolder, indexFolder );
 
     }
