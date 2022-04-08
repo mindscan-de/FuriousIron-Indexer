@@ -26,7 +26,9 @@
 package de.mindscan.furiousiron.indexer;
 
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.Deque;
+import java.util.Set;
 
 import de.mindscan.furiousiron.document.DocumentMetadata;
 import de.mindscan.furiousiron.index.Index;
@@ -71,11 +73,11 @@ public class MetadataFileIndexer {
         System.out.println( documentMetaData.getRelativePath() );
 
         // get all "values" and treat them as words
-        // documentMetaData.getAllValues();
-
+        Collection<String> uniqueWordlist = documentMetaData.getAllValues();
         // split these "words" into trigrams
+        Set<String> uniqueTrigramlist = SimpleWordUtils.getUniqueTrigramsFromWordList( uniqueWordlist );
 
-        // index.getMetadataInverseTrigramIndex().addTrigramsForMetadata( documentId, .... );
+        // index.getMetadataInverseTrigramIndex().addTrigramsForMetadata( documentId, uniqueTrigramlist );
     }
 
     private void setIndex( Index index ) {
