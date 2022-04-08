@@ -25,7 +25,10 @@
  */
 package de.mindscan.furiousiron.document;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -102,5 +105,15 @@ public class DocumentMetadata {
 
     public Map<String, String> getClassifierMap() {
         return this.classesMap;
+    }
+
+    public Collection<String> getAllValues() {
+        List<String> result = new ArrayList<>();
+
+        result.add( this.getDocumentSimpleName() );
+        result.add( this.getRelativePath() );
+        result.addAll( classesMap.values() );
+
+        return result;
     }
 }
