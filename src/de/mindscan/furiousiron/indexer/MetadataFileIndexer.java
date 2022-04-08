@@ -60,10 +60,15 @@ public class MetadataFileIndexer {
         // extract documentid, 
         // read the document id from the filename?
         // DocumentID documentId = DocumentIdFactory.createDocumentID()
-        String documentKey = "";
+        String simpleFilename = fileToIndex.getFileName().toString();
+        String documentKey = simpleFilename.substring( 0, simpleFilename.length() - ".metadata".length() );
+
+        // DocumentIdFactory.createDocumentIDFromDocumentKey( documentKey );
+        System.out.println( documentKey );
 
         // load metadata for documentid
         DocumentMetadata documentMetaData = index.getMetadataCache().loadMetadata( documentKey );
+        System.out.println( documentMetaData.getRelativePath() );
 
         // get all "values" and treat them as words
         // documentMetaData.getAllValues();
