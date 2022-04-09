@@ -61,12 +61,12 @@ public class MetadataFileIndexer {
 
     private void updateMetaIndexWithSingleFile( Path fileToIndex, Path crawlFolder, Path indexFolder ) {
         String documentKey = extractDocumentKeyFromPath( fileToIndex );
-
         DocumentId documentId = DocumentIdFactory.createDocumentIDFromDocumentKey( documentKey );
-        System.out.println( documentKey );
 
         // load known metadata for document
         DocumentMetadata documentMetaData = index.getMetadataCache().loadMetadata( documentKey );
+
+        System.out.println( documentKey );
         System.out.println( documentMetaData.getRelativePath() );
 
         // get all "values" and treat them as words
