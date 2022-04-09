@@ -60,8 +60,7 @@ public class MetadataFileIndexer {
     }
 
     private void updateMetaIndexWithSingleFile( Path fileToIndex, Path crawlFolder, Path indexFolder ) {
-        String simpleFilename = fileToIndex.getFileName().toString();
-        String documentKey = simpleFilename.substring( 0, simpleFilename.length() - ".metadata".length() );
+        String documentKey = extractDocumentKeyFromPath( fileToIndex );
 
         DocumentId documentId = DocumentIdFactory.createDocumentIDFromDocumentKey( documentKey );
         System.out.println( documentKey );
@@ -75,6 +74,11 @@ public class MetadataFileIndexer {
         Set<String> uniqueTrigramlist = SimpleWordUtils.getUniqueTrigramsFromWordList( uniqueWordlist );
 
         index.getInverseMetadataTrigramIndex().addTrigramsForMetadata( documentId, uniqueTrigramlist );
+    }
+
+    private String extractDocumentKeyFromPath( Path fileToIndex ) {
+        String simpleFilename = fileToIndex.getFileName().toString();
+        return simpleFilename.substring( 0, simpleFilename.length() - ".metadata".length() );
     }
 
     private void setIndex( Index index ) {
