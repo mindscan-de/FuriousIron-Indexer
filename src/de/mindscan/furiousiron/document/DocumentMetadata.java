@@ -28,8 +28,10 @@ package de.mindscan.furiousiron.document;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * This class contains information about a given document, while indexing. It also contains the truth about the filename and the paths.
@@ -110,9 +112,10 @@ public class DocumentMetadata {
     public Collection<String> getAllValues() {
         Set<String> result = new HashSet<>();
 
-        result.add( this.getDocumentSimpleName() );
-        result.add( this.getRelativePath() );
-        result.addAll( classesMap.values() );
+        result.add( this.getDocumentSimpleName().toLowerCase() );
+        result.add( this.getRelativePath().toLowerCase() );
+        List<String> collectedValues = classesMap.values().stream().map( s -> s.toLowerCase() ).collect( Collectors.toList() );
+        result.addAll( collectedValues );
 
         return result;
     }
