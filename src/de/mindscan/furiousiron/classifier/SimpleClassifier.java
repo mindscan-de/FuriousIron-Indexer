@@ -116,7 +116,8 @@ public class SimpleClassifier implements Classifier {
         if (documentMetaData.containsClass( DocumentClasses.FILE_TYPE )) {
             if ("java".equals( classifierMap.get( DocumentClasses.FILE_TYPE ) )) {
                 // classify java content
-                int isAssert = hasWords( uniqueWordlist, "assertequals", "assertthat", "asserttrue", "assertfalse", "assertnull", "assertj", "jassert" );
+                int isAssert = hasWords( uniqueWordlist, "assertequals", "assertthat", "asserttrue", "assertfalse", "assertnull", "assertthrows", "assertj",
+                                "jassert" );
                 int isJunit = hasWords( uniqueWordlist, "junit", "jupiter", "@before", "@test", "@ignore", "@beforeall", "@after", "@afterall",
                                 "@beforeclass" );
                 int isMatcher = hasWords( uniqueWordlist, "hamcrest", "matchers", "equalto", "sameinstance" );
