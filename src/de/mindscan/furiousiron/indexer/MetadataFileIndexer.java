@@ -66,8 +66,7 @@ public class MetadataFileIndexer {
         // load known metadata for document
         DocumentMetadata documentMetaData = index.getMetadataCache().loadMetadata( documentKey );
 
-        System.out.println( documentKey );
-        System.out.println( documentMetaData.getRelativePath() );
+        logDocumentMetadata( documentMetaData );
 
         // get all "values" and treat them as words
         Collection<String> uniqueWordlist = documentMetaData.getAllValues();
@@ -79,6 +78,11 @@ public class MetadataFileIndexer {
     private String extractDocumentKeyFromPath( Path fileToIndex ) {
         String simpleFilename = fileToIndex.getFileName().toString();
         return simpleFilename.substring( 0, simpleFilename.length() - ".metadata".length() );
+    }
+
+    private void logDocumentMetadata( DocumentMetadata documentMetaData ) {
+        System.out.println( documentMetaData.getDocumentKey() );
+        System.out.println( documentMetaData.getRelativePath() );
     }
 
     private void setIndex( Index index ) {
