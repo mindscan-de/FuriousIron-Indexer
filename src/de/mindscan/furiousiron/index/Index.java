@@ -39,12 +39,12 @@ import de.mindscan.furiousiron.index.trigram.InverseTrigramIndex;
  */
 public class Index {
 
-    private DocumentCache theFileCache;
-    private MetadataCache theMetadataCache;
-    private WordlistCache theWordlistCache;
-    private InverseTrigramIndex theInverseTrigramIndex;
-    private InverseMetadataTrigramIndex theInverseMetadataTrigramIndex;
-    private SearchQueryCache theSearchQueryCache;
+    private final DocumentCache theFileCache;
+    private final MetadataCache theMetadataCache;
+    private final WordlistCache theWordlistCache;
+    private final InverseTrigramIndex theInverseTrigramIndex;
+    private final InverseMetadataTrigramIndex theInverseMetadataTrigramIndex;
+    private final SearchQueryCache theSearchQueryCache;
 
     /**
      * 
