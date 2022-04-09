@@ -61,7 +61,7 @@ public class InverseMetadataTrigramIndex {
      * @param documentId the document id to add to each trigram
      * @param uniqueTrigramlist the collection of trigrams contained in the document metadata
      */
-    public void addTrigramsForDocument( DocumentId documentId, Collection<String> uniqueTrigramlist ) {
+    public void addTrigramsForMetadata( DocumentId documentId, Collection<String> uniqueTrigramlist ) {
         for (String trigramKey : uniqueTrigramlist) {
             inverseIndex.computeIfAbsent( trigramKey, this::createEmptyTrigramIndex ).add( documentId.getDocumentKey() );
         }
