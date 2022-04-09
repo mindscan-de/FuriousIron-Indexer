@@ -30,6 +30,8 @@ import java.util.Collection;
 import java.util.Deque;
 import java.util.Set;
 
+import de.mindscan.furiousiron.document.DocumentId;
+import de.mindscan.furiousiron.document.DocumentIdFactory;
 import de.mindscan.furiousiron.document.DocumentMetadata;
 import de.mindscan.furiousiron.index.Index;
 
@@ -43,7 +45,7 @@ public class MetadataFileIndexer {
     public void buildIndex( Deque<Path> filesToBeIndexed, Path crawlFolder, Path indexFolder ) {
         setIndex( new Index( indexFolder ) );
 
-        // index.getMetadataInverseTrigramIndex().init();
+        index.getInverseMetadataTrigramIndex().init();
 
         for (Path fileToIndex : filesToBeIndexed) {
             try {
@@ -54,30 +56,25 @@ public class MetadataFileIndexer {
             }
         }
 
-        // index.getMetadataInverseTrigramIndex().save();
+        index.getInverseMetadataTrigramIndex().save();
     }
 
     private void updateMetaIndexWithSingleFile( Path fileToIndex, Path crawlFolder, Path indexFolder ) {
-        // TODO: do what ever is needed to understand the metadata.
-        // extract documentid, 
-        // read the document id from the filename?
-        // DocumentID documentId = DocumentIdFactory.createDocumentID()
         String simpleFilename = fileToIndex.getFileName().toString();
         String documentKey = simpleFilename.substring( 0, simpleFilename.length() - ".metadata".length() );
 
-        // DocumentIdFactory.createDocumentIDFromDocumentKey( documentKey );
+        DocumentId documentId = DocumentIdFactory.createDocumentIDFromDocumentKey( documentKey );
         System.out.println( documentKey );
 
-        // load metadata for documentid
+        // load known metadata for document
         DocumentMetadata documentMetaData = index.getMetadataCache().loadMetadata( documentKey );
         System.out.println( documentMetaData.getRelativePath() );
 
         // get all "values" and treat them as words
         Collection<String> uniqueWordlist = documentMetaData.getAllValues();
-        // split these "words" into trigrams
         Set<String> uniqueTrigramlist = SimpleWordUtils.getUniqueTrigramsFromWordList( uniqueWordlist );
 
-        // index.getMetadataInverseTrigramIndex().addTrigramsForMetadata( documentId, uniqueTrigramlist );
+        index.getInverseMetadataTrigramIndex().addTrigramsForMetadata( documentId, uniqueTrigramlist );
     }
 
     private void setIndex( Index index ) {
