@@ -64,15 +64,15 @@ import de.mindscan.furiousiron.util.StopWatch;
 public class Search {
 
     // for content
-    private DocumentCache theFileCache;
+    private final DocumentCache theFileCache;
     // for ranking
-    private MetadataCache theMetadataCache;
+    private final MetadataCache theMetadataCache;
     // for ranking the results
-    private WordlistCache theWordlistCache;
+    private final WordlistCache theWordlistCache;
     // for ranking
-    private SearchTrigramIndex theSearchTrigramIndex;
+    private final SearchTrigramIndex theSearchTrigramIndex;
     // for performance
-    private SearchQueryCache theSearchQueryCache;
+    private final SearchQueryCache theSearchQueryCache;
     // for performance measurements
     private List<TrigramOccurrence> unprocessedTrigrams;
     // for optimizations of later stages
