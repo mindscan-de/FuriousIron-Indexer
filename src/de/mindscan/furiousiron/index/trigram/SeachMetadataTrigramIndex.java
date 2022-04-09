@@ -25,7 +25,17 @@
  */
 package de.mindscan.furiousiron.index.trigram;
 
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
+import java.util.Collection;
+import java.util.Set;
+import java.util.TreeSet;
+
+import com.google.gson.Gson;
+
+import de.mindscan.furiousiron.index.trigram.model.TrigramIndexJsonModel;
 
 /**
  * 
@@ -47,6 +57,38 @@ public class SeachMetadataTrigramIndex {
      */
     public SeachMetadataTrigramIndex( Path indexFolder ) {
         this.searchMetadataTrigramsPath = indexFolder.resolve( TRIGRAM_INVERSE_METADATA_INDEX );
+    }
+
+    /**
+    * @param trigram
+    * @return
+    */
+    public Collection<String> getDocumentIdsForTrigram( String trigram ) {
+        return loadFromDisk( trigram );
+    }
+
+    private Set<String> loadFromDisk( String trigram ) {
+        Set<String> result = new TreeSet<>();
+
+        for (int counter = 0; counter < MAX_INDEX_REFERENCES; counter++) {
+            Path pathForTrigrams = TrigramSubPathCalculator.getPathForTrigram( searchMetadataTrigramsPath, trigram, "." + counter + TRIGRAM_REFERENCE_SUFFIX );
+
+            if (Files.exists( pathForTrigrams, LinkOption.NOFOLLOW_LINKS )) {
+                Gson gson = new Gson();
+                try (Reader json = Files.newBufferedReader( pathForTrigrams )) {
+                    TrigramIndexJsonModel fromJson = gson.fromJson( json, TrigramIndexJsonModel.class );
+                    result.addAll( fromJson.getRelatedDocuments() );
+                }
+                catch (Exception e) {
+                    break;
+                }
+            }
+            else {
+                break;
+            }
+        }
+
+        return result;
     }
 
 }
