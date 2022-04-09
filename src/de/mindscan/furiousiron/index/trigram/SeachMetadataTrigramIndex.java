@@ -35,6 +35,7 @@ import java.util.TreeSet;
 
 import com.google.gson.Gson;
 
+import de.mindscan.furiousiron.index.trigram.model.TrigramDocumentCountJsonModel;
 import de.mindscan.furiousiron.index.trigram.model.TrigramIndexJsonModel;
 
 /**
@@ -65,6 +66,35 @@ public class SeachMetadataTrigramIndex {
     */
     public Collection<String> getDocumentIdsForTrigram( String trigram ) {
         return loadFromDisk( trigram );
+    }
+
+    /**
+     * This will open and load the trigram count file from disk. This should be done once for the involved trigrams,
+     * because of speed.
+     * 
+     * @param trigram
+     * @return
+     */
+    public TrigramOccurrence loadDocumentCountForTrigram( String trigram ) {
+        // TODO: LRU Cache for the number of trigrams, so the number is only calculated/read once from disk.
+
+        Path pathForTrigramCount = TrigramSubPathCalculator.getPathForTrigram( searchMetadataTrigramsPath, trigram, TRIGRAM_COUNT_SUFFIX );
+
+        if (Files.exists( pathForTrigramCount, LinkOption.NOFOLLOW_LINKS )) {
+            Gson gson = new Gson();
+            try (Reader json = Files.newBufferedReader( pathForTrigramCount )) {
+                TrigramDocumentCountJsonModel fromJson = gson.fromJson( json, TrigramDocumentCountJsonModel.class );
+                long occurence = fromJson.getRelatedDocumentsCount();
+                return new TrigramOccurrence( trigram, occurence );
+            }
+            catch (Exception e) {
+                return new TrigramOccurrence( trigram, 3072L );
+            }
+        }
+        else {
+            // No count file exist, means, that there are no documents to be found.
+            return new TrigramOccurrence( trigram, 0L );
+        }
     }
 
     private Set<String> loadFromDisk( String trigram ) {
