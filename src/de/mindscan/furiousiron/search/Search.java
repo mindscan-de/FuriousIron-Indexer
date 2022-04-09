@@ -299,6 +299,14 @@ public class Search {
         return theSearchTrigramIndex.getDocumentIdsForTrigram( trigram );
     }
 
+    private TrigramOccurrence getMetadataTrigramOccurrence( String trigram ) {
+        return theSearchMetadataTrigramIndex.loadDocumentCountForTrigram( trigram );
+    }
+
+    private Collection<String> getDocumentsForMetadataTrigram( String trigram ) {
+        return theSearchMetadataTrigramIndex.getDocumentIdsForTrigram( trigram );
+    }
+
     public MetadataCache getMetaDataCache() {
         return theMetadataCache;
     }
