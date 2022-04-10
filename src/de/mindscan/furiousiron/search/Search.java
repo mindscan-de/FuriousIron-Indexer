@@ -154,6 +154,12 @@ public class Search {
         return searchResult;
     }
 
+    /**
+     * This is the most recent and most universal search using combined trigrams, other methodas for search above are
+     * here for legacy reasons, in case this search fail for some reason. (To be adapted for metadata search as well.)
+     * @param uniqueTrigramsFromWord
+     * @return
+     */
     public Set<String> collectDocumentIdsForTrigramsOpt( Collection<String> uniqueTrigramsFromWord ) {
         HashSet<String> resultSet = new HashSet<String>();
         List<TrigramUsage> trigramUsage = new ArrayList<>( uniqueTrigramsFromWord.size() );
