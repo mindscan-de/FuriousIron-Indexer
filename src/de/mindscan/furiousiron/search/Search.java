@@ -35,7 +35,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -76,8 +75,6 @@ public class Search {
     private final SeachMetadataTrigramIndex theSearchMetadataTrigramIndex;
     // for performance
     private final SearchQueryCache theSearchQueryCache;
-    // for optimizations of later stages
-    private List<TrigramUsage> trigramUsage;
     // this is something which should not be stored here - subject to refactoring.
     private List<TrigramOccurrence> lastSearchOccurences;
 
@@ -97,8 +94,6 @@ public class Search {
         theSearchQueryCache = new SearchQueryCache( indexFolder );
 
         searchDetails = new SearchExecutionDetails();
-
-        trigramUsage = Collections.emptyList();
     }
 
     /**
@@ -427,11 +422,11 @@ public class Search {
     }
 
     private void setTrigramUsage( List<TrigramUsage> trigramUsage ) {
-        this.trigramUsage = trigramUsage;
+        this.searchDetails.setTrigramUsage( trigramUsage );
     }
 
     public List<TrigramUsage> getTrigramUsage() {
-        return trigramUsage;
+        return this.searchDetails.getTrigramUsage();
     }
 
     private void setLastQueryTrigramOccurrences( List<TrigramOccurrence> lastSearchOccurences ) {
