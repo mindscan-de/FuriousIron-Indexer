@@ -76,12 +76,12 @@ public class Search {
     private final SeachMetadataTrigramIndex theSearchMetadataTrigramIndex;
     // for performance
     private final SearchQueryCache theSearchQueryCache;
-    // for performance measurements
-    private List<TrigramOccurrence> unprocessedTrigrams;
     // for optimizations of later stages
     private List<TrigramUsage> trigramUsage;
     // this is something which should not be stored here - subject to refactoring.
     private List<TrigramOccurrence> lastSearchOccurences;
+
+    private SearchExecutionDetails searchDetails;
 
     /**
      * Ctor.
@@ -96,7 +96,8 @@ public class Search {
         theSearchMetadataTrigramIndex = new SeachMetadataTrigramIndex( indexFolder );
         theSearchQueryCache = new SearchQueryCache( indexFolder );
 
-        unprocessedTrigrams = Collections.emptyList();
+        searchDetails = new SearchExecutionDetails();
+
         trigramUsage = Collections.emptyList();
     }
 
@@ -418,11 +419,11 @@ public class Search {
     }
 
     private void setSkippedTrigramsInOptSearch( List<TrigramOccurrence> skippedTrigrams ) {
-        this.unprocessedTrigrams = skippedTrigrams;
+        this.searchDetails.setSkippedTrigramsInOptSearch( skippedTrigrams );
     }
 
     public List<TrigramOccurrence> getSkippedTrigramsInOptSearch() {
-        return unprocessedTrigrams;
+        return searchDetails.getSkippedTrigramsInOptSearch();
     }
 
     private void setTrigramUsage( List<TrigramUsage> trigramUsage ) {
