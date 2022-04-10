@@ -247,6 +247,98 @@ public class Search {
         return resultSet;
     }
 
+    // implementation of search algorithm on metadata using same idea as in collectDocumentIdsForTrigramOpt 
+    public Set<String> collectDocumentIdsForMetadataTrigramsOpt( Collection<String> uniqueTrigramsFromWord ) {
+        HashSet<String> resultSet = new HashSet<String>();
+        List<TrigramUsage> trigramUsage = new ArrayList<>( uniqueTrigramsFromWord.size() );
+
+        // TODO: this for metadata:
+        List<TrigramOccurrence> sortedMetadataTrigramOccurrences = getTrigramOccurrencesSortedByOccurrence( uniqueTrigramsFromWord );
+
+        // TODO: this for metadata
+        setLastQueryTrigramOccurrences( sortedMetadataTrigramOccurrences );
+
+        for (TrigramOccurrence trigramOccurence : sortedMetadataTrigramOccurrences) {
+            System.out.println( "Debug-MetadataTrigramOccurence: " + trigramOccurence.toString() );
+        }
+
+        long previousSetSize = 0L;
+
+        StopWatch retainAllStopWatch = StopWatch.createStarted();
+
+        // fill resultSet with first document list (shortest), it will only get shorter 
+        Iterator<TrigramOccurrence> collectedOccurencesIterator = sortedMetadataTrigramOccurrences.iterator();
+        if (collectedOccurencesIterator.hasNext()) {
+            TrigramOccurrence firstTrigramOccurence = collectedOccurencesIterator.next();
+            resultSet = new HashSet<String>( getDocumentsForMetadataTrigram( firstTrigramOccurence.getTrigram() ) );
+
+            trigramUsage.add( new TrigramUsage( firstTrigramOccurence, TrigramUsageState.SUCCESS ) );
+            previousSetSize = firstTrigramOccurence.getOccurrenceCount();
+
+            System.out.println( "Reduction starts from: " + resultSet.size() + " elements for " + firstTrigramOccurence.getTrigram() );
+        }
+
+        // we make at least one round of reducing the number of document candidates by combining the set of 
+        // the first and second trigram's associated documents and continue until it becomes inefficient
+        while (collectedOccurencesIterator.hasNext()) {
+            TrigramOccurrence trigram = collectedOccurencesIterator.next();
+
+            Collection<String> documentIds = getDocumentsForMetadataTrigram( trigram.getTrigram() );
+
+            // At the moment this code is fast enough. the only bottleneck is to load
+            // the json documents from disk. The retainall operation is not that slow,
+            // as i was expecting.
+
+            // sorting trigrams leads to a highly imbalanced (retain) comparison, 
+            // resultSet will become smaller and smaller and the documentIds are becoming bigger and bigger.
+            // so it might be important to optimize this implementation?
+
+            // in case of majority of time consumed here, this retainAll operation has to be switched to a 
+            // more efficient mode e.g. Skiplists or we are looking for each resultset-item via a bloomfilter
+            // in documentIds-Collection, where the documentIds are the bloomfilter-hashed eleemnts.
+
+            resultSet.retainAll( documentIds );
+            int remainingSize = resultSet.size();
+
+            // collect the success of the tr 
+            if (remainingSize == previousSetSize) {
+                trigramUsage.add( new TrigramUsage( trigram, TrigramUsageState.FAILED ) );
+            }
+            else if (remainingSize < previousSetSize) {
+                trigramUsage.add( new TrigramUsage( trigram, TrigramUsageState.SUCCESS ) );
+            }
+
+            System.out.println( "Reduction to: " + remainingSize + " elemenets using trigram: " + trigram.getTrigram() );
+
+            if (trigram.getOccurrenceCount() > (128 * remainingSize)) {
+                // stop if it is too unbalanced... we probably already are in X+10% range of maximal search results
+                break;
+            }
+
+            previousSetSize = remainingSize;
+        }
+        retainAllStopWatch.stop();
+        System.out.println( "Time to reduce via retainAll: " + (retainAllStopWatch.getElapsedTime()) );
+
+        List<TrigramOccurrence> skippedTrigrams = new ArrayList<>();
+        long ignoredElements = 0L;
+        while (collectedOccurencesIterator.hasNext()) {
+            TrigramOccurrence skippedTrigram = collectedOccurencesIterator.next();
+            ignoredElements += skippedTrigram.getOccurrenceCount();
+            skippedTrigrams.add( skippedTrigram );
+        }
+
+        // TODO: set for metadata
+        // save the skipped tri-grams for later optimized/optimizing searches.
+        this.setSkippedTrigramsInOptSearch( skippedTrigrams );
+        // TODO: set for metadata
+        this.setTrigramUsage( trigramUsage );
+
+        System.out.println( "Skipped Elements: " + ignoredElements );
+
+        return resultSet;
+    }
+
     public List<TrigramOccurrence> getTrigramOccurrencesSortedByOccurrence( Collection<String> uniqueTrigramsFromWord ) {
         // convert trigrams to TrigramOccurences
         List<TrigramOccurrence> collectedOccurrences = uniqueTrigramsFromWord.stream().map( ( trigram ) -> this.getTrigramOccurrence( trigram ) )
