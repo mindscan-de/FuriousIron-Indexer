@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.List;
 
 import de.mindscan.furiousiron.index.trigram.TrigramOccurrence;
+import de.mindscan.furiousiron.index.trigram.TrigramUsage;
 
 /**
  * 
@@ -36,12 +37,14 @@ import de.mindscan.furiousiron.index.trigram.TrigramOccurrence;
 public class SearchExecutionDetails {
 
     private List<TrigramOccurrence> skippedTrigrams;
+    private List<TrigramUsage> trigramUsage;
 
     /**
      * 
      */
     public SearchExecutionDetails() {
         skippedTrigrams = Collections.emptyList();
+        trigramUsage = Collections.emptyList();
     }
 
     public void setSkippedTrigramsInOptSearch( List<TrigramOccurrence> skippedTrigrams ) {
@@ -53,5 +56,19 @@ public class SearchExecutionDetails {
      */
     public List<TrigramOccurrence> getSkippedTrigramsInOptSearch() {
         return skippedTrigrams;
+    }
+
+    /**
+     * @param trigramUsage the trigramUsage to set
+     */
+    public void setTrigramUsage( List<TrigramUsage> trigramUsage ) {
+        this.trigramUsage = trigramUsage;
+    }
+
+    /**
+     * @return the trigramUsage
+     */
+    public List<TrigramUsage> getTrigramUsage() {
+        return trigramUsage;
     }
 }
