@@ -233,7 +233,7 @@ public class Search {
         }
 
         // save the skipped tri-grams for later optimized/optimizing searches.
-        this.setSkippedTrigramsInOptSearch( skippedTrigrams );
+        this.searchDetails.setSkippedTrigramsInOptSearch( skippedTrigrams );
         this.setTrigramUsage( trigramUsage );
 
         System.out.println( "Skipped Elements: " + ignoredElements );
@@ -324,7 +324,7 @@ public class Search {
 
         // TODO: set for metadata
         // save the skipped tri-grams for later optimized/optimizing searches.
-        this.setSkippedTrigramsInOptSearch( skippedTrigrams );
+        this.searchDetails.setSkippedTrigramsInOptSearch( skippedTrigrams );
         // TODO: set for metadata
         this.setTrigramUsage( trigramUsage );
 
@@ -409,10 +409,6 @@ public class Search {
 
     public SearchQueryCache getSearchQueryCache() {
         return theSearchQueryCache;
-    }
-
-    private void setSkippedTrigramsInOptSearch( List<TrigramOccurrence> skippedTrigrams ) {
-        this.searchDetails.setSkippedTrigramsInOptSearch( skippedTrigrams );
     }
 
     public List<TrigramOccurrence> getSkippedTrigramsInOptSearch() {
