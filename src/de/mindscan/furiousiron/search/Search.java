@@ -160,7 +160,7 @@ public class Search {
 
         List<TrigramOccurrence> sortedTrigramOccurrences = getTrigramOccurrencesSortedByOccurrence( uniqueTrigramsFromWord );
 
-        setLastQueryTrigramOccurrences( sortedTrigramOccurrences );
+        searchDetails.setLastQueryTrigramOccurrences( sortedTrigramOccurrences );
 
         for (TrigramOccurrence trigramOccurence : sortedTrigramOccurrences) {
             System.out.println( "Debug-TrigramOccurence: " + trigramOccurence.toString() );
@@ -250,7 +250,7 @@ public class Search {
         List<TrigramOccurrence> sortedMetadataTrigramOccurrences = getTrigramOccurrencesSortedByOccurrence( uniqueTrigramsFromWord );
 
         // TODO: this for metadata
-        setLastQueryTrigramOccurrences( sortedMetadataTrigramOccurrences );
+        searchDetails.setLastQueryTrigramOccurrences( sortedMetadataTrigramOccurrences );
 
         for (TrigramOccurrence trigramOccurence : sortedMetadataTrigramOccurrences) {
             System.out.println( "Debug-MetadataTrigramOccurence: " + trigramOccurence.toString() );
@@ -411,16 +411,8 @@ public class Search {
         return searchDetails.getSkippedTrigramsInOptSearch();
     }
 
-    private void setTrigramUsage( List<TrigramUsage> trigramUsage ) {
-        this.searchDetails.setTrigramUsage( trigramUsage );
-    }
-
     public List<TrigramUsage> getTrigramUsage() {
         return this.searchDetails.getTrigramUsage();
-    }
-
-    private void setLastQueryTrigramOccurrences( List<TrigramOccurrence> lastSearchOccurences ) {
-        this.searchDetails.setLastQueryTrigramOccurrences( lastSearchOccurences );
     }
 
     public List<TrigramOccurrence> getLastQueryTrigramOccurences() {
