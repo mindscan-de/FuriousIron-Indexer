@@ -233,8 +233,8 @@ public class Search {
         }
 
         // save the skipped tri-grams for later optimized/optimizing searches.
-        this.searchDetails.setSkippedTrigramsInOptSearch( skippedTrigrams );
-        this.setTrigramUsage( trigramUsage );
+        searchDetails.setSkippedTrigramsInOptSearch( skippedTrigrams );
+        searchDetails.setTrigramUsage( trigramUsage );
 
         System.out.println( "Skipped Elements: " + ignoredElements );
 
@@ -324,9 +324,9 @@ public class Search {
 
         // TODO: set for metadata
         // save the skipped tri-grams for later optimized/optimizing searches.
-        this.searchDetails.setSkippedTrigramsInOptSearch( skippedTrigrams );
+        searchDetails.setSkippedTrigramsInOptSearch( skippedTrigrams );
         // TODO: set for metadata
-        this.setTrigramUsage( trigramUsage );
+        searchDetails.setTrigramUsage( trigramUsage );
 
         System.out.println( "Skipped Elements: " + ignoredElements );
 
@@ -389,10 +389,6 @@ public class Search {
 
     private Collection<String> getDocumentsForTrigram( String trigram ) {
         return theSearchTrigramIndex.getDocumentIdsForTrigram( trigram );
-    }
-
-    private TrigramOccurrence getMetadataTrigramOccurrence( String trigram ) {
-        return theSearchMetadataTrigramIndex.loadDocumentCountForTrigram( trigram );
     }
 
     private Collection<String> getDocumentsForMetadataTrigram( String trigram ) {
