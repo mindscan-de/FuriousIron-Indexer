@@ -419,10 +419,6 @@ public class Search {
         this.metadataSearchDetails = executionDetails;
     }
 
-    public List<TrigramOccurrence> getSkippedTrigramsInOptSearch() {
-        return searchDetails.getSkippedTrigramsInOptSearch();
-    }
-
     public List<TrigramUsage> getTrigramUsage() {
         return this.searchDetails.getTrigramUsage();
     }
