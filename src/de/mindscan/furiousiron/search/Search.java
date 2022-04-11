@@ -415,15 +415,19 @@ public class Search {
         this.searchDetails = executionDetails;
     }
 
+    public SearchExecutionDetails getSearchDetails() {
+        return searchDetails;
+    }
+
     private void setMetadataSearchDetails( SearchExecutionDetails executionDetails ) {
         this.metadataSearchDetails = executionDetails;
     }
 
     public List<TrigramUsage> getTrigramUsage() {
-        return this.searchDetails.getTrigramUsage();
+        return getSearchDetails().getTrigramUsage();
     }
 
     public List<TrigramOccurrence> getLastQueryTrigramOccurences() {
-        return this.searchDetails.getLastQueryTrigramOccurences();
+        return getSearchDetails().getLastQueryTrigramOccurences();
     }
 }
