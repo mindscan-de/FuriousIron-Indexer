@@ -423,4 +423,8 @@ public class Search {
         this.metadataSearchDetails = executionDetails;
     }
 
+    public SearchExecutionDetails getMetadataSearchDetails() {
+        return metadataSearchDetails;
+    }
+
 }
