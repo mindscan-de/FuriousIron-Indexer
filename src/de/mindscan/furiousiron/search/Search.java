@@ -77,6 +77,7 @@ public class Search {
     private final SearchQueryCache theSearchQueryCache;
 
     private SearchExecutionDetails searchDetails;
+    private SearchExecutionDetails metadataSearchDetails;
 
     /**
      * Ctor.
@@ -92,6 +93,7 @@ public class Search {
         theSearchQueryCache = new SearchQueryCache( indexFolder );
 
         searchDetails = new SearchExecutionDetails();
+        metadataSearchDetails = new SearchExecutionDetails();
     }
 
     /**
@@ -160,7 +162,8 @@ public class Search {
 
         List<TrigramOccurrence> sortedTrigramOccurrences = getTrigramOccurrencesSortedByOccurrence( uniqueTrigramsFromWord );
 
-        searchDetails.setLastQueryTrigramOccurrences( sortedTrigramOccurrences );
+        SearchExecutionDetails executionDetails = new SearchExecutionDetails();
+        executionDetails.setLastQueryTrigramOccurrences( sortedTrigramOccurrences );
 
         for (TrigramOccurrence trigramOccurence : sortedTrigramOccurrences) {
             System.out.println( "Debug-TrigramOccurence: " + trigramOccurence.toString() );
@@ -233,8 +236,10 @@ public class Search {
         }
 
         // save the skipped tri-grams for later optimized/optimizing searches.
-        searchDetails.setSkippedTrigramsInOptSearch( skippedTrigrams );
-        searchDetails.setTrigramUsage( trigramUsage );
+        executionDetails.setSkippedTrigramsInOptSearch( skippedTrigrams );
+        executionDetails.setTrigramUsage( trigramUsage );
+
+        setSearchDetails( executionDetails );
 
         System.out.println( "Skipped Elements: " + ignoredElements );
 
@@ -249,8 +254,8 @@ public class Search {
         // TODO: this for metadata:
         List<TrigramOccurrence> sortedMetadataTrigramOccurrences = getTrigramOccurrencesSortedByOccurrence( uniqueTrigramsFromWord );
 
-        // TODO: this for metadata
-        searchDetails.setLastQueryTrigramOccurrences( sortedMetadataTrigramOccurrences );
+        SearchExecutionDetails executionDetails = new SearchExecutionDetails();
+        executionDetails.setLastQueryTrigramOccurrences( sortedMetadataTrigramOccurrences );
 
         for (TrigramOccurrence trigramOccurence : sortedMetadataTrigramOccurrences) {
             System.out.println( "Debug-MetadataTrigramOccurence: " + trigramOccurence.toString() );
@@ -322,11 +327,10 @@ public class Search {
             skippedTrigrams.add( skippedTrigram );
         }
 
-        // TODO: set for metadata
-        // save the skipped tri-grams for later optimized/optimizing searches.
-        searchDetails.setSkippedTrigramsInOptSearch( skippedTrigrams );
-        // TODO: set for metadata
-        searchDetails.setTrigramUsage( trigramUsage );
+        executionDetails.setSkippedTrigramsInOptSearch( skippedTrigrams );
+        executionDetails.setTrigramUsage( trigramUsage );
+
+        setMetadataSearchDetails( executionDetails );
 
         System.out.println( "Skipped Elements: " + ignoredElements );
 
@@ -405,6 +409,14 @@ public class Search {
 
     public SearchQueryCache getSearchQueryCache() {
         return theSearchQueryCache;
+    }
+
+    private void setSearchDetails( SearchExecutionDetails executionDetails ) {
+        this.searchDetails = executionDetails;
+    }
+
+    private void setMetadataSearchDetails( SearchExecutionDetails executionDetails ) {
+        this.metadataSearchDetails = executionDetails;
     }
 
     public List<TrigramOccurrence> getSkippedTrigramsInOptSearch() {
