@@ -423,7 +423,4 @@ public class Search {
         this.metadataSearchDetails = executionDetails;
     }
 
-    public List<TrigramOccurrence> getLastQueryTrigramOccurences() {
-        return getSearchDetails().getLastQueryTrigramOccurences();
-    }
 }
