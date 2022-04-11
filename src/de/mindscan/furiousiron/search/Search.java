@@ -75,8 +75,6 @@ public class Search {
     private final SeachMetadataTrigramIndex theSearchMetadataTrigramIndex;
     // for performance
     private final SearchQueryCache theSearchQueryCache;
-    // this is something which should not be stored here - subject to refactoring.
-    private List<TrigramOccurrence> lastSearchOccurences;
 
     private SearchExecutionDetails searchDetails;
 
@@ -430,10 +428,10 @@ public class Search {
     }
 
     private void setLastQueryTrigramOccurrences( List<TrigramOccurrence> lastSearchOccurences ) {
-        this.lastSearchOccurences = lastSearchOccurences;
+        this.searchDetails.setLastQueryTrigramOccurrences( lastSearchOccurences );
     }
 
     public List<TrigramOccurrence> getLastQueryTrigramOccurences() {
-        return lastSearchOccurences;
+        return this.searchDetails.getLastQueryTrigramOccurences();
     }
 }

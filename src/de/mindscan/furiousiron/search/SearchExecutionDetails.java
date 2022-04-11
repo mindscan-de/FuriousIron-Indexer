@@ -32,12 +32,18 @@ import de.mindscan.furiousiron.index.trigram.TrigramOccurrence;
 import de.mindscan.furiousiron.index.trigram.TrigramUsage;
 
 /**
+ * This is basically a data object, which contains useful details, for other 
+ * search steps.
  * 
+ * Because this kind of data is required for metdata search and the normal 
+ * search, this concept needs to be more general to cover both statistics
+ * in the same way.
  */
 public class SearchExecutionDetails {
 
     private List<TrigramOccurrence> skippedTrigrams;
     private List<TrigramUsage> trigramUsage;
+    private List<TrigramOccurrence> lastSearchOccurences;
 
     /**
      * 
@@ -45,6 +51,7 @@ public class SearchExecutionDetails {
     public SearchExecutionDetails() {
         skippedTrigrams = Collections.emptyList();
         trigramUsage = Collections.emptyList();
+        lastSearchOccurences = Collections.emptyList();
     }
 
     public void setSkippedTrigramsInOptSearch( List<TrigramOccurrence> skippedTrigrams ) {
@@ -71,4 +78,13 @@ public class SearchExecutionDetails {
     public List<TrigramUsage> getTrigramUsage() {
         return trigramUsage;
     }
+
+    public void setLastQueryTrigramOccurrences( List<TrigramOccurrence> lastSearchOccurences ) {
+        this.lastSearchOccurences = lastSearchOccurences;
+    }
+
+    public List<TrigramOccurrence> getLastQueryTrigramOccurences() {
+        return lastSearchOccurences;
+    }
+
 }
