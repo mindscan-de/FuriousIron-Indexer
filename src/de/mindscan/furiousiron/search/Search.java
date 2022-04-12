@@ -207,13 +207,7 @@ public class Search {
             resultSet.retainAll( documentIds );
             int remainingSize = resultSet.size();
 
-            // collect the success of the tr 
-            if (remainingSize == previousSetSize) {
-                trigramUsage.add( new TrigramUsage( trigram, TrigramUsageState.FAILED ) );
-            }
-            else if (remainingSize < previousSetSize) {
-                trigramUsage.add( new TrigramUsage( trigram, TrigramUsageState.SUCCESS ) );
-            }
+            trigramUsage.add( getTrigramUsageByReduction( trigram, remainingSize < previousSetSize ) );
 
             System.out.println( "Reduction to: " + remainingSize + " using trigram: " + trigram.getTrigram() );
 
@@ -299,13 +293,7 @@ public class Search {
             resultSet.retainAll( documentIds );
             int remainingSize = resultSet.size();
 
-            // collect the success of the retain operation.
-            if (remainingSize == previousSetSize) {
-                trigramUsage.add( new TrigramUsage( trigram, TrigramUsageState.FAILED ) );
-            }
-            else if (remainingSize < previousSetSize) {
-                trigramUsage.add( new TrigramUsage( trigram, TrigramUsageState.SUCCESS ) );
-            }
+            trigramUsage.add( getTrigramUsageByReduction( trigram, remainingSize < previousSetSize ) );
 
             System.out.println( "Reduction to: " + remainingSize + " elemenets using trigram: " + trigram.getTrigram() );
 
@@ -335,6 +323,14 @@ public class Search {
         System.out.println( "Skipped Elements: " + ignoredElements );
 
         return resultSet;
+    }
+
+    private TrigramUsage getTrigramUsageByReduction( TrigramOccurrence trigram, boolean isReduction ) {
+        if (isReduction) {
+            return new TrigramUsage( trigram, TrigramUsageState.SUCCESS );
+        }
+
+        return new TrigramUsage( trigram, TrigramUsageState.FAILED );
     }
 
     public List<TrigramOccurrence> getTrigramOccurrencesSortedByOccurrence( Collection<String> uniqueTrigramsFromWord ) {
