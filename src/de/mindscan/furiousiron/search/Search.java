@@ -151,7 +151,7 @@ public class Search {
     }
 
     /**
-     * This is the most recent and most universal search using combined trigrams, other methodas for search above are
+     * This is the most recent and most universal search using combined trigrams, other methods for search above are
      * here for legacy reasons, in case this search fail for some reason. (To be adapted for metadata search as well.)
      * @param uniqueTrigramsFromWord
      * @return
