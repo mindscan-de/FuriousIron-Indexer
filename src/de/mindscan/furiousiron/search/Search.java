@@ -205,18 +205,18 @@ public class Search {
             // in documentIds-Collection, where the documentIds are the bloomfilter-hashed eleemnts.
 
             resultSet.retainAll( documentIds );
-            int remainingSize = resultSet.size();
+            int remainingSetSize = resultSet.size();
 
-            trigramUsage.add( getTrigramUsageByReduction( trigram, remainingSize < previousSetSize ) );
+            trigramUsage.add( getTrigramUsageByReduction( trigram, remainingSetSize < previousSetSize ) );
 
-            System.out.println( "Reduction to: " + remainingSize + " using trigram: " + trigram.getTrigram() );
+            System.out.println( "Reduction to: " + remainingSetSize + " using trigram: " + trigram.getTrigram() );
 
-            if (trigram.getOccurrenceCount() > (48 * remainingSize)) {
+            if (trigram.getOccurrenceCount() > (48 * remainingSetSize)) {
                 // stop if it is too unbalanced... we probably already are in X+10% range of maximal search results
                 break;
             }
 
-            previousSetSize = remainingSize;
+            previousSetSize = remainingSetSize;
         }
         retainAllStopWatch.stop();
         System.out.println( "Time to reduce via retainAll: " + (retainAllStopWatch.getElapsedTime()) );
@@ -291,18 +291,18 @@ public class Search {
             // is highly encouraged.
 
             resultSet.retainAll( documentIds );
-            int remainingSize = resultSet.size();
+            int remainingSetSize = resultSet.size();
 
-            trigramUsage.add( getTrigramUsageByReduction( trigram, remainingSize < previousSetSize ) );
+            trigramUsage.add( getTrigramUsageByReduction( trigram, remainingSetSize < previousSetSize ) );
 
-            System.out.println( "Reduction to: " + remainingSize + " elemenets using trigram: " + trigram.getTrigram() );
+            System.out.println( "Reduction to: " + remainingSetSize + " elemenets using trigram: " + trigram.getTrigram() );
 
-            if (trigram.getOccurrenceCount() > (128 * remainingSize)) {
+            if (trigram.getOccurrenceCount() > (128 * remainingSetSize)) {
                 // stop if it is too unbalanced... we probably already are in X+10% range of maximal search results
                 break;
             }
 
-            previousSetSize = remainingSize;
+            previousSetSize = remainingSetSize;
         }
         retainAllStopWatch.stop();
         System.out.println( "Time to reduce via retainAll: " + (retainAllStopWatch.getElapsedTime()) );
