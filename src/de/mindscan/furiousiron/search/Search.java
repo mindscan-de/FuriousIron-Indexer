@@ -251,8 +251,7 @@ public class Search {
         HashSet<String> resultSet = new HashSet<String>();
         List<TrigramUsage> trigramUsage = new ArrayList<>( uniqueTrigramsFromWord.size() );
 
-        // TODO: this for metadata:
-        List<TrigramOccurrence> sortedMetadataTrigramOccurrences = getTrigramOccurrencesSortedByOccurrence( uniqueTrigramsFromWord );
+        List<TrigramOccurrence> sortedMetadataTrigramOccurrences = getMetadataTrigramOccurrencesSortedByOccurrence( uniqueTrigramsFromWord );
 
         SearchExecutionDetails executionDetails = new SearchExecutionDetails();
         executionDetails.setLastQueryTrigramOccurrences( sortedMetadataTrigramOccurrences );
@@ -347,6 +346,16 @@ public class Search {
         return collectedOccurrences;
     }
 
+    public List<TrigramOccurrence> getMetadataTrigramOccurrencesSortedByOccurrence( Collection<String> uniqueTrigramsFromWord ) {
+        // convert trigrams to TrigramOccurences
+        List<TrigramOccurrence> collectedOccurrences = uniqueTrigramsFromWord.stream().map( ( trigram ) -> this.getMetadataTrigramOccurrence( trigram ) )
+                        .collect( Collectors.toList() );
+
+        // sort uniqueTrigramsFromWord by number of expected results in increasing order.
+        collectedOccurrences.sort( Comparator.<TrigramOccurrence> comparingLong( occurence -> occurence.getOccurrenceCount() ) );
+        return collectedOccurrences;
+    }
+
     public String getDocumentContent( String path ) {
         DocumentId documentId = DocumentIdFactory.createDocumentIDFromRelativePath( Paths.get( path ) );
 
@@ -389,6 +398,10 @@ public class Search {
 
     private TrigramOccurrence getTrigramOccurrence( String trigram ) {
         return theSearchTrigramIndex.loadDocumentCountForTrigram( trigram );
+    }
+
+    private TrigramOccurrence getMetadataTrigramOccurrence( String trigram ) {
+        return theSearchMetadataTrigramIndex.loadDocumentCountForTrigram( trigram );
     }
 
     private Collection<String> getDocumentsForTrigram( String trigram ) {
