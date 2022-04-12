@@ -287,13 +287,14 @@ public class Search {
             // the json documents from disk. The retainall operation is not that slow,
             // as i was expecting.
 
-            // sorting trigrams leads to a highly imbalanced (retain) comparison, 
-            // resultSet will become smaller and smaller and the documentIds are becoming bigger and bigger.
-            // so it might be important to optimize this implementation?
-
-            // in case of majority of time consumed here, this retainAll operation has to be switched to a 
-            // more efficient mode e.g. Skiplists or we are looking for each resultset-item via a bloomfilter
-            // in documentIds-Collection, where the documentIds are the bloomfilter-hashed eleemnts.
+            // using sorted trigrams leads to a highly unbalanced (retain) comparison, (the first two or 
+            // three retain operations will do most of the heavy lifting, at the same time, the resultSet
+            // will become smaller and smaller and the documentIds are becoming bigger and bigger. So most
+            // of the time we can just skip the loading of the document ids, when >95% of the maximum 
+            // reduction is already done.
+            // Each following iteration of this loop will become more and more expensive IO wise, but 
+            // leads to less and less reduction of the final set, therefore breaking this loop early 
+            // is highly encouraged.
 
             resultSet.retainAll( documentIds );
             int remainingSize = resultSet.size();
