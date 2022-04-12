@@ -299,7 +299,7 @@ public class Search {
             resultSet.retainAll( documentIds );
             int remainingSize = resultSet.size();
 
-            // collect the success of the tr 
+            // collect the success of the retain operation.
             if (remainingSize == previousSetSize) {
                 trigramUsage.add( new TrigramUsage( trigram, TrigramUsageState.FAILED ) );
             }
