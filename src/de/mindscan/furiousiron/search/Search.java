@@ -221,6 +221,7 @@ public class Search {
         retainAllStopWatch.stop();
         System.out.println( "Time to reduce via retainAll: " + (retainAllStopWatch.getElapsedTime()) );
 
+        // TODO: collect skipped trigrams / extract method
         List<TrigramOccurrence> skippedTrigrams = new ArrayList<>();
         long ignoredElements = 0L;
         while (collectedOccurencesIterator.hasNext()) {
@@ -307,6 +308,7 @@ public class Search {
         retainAllStopWatch.stop();
         System.out.println( "Time to reduce via retainAll: " + (retainAllStopWatch.getElapsedTime()) );
 
+        // TODO: collect skipped trigrams / extract method
         List<TrigramOccurrence> skippedTrigrams = new ArrayList<>();
         long ignoredElements = 0L;
         while (collectedOccurencesIterator.hasNext()) {
