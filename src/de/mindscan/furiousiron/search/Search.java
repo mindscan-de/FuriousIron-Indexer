@@ -42,6 +42,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import de.mindscan.furiousiron.document.DocumentId;
@@ -221,14 +222,9 @@ public class Search {
         retainAllStopWatch.stop();
         System.out.println( "Time to reduce via retainAll: " + (retainAllStopWatch.getElapsedTime()) );
 
-        // TODO: collect skipped trigrams / extract method
         List<TrigramOccurrence> skippedTrigrams = new ArrayList<>();
-        long ignoredElements = 0L;
-        while (collectedOccurencesIterator.hasNext()) {
-            TrigramOccurrence skippedTrigram = collectedOccurencesIterator.next();
-            ignoredElements += skippedTrigram.getOccurrenceCount();
-            skippedTrigrams.add( skippedTrigram );
-        }
+
+        long ignoredElements = collectSkippedTrigrams( collectedOccurencesIterator, skippedTrigrams::add );
 
         // save the skipped tri-grams for later optimized/optimizing searches.
         executionDetails.setSkippedTrigramsInOptSearch( skippedTrigrams );
@@ -308,14 +304,9 @@ public class Search {
         retainAllStopWatch.stop();
         System.out.println( "Time to reduce via retainAll: " + (retainAllStopWatch.getElapsedTime()) );
 
-        // TODO: collect skipped trigrams / extract method
         List<TrigramOccurrence> skippedTrigrams = new ArrayList<>();
-        long ignoredElements = 0L;
-        while (collectedOccurencesIterator.hasNext()) {
-            TrigramOccurrence skippedTrigram = collectedOccurencesIterator.next();
-            ignoredElements += skippedTrigram.getOccurrenceCount();
-            skippedTrigrams.add( skippedTrigram );
-        }
+
+        long ignoredElements = collectSkippedTrigrams( collectedOccurencesIterator, skippedTrigrams::add );
 
         executionDetails.setSkippedTrigramsInOptSearch( skippedTrigrams );
         executionDetails.setTrigramUsage( trigramUsage );
@@ -325,6 +316,16 @@ public class Search {
         System.out.println( "Skipped Elements: " + ignoredElements );
 
         return resultSet;
+    }
+
+    private long collectSkippedTrigrams( Iterator<TrigramOccurrence> collectedOccurencesIterator, Function<TrigramOccurrence, Boolean> collector ) {
+        long ignoredElements = 0L;
+        while (collectedOccurencesIterator.hasNext()) {
+            TrigramOccurrence skippedTrigram = collectedOccurencesIterator.next();
+            ignoredElements += skippedTrigram.getOccurrenceCount();
+            collector.apply( skippedTrigram );
+        }
+        return ignoredElements;
     }
 
     private TrigramUsage getTrigramUsageByReduction( TrigramOccurrence trigram, boolean isReduction ) {
