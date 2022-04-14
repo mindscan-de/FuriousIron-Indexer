@@ -220,7 +220,6 @@ public class Search {
             previousSetSize = remainingSetSize;
         }
         retainAllStopWatch.stop();
-        System.out.println( "Time to reduce via retainAll: " + (retainAllStopWatch.getElapsedTime()) );
 
         List<TrigramOccurrence> skippedTrigrams = new ArrayList<>();
 
@@ -232,6 +231,7 @@ public class Search {
 
         setSearchDetails( executionDetails );
 
+        System.out.println( "Time to reduce via retainAll: " + (retainAllStopWatch.getElapsedTime()) );
         System.out.println( "Skipped Elements: " + ignoredElements );
 
         return resultSet;
@@ -302,7 +302,6 @@ public class Search {
             previousSetSize = remainingSetSize;
         }
         retainAllStopWatch.stop();
-        System.out.println( "Time to reduce via retainAll: " + (retainAllStopWatch.getElapsedTime()) );
 
         List<TrigramOccurrence> skippedTrigrams = new ArrayList<>();
 
@@ -313,6 +312,7 @@ public class Search {
 
         setMetadataSearchDetails( executionDetails );
 
+        System.out.println( "Time to reduce via retainAll: " + (retainAllStopWatch.getElapsedTime()) );
         System.out.println( "Skipped Elements: " + ignoredElements );
 
         return resultSet;
