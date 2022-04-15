@@ -151,6 +151,29 @@ public class Search {
         return searchResult;
     }
 
+    public Map<String, SearchResultCandidates> searchMetadataToMap( String metadatasearchterm ) {
+        // assume current search term is exactly one word.
+        String processedSearchTerm = metadatasearchterm.toLowerCase();
+
+        // extract word  from searchterm 
+        Collection<String> uniqueTrigramsFromWord = SimpleWordUtils.getUniqueTrigramsFromWord( processedSearchTerm );
+
+        Set<String> documentIdsForOneWord = collectDocumentIdsForMetadataTrigramsOpt( uniqueTrigramsFromWord );
+
+        // check, that a word is part of a page
+        Map<String, SearchResultCandidates> searchResult = new HashMap<>();
+        for (String documentId : documentIdsForOneWord) {
+            SearchResultCandidates candidate = new SearchResultCandidates( documentId );
+
+            // TODO: i would like to check the metadata values, but this might be way too many documents.
+            // this load of metadata should only be done for the candidates 
+
+            searchResult.put( documentId, candidate );
+        }
+
+        return searchResult;
+    }
+
     /**
      * This is the most recent and most universal search using combined trigrams, other methods for search above are
      * here for legacy reasons, in case this search fail for some reason. (To be adapted for metadata search as well.)
