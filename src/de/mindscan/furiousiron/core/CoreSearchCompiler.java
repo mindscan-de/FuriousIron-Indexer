@@ -113,7 +113,7 @@ public class CoreSearchCompiler {
             return new EmptyCoreNode();
         }
 
-        return null;
+        throw new RuntimeException( "This Node type is not supported: " + String.valueOf( ast ) );
     }
 
 }
