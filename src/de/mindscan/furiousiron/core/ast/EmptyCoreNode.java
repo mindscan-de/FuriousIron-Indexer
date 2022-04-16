@@ -63,4 +63,12 @@ public class EmptyCoreNode implements CoreQueryNode {
         return Collections.emptyList();
     }
 
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public Collection<String> getMetadataTrigrams() {
+        return Collections.emptyList();
+    }
+
 }

@@ -68,4 +68,11 @@ public interface CoreQueryNode {
      * @return A Collection of the stored trigrams
      */
     Collection<String> getTrigrams();
+
+    /**
+     * Returns the unique metadata tri-grams for search. (should be in order)
+     * 
+     * @return A Collection of the stored metadata trigrams
+     */
+    Collection<String> getMetadataTrigrams();
 }

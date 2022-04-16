@@ -84,4 +84,12 @@ public class TrigramsCoreNode implements CoreQueryNode {
         return trigrams.stream().collect( Collectors.toSet() );
     }
 
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public Collection<String> getMetadataTrigrams() {
+        return Collections.emptyList();
+    }
+
 }
