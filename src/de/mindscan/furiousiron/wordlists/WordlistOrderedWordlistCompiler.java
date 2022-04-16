@@ -141,6 +141,8 @@ public class WordlistOrderedWordlistCompiler implements WordlistCompiler {
             return new IncludingNode( new EmptyNode() );
         }
 
+        // TODO: integrate the Metadata search node as well here:
+
         return null;
     }
 
