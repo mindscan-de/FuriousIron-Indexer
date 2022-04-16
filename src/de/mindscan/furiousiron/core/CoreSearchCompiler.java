@@ -80,15 +80,19 @@ public class CoreSearchCompiler {
         }
 
         if (ast instanceof AndNode) {
-            Set<String> includedwords = new HashSet<String>();
+            Set<String> includedTrigrams = new HashSet<String>();
+            Set<String> includedmetadataTrigrams = new HashSet<String>();
 
             // collect each word
             for (QueryNode queryNode : ast.getChildren()) {
                 CoreQueryNode t = compile( queryNode );
-                includedwords.addAll( t.getTrigrams() );
+                includedTrigrams.addAll( t.getTrigrams() );
+                includedmetadataTrigrams.addAll( t.getMetadataTrigrams() );
             }
-            List<String> l = includedwords.stream().collect( Collectors.toList() );
-            return new TrigramsCoreNode( l );
+            List<String> wordTrigrams = includedTrigrams.stream().collect( Collectors.toList() );
+            List<String> metaTrigrams = includedmetadataTrigrams.stream().collect( Collectors.toList() );
+
+            return new TrigramsCoreNode( wordTrigrams, metaTrigrams );
         }
 
         if (ast instanceof OrNode) {
@@ -108,9 +112,8 @@ public class CoreSearchCompiler {
             return new EmptyCoreNode();
         }
 
-        // TODO: is this the correct implementation? 
         if (ast instanceof MetaDataTextNode) {
-            return new EmptyCoreNode();
+            return new TrigramsCoreNode( "", ast.getContent().toLowerCase() );
         }
 
         throw new RuntimeException( "This Node type is not supported: " + String.valueOf( ast ) );
