@@ -41,6 +41,7 @@ import de.mindscan.furiousiron.indexer.SimpleWordUtils;
 public class TrigramsCoreNode implements CoreQueryNode {
 
     private final Collection<String> trigrams;
+    private final Collection<String> metadataTrigrams;
 
     /**
      * Ctor which splits a word into a set of trigrams.
@@ -49,6 +50,12 @@ public class TrigramsCoreNode implements CoreQueryNode {
      */
     public TrigramsCoreNode( String content ) {
         this.trigrams = SimpleWordUtils.getUniqueTrigramsFromWord( content );
+        this.metadataTrigrams = Collections.emptyList();
+    }
+
+    public TrigramsCoreNode( String content, String metadataContent ) {
+        this.trigrams = SimpleWordUtils.getUniqueTrigramsFromWord( content );
+        this.metadataTrigrams = SimpleWordUtils.getUniqueTrigramsFromWord( metadataContent );
     }
 
     /**
@@ -58,6 +65,17 @@ public class TrigramsCoreNode implements CoreQueryNode {
      */
     public TrigramsCoreNode( List<String> includedwords ) {
         this.trigrams = SimpleWordUtils.getUniqueTrigramsFromWordList( includedwords );
+        this.metadataTrigrams = Collections.emptyList();
+    }
+
+    /**
+     * Ctor wich splits multiple words into a set of trigams.
+     * 
+     * @param includedwords the list of words
+     */
+    public TrigramsCoreNode( List<String> includedwords, List<String> includedMetadata ) {
+        this.trigrams = SimpleWordUtils.getUniqueTrigramsFromWordList( includedwords );
+        this.metadataTrigrams = SimpleWordUtils.getUniqueTrigramsFromWordList( includedMetadata );
     }
 
     /** 
@@ -89,7 +107,7 @@ public class TrigramsCoreNode implements CoreQueryNode {
      */
     @Override
     public Collection<String> getMetadataTrigrams() {
-        return Collections.emptyList();
+        return metadataTrigrams.stream().collect( Collectors.toSet() );
     }
 
 }
