@@ -142,7 +142,9 @@ public class WordlistOrderedWordlistCompiler implements WordlistCompiler {
             return new IncludingNode( new EmptyNode() );
         }
 
-        // TODO: integrate the Metadata search node as well here:
+        if (ast instanceof MetaDataTextNode) {
+            return new MetaDataTextNode( ((MetaDataTextNode) ast).getKey().toLowerCase(), ast.getContent().toLowerCase() );
+        }
 
         return null;
     }
