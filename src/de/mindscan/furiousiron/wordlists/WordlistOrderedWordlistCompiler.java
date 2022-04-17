@@ -38,6 +38,7 @@ import de.mindscan.furiousiron.query.ast.EmptyNode;
 import de.mindscan.furiousiron.query.ast.ExactMatchingTextNode;
 import de.mindscan.furiousiron.query.ast.ExcludingNode;
 import de.mindscan.furiousiron.query.ast.IncludingNode;
+import de.mindscan.furiousiron.query.ast.MetaDataTextNode;
 import de.mindscan.furiousiron.query.ast.OrNode;
 import de.mindscan.furiousiron.query.ast.QueryNode;
 import de.mindscan.furiousiron.query.ast.TextNode;
@@ -152,6 +153,10 @@ public class WordlistOrderedWordlistCompiler implements WordlistCompiler {
         }
 
         if (ast instanceof EmptyNode) {
+            return 1000000;
+        }
+
+        if (ast instanceof MetaDataTextNode) {
             return 1000000;
         }
 
