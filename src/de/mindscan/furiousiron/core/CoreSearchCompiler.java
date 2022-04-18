@@ -119,4 +119,23 @@ public class CoreSearchCompiler {
         throw new RuntimeException( "This Node type is not supported: " + String.valueOf( ast ) );
     }
 
+    public static boolean hasMetaDataTextNode( QueryNode ast ) {
+        if (ast == null) {
+            return false;
+        }
+
+        if (ast instanceof MetaDataTextNode) {
+            return true;
+        }
+
+        if (ast.hasChildren()) {
+            for (QueryNode queryNode : ast.getChildren()) {
+                if (hasMetaDataTextNode( queryNode )) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }
