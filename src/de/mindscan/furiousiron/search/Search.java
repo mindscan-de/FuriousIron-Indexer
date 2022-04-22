@@ -35,7 +35,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -417,8 +416,7 @@ public class Search {
     }
 
     public Map<String, String> getDocumentMetadataMap( String documentID ) {
-        // TODO: todo implement the loading and conversion of document metadata 
-        return Collections.emptyMap();
+        return theMetadataCache.loadMetadata( documentID ).getKeyValuesAsMap();
     }
 
     public Map<String, Integer> getTrigramTermFrequencyData( String documentID ) {
