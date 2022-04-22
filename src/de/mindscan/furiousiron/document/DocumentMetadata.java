@@ -38,6 +38,9 @@ import java.util.stream.Collectors;
  */
 public class DocumentMetadata {
 
+    public final static String FULL_FILEPATH = "filepath";
+    public final static String SIMPLE_FILENAME = "filename";
+
     private final String documentKey;
     private final String documentLocation;
     private final String documentSimpleFilename;
@@ -112,10 +115,20 @@ public class DocumentMetadata {
     public Collection<String> getAllValues() {
         Set<String> result = new HashSet<>();
 
-        result.add( this.getDocumentSimpleName().toLowerCase() );
-        result.add( this.getRelativePath().toLowerCase() );
+        result.add( getDocumentSimpleName().toLowerCase() );
+        result.add( getRelativePath().toLowerCase() );
         List<String> collectedValues = classesMap.values().stream().map( s -> s.toLowerCase() ).collect( Collectors.toList() );
         result.addAll( collectedValues );
+
+        return result;
+    }
+
+    public Map<String, String> getKeyValuesAsMap() {
+        Map<String, String> result = new HashMap<>();
+
+        result.put( SIMPLE_FILENAME, getDocumentSimpleName().toLowerCase() );
+        result.put( FULL_FILEPATH, getRelativePath().toLowerCase() );
+        result.putAll( classesMap );
 
         return result;
     }
