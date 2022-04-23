@@ -77,7 +77,6 @@ public class EncodingClassifier {
             saveAsImage( matrix, tofile );
         }
         catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -124,8 +123,6 @@ public class EncodingClassifier {
      * @param matrix
      */
     private void saveAsImage( int[][] matrix, String tofile ) {
-        // TODO Auto-generated method stub
-
         int yLength = matrix.length;
         int xLength = matrix[0].length;
         BufferedImage b = new BufferedImage( xLength, yLength, BufferedImage.TYPE_INT_RGB );
@@ -158,7 +155,6 @@ public class EncodingClassifier {
             System.out.println( "result:" + Boolean.toString( ImageIO.write( b, "png", new File( tofile ) ) ) );
         }
         catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         System.out.println( "end" );
