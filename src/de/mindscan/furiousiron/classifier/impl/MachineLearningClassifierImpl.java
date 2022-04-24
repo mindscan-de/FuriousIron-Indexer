@@ -23,25 +23,27 @@
  * SOFTWARE.
  * 
  */
-package de.mindscan.furiousiron.classifier;
+package de.mindscan.furiousiron.classifier.impl;
 
 import java.nio.file.Path;
 import java.util.List;
 
+import de.mindscan.furiousiron.classifier.Classifier;
 import de.mindscan.furiousiron.document.DocumentId;
 import de.mindscan.furiousiron.document.DocumentMetadata;
 
 /**
  * Train a classifier, and then use this classifier to classify the content of the file.
+ * 
+ * TODO: the idea here is to also test, whether we can use a machine learning model based classifier.
  */
-public class MachineLearningClassifier implements Classifier {
+public class MachineLearningClassifierImpl implements Classifier {
 
     /** 
      * {@inheritDoc}
      */
     @Override
     public void classify( DocumentId documentId, DocumentMetadata documentMetaData, Path fileToIndex ) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -50,7 +52,6 @@ public class MachineLearningClassifier implements Classifier {
      */
     @Override
     public void classify( DocumentId documentId, DocumentMetadata documentMetaData, List<String> uniqueWordlist ) {
-        // TODO Auto-generated method stub
 
     }
 
