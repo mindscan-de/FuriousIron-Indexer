@@ -23,18 +23,19 @@
  * SOFTWARE.
  * 
  */
-package de.mindscan.furiousiron.classifier;
+package de.mindscan.furiousiron.classifier.impl;
 
 import java.nio.file.Path;
 import java.util.List;
 
+import de.mindscan.furiousiron.classifier.Classifier;
 import de.mindscan.furiousiron.document.DocumentId;
 import de.mindscan.furiousiron.document.DocumentMetadata;
 
 /**
  * 
  */
-public class JavaASTClassifier implements Classifier {
+public class JavaASTClassifierImpl implements Classifier {
 
     /** 
      * {@inheritDoc}
