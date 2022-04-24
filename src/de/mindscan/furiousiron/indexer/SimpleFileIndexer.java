@@ -97,8 +97,8 @@ public class SimpleFileIndexer {
 
         // TODO: update the metadata object with more expensive information / statistics
         // Path, Virtual directory entry
-        // TODO: Stopwords
-        // TODO: porter stemming
+        // Stopwords: since we don't index textual documents, we don't need this
+        // Porter stemming: since we don't index textual documents, we actually don't need this
         // TODO: some ideas to come
 
         getClassifier().classify( documentId, documentMetaData, fileToIndex );
