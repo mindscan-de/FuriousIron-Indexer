@@ -82,25 +82,27 @@ public class SimpleClassifier implements Classifier {
                 documentMetaData.addClass( DocumentClasses.FILE_TYPE, "html" );
                 break;
 
-            // The extensions are the same as the substring, so we can use the default path.
+            // ----------------------------------------------------------------------------
+            // These file extensions are the same as the substring, therefore use substring
+            // ----------------------------------------------------------------------------                
 
 //          case "java":
-//              documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "java" );
+//              documentMetaData.addClass( DocumentClasses.FILE_TYPE, "java" );
 //              break;
 //            case "json":
-//                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "json" );
+//                documentMetaData.addClass( DocumentClasses.FILE_TYPE, "json" );
 //                break;
 //            case "pom":
-//                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "pom" );
+//                documentMetaData.addClass( DocumentClasses.FILE_TYPE, "pom" );
 //                break;
 //          case "xtend":
-//              documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "xtend" );
+//              documentMetaData.addClass( DocumentClasses.FILE_TYPE, "xtend" );
 //              break;
 //          case "xtext":
-//              documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "xtext" );
+//              documentMetaData.addClass( DocumentClasses.FILE_TYPE, "xtext" );
 //              break;
 //            case "xml":
-//                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "xml" );
+//                documentMetaData.addClass( DocumentClasses.FILE_TYPE, "xml" );
 //                break;
 
             default:
