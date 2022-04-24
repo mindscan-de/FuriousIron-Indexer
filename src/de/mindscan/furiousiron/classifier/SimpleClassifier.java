@@ -57,24 +57,13 @@ public class SimpleClassifier implements Classifier {
         documentMetaData.addClass( DocumentClasses.FILE_EXTENSION, substringAfterLastDot );
 
         switch (substringAfterLastDot) {
-//            case "java":
-//                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "java" );
-//                break;
+
             case "py":
                 documentMetaData.addClass( DocumentClasses.FILE_TYPE, "python" );
                 break;
-//            case "xtend":
-//                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "xtend" );
-//                break;
-//            case "xtext":
-//                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "xtext" );
-//                break;
             case "MF":
                 documentMetaData.addClass( DocumentClasses.FILE_TYPE, "manifest" );
                 break;
-//            case "json":
-//                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "json" );
-//                break;
             case "txt":
             case "text":
                 documentMetaData.addClass( DocumentClasses.FILE_TYPE, "text" );
@@ -88,16 +77,32 @@ public class SimpleClassifier implements Classifier {
             case "markdown":
                 documentMetaData.addClass( DocumentClasses.FILE_TYPE, "markdown" );
                 break;
-//            case "xml":
-//                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "xml" );
-//                break;
-//            case "pom":
-//                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "pom" );
-//                break;
             case "htm":
             case "html":
                 documentMetaData.addClass( DocumentClasses.FILE_TYPE, "html" );
                 break;
+
+            // The extensions are the same as the substring, so we can use the default path.
+
+//          case "java":
+//              documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "java" );
+//              break;
+//            case "json":
+//                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "json" );
+//                break;
+//            case "pom":
+//                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "pom" );
+//                break;
+//          case "xtend":
+//              documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "xtend" );
+//              break;
+//          case "xtext":
+//              documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "xtext" );
+//              break;
+//            case "xml":
+//                documentMetaData.addClass( DOCUMENT_CLASS_FILETYPE, "xml" );
+//                break;
+
             default:
                 documentMetaData.addClass( DocumentClasses.FILE_TYPE, substringAfterLastDot );
                 break;
