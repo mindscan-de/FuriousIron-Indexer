@@ -33,7 +33,10 @@ import de.mindscan.furiousiron.document.DocumentId;
 import de.mindscan.furiousiron.document.DocumentMetadata;
 
 /**
+ * The idea, is to provide a classifier for Java files based on the Parse-AST. A Java parser is more computationally
+ * expensive. 
  * 
+ * TODO: The current state is, that this idea needs to be developed further.
  */
 public class JavaASTClassifierImpl implements Classifier {
 
@@ -42,8 +45,6 @@ public class JavaASTClassifierImpl implements Classifier {
      */
     @Override
     public void classify( DocumentId documentId, DocumentMetadata documentMetaData, Path fileToIndex ) {
-        // TODO analysis of Java file using an AST parser?
-
         // class
         // interface
         // enumeration
@@ -55,7 +56,6 @@ public class JavaASTClassifierImpl implements Classifier {
      */
     @Override
     public void classify( DocumentId documentId, DocumentMetadata documentMetaData, List<String> uniqueWordlist ) {
-        // TODO Auto-generated method stub
 
     }
 
