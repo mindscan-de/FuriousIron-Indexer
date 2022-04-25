@@ -39,6 +39,14 @@ import java.nio.file.Path;
 public class ClassifierMain {
 
     void run( Path crawlFolder, Path indexFolder ) {
+        // use a file crawler to find all metadata
+        // for each found metadata file, we want to load the current stage and read its content
+        // according to the content we want to apply different classifiers and analyzers
+        // then we want to update the metadata for this file
+        // then we want to save the updated metadata file.
+
+        // actually we want to employ a strategy, which we can either invoke on the first indexing, 
+        // or do a second pass after we first indexed everything.
 
     }
 
