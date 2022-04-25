@@ -46,6 +46,8 @@ public class ClassifierMainParameters implements Callable<Integer> {
      */
     @Override
     public Integer call() throws Exception {
+        ClassifierMain main = new ClassifierMain();
+        main.run( crawlFolder, indexFolder );
         return 0;
     }
 
