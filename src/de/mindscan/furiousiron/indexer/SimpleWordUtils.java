@@ -109,6 +109,10 @@ public class SimpleWordUtils {
         return flatUniqueWordList;
     }
 
+    public static Collection<String> buildUniqueWordlist( String inputString ) {
+        return nonwordsplitter( toLowerCase( inputString ) ).stream().filter( SimpleWordUtils::atLeastThreeCharsLong ).collect( Collectors.toSet() );
+    }
+
     static String toLowerCase( String string ) {
         return string.toLowerCase();
     }
