@@ -36,6 +36,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import de.mindscan.furiousiron.document.DocumentMetadata;
@@ -44,6 +45,8 @@ import de.mindscan.furiousiron.document.DocumentMetadata;
  * 
  */
 public class SimpleWordUtils {
+
+    private static final Pattern nonwordSplitPattern = Pattern.compile( "[ /\\+\\-\\*\t\n\r\\.:;,\\(\\)\\{\\}\\[\\]]" );
 
     /**
      * @param documentMetaData
@@ -118,7 +121,7 @@ public class SimpleWordUtils {
     }
 
     static List<String> nonwordsplitter( String string ) {
-        String[] splitted = string.split( "[ /\\+\\-\\*\t\n\r\\.:;,\\(\\)\\{\\}\\[\\]]" );
+        String[] splitted = nonwordSplitPattern.split( string );
         return Arrays.stream( splitted ).map( x -> x.trim() ).filter( x -> x != null && x.length() > 0 ).collect( Collectors.toList() );
     }
 
