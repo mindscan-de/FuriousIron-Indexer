@@ -28,18 +28,22 @@ package de.mindscan.furiousiron.query.ast;
 import java.util.Collection;
 import java.util.Collections;
 
+import de.mindscan.furiousiron.indexer.SimpleWordUtils;
+
 /**
  * 
  */
 public class ExactMatchingTextNode implements QueryNode {
 
     private String exactText;
+    private boolean isPhrase;
 
     /**
      * 
      */
     public ExactMatchingTextNode( String exactText ) {
         this.exactText = exactText;
+        this.isPhrase = SimpleWordUtils.isPhrase( exactText );
     }
 
     /** 
@@ -64,6 +68,10 @@ public class ExactMatchingTextNode implements QueryNode {
     @Override
     public Collection<QueryNode> getChildren() {
         return Collections.emptyList();
+    }
+
+    public boolean isPhrase() {
+        return this.isPhrase;
     }
 
     /** 
