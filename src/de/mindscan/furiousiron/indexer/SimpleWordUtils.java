@@ -116,6 +116,10 @@ public class SimpleWordUtils {
         return nonwordsplitter( toLowerCase( inputString ) ).stream().filter( SimpleWordUtils::atLeastThreeCharsLong ).collect( Collectors.toSet() );
     }
 
+    public static boolean isPhrase( String string ) {
+        return nonwordSplitPattern.split( string, 2 ).length > 1;
+    }
+
     static String toLowerCase( String string ) {
         return string.toLowerCase();
     }
