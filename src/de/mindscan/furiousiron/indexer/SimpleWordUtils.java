@@ -46,7 +46,7 @@ import de.mindscan.furiousiron.document.DocumentMetadata;
  */
 public class SimpleWordUtils {
 
-    private static final Pattern nonwordSplitPattern = Pattern.compile( "[ /\\+\\-\\*\t\n\r\\.:;,\\(\\)\\{\\}\\[\\]]" );
+    private static final Pattern nonwordSplitPattern = Pattern.compile( "[ /\\+\\-\\*\t\n\r\\.:;,\"'\\(\\)\\{\\}\\[\\]]" );
 
     /**
      * @param documentMetaData
