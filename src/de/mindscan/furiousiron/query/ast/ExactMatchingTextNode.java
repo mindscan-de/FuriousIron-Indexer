@@ -37,6 +37,7 @@ public class ExactMatchingTextNode implements QueryNode {
 
     private String exactText;
     private boolean isPhrase;
+    private Collection<String> uniqueWordlist;
 
     /**
      * 
@@ -44,6 +45,7 @@ public class ExactMatchingTextNode implements QueryNode {
     public ExactMatchingTextNode( String exactText ) {
         this.exactText = exactText;
         this.isPhrase = SimpleWordUtils.isPhrase( exactText );
+        this.uniqueWordlist = SimpleWordUtils.buildUniqueWordlist( exactText );
     }
 
     /** 
@@ -72,6 +74,10 @@ public class ExactMatchingTextNode implements QueryNode {
 
     public boolean isPhrase() {
         return this.isPhrase;
+    }
+
+    public Collection<String> getUniqueWordlist() {
+        return uniqueWordlist;
     }
 
     /** 
