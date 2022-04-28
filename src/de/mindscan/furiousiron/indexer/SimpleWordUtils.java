@@ -79,10 +79,17 @@ public class SimpleWordUtils {
         return ttfMap;
     }
 
-    // TODO: implement this way to index lines by trigrams only
     public static Map<String, Integer> buildTrigramTermFrequencyByLines( DocumentMetadata documentMetaData, Path fileToIndex ) throws IOException {
+        List<String> allLines = Files.readAllLines( fileToIndex );
+
+        // collect the trigrams per line
+        List<List<String>> collectedTrigramsPerLine = allLines.stream().map( String::trim ).map( SimpleWordUtils::toLowerCase )
+                        .map( SimpleWordUtils::trigramsplitter ).collect( Collectors.toList() );
 
         Map<String, Integer> ttfMap = new HashMap<>();
+
+        collectedTrigramsPerLine.stream().flatMap( List::stream ).forEach( ttf -> increaseWordCount( ttfMap, ttf ) );
+
         return ttfMap;
     }
 
