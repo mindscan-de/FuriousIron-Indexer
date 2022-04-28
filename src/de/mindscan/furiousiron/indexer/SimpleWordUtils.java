@@ -79,7 +79,8 @@ public class SimpleWordUtils {
         return ttfMap;
     }
 
-    public static Map<String, Integer> buildTrigramTermFrequencyNoWordSplitter( DocumentMetadata documentMetaData, Path fileToIndex ) throws IOException {
+    // TODO: implement this way to index lines by trigrams only
+    public static Map<String, Integer> buildTrigramTermFrequencyByLines( DocumentMetadata documentMetaData, Path fileToIndex ) throws IOException {
 
         Map<String, Integer> ttfMap = new HashMap<>();
         return ttfMap;
