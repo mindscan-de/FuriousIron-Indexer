@@ -85,8 +85,9 @@ public class SimpleFileIndexer {
         // store a copy of the document in the cache
         index.getDocumentCache().createDocumentCopy( documentId, fileToIndex );
 
-        // get unique word list for document
+        // TODO: get TrigramTermFrequency Map for the file on a line by line basis
         Map<String, Integer> ttfList = SimpleWordUtils.buildTrigramTermFrequencyUsingWordSplitter( documentMetaData, fileToIndex );
+        // get unique word list for document
         List<String> uniqueWordlist = SimpleWordUtils.buildUniqueWordlist( documentMetaData, fileToIndex );
         Set<String> uniqueTrigramlist = SimpleWordUtils.getUniqueTrigramsFromWordList( uniqueWordlist );
 
