@@ -97,7 +97,7 @@ public class SourceFileVisitor<T extends Path> implements FileVisitor<Path> {
             pathCollector.accept( file );
         }
         else if (zipFileMatcher.matches( file )) {
-            // TODO: index archives
+            // TODO: index archives - actually this extraction could be a pre-processing step. 
             // ATM Archives are slightly more difficult... We may have to spawn an additional new indexer and collect virtual paths too
         }
 
