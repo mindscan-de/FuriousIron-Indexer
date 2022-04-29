@@ -47,10 +47,6 @@ import de.mindscan.furiousiron.document.DocumentMetadata;
 public class SimpleWordUtils {
 
     // TODO: optimize this pattern such that the most often cases are found first.
-    // But in case we index also non words better, we will drop that thing anyways for splitting lines.
-    // because this currently makes phrase search impossible, because content is indexed as splitted wods.
-    // we should not split it.
-    // but for the word list we must still split the words.... anyhow... this is complicated
     private static final Pattern nonwordSplitPattern = Pattern.compile( "[ /\\+\\-\\*\t\n\r\\.:;,\"'\\(\\)\\{\\}\\[\\]]" );
 
     public static Map<String, Integer> buildTrigramTermFrequencyUsingWordSplitter( DocumentMetadata documentMetaData, Path fileToIndex ) throws IOException {
