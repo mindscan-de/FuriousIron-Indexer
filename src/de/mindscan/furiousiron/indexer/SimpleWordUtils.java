@@ -53,11 +53,6 @@ public class SimpleWordUtils {
     // but for the word list we must still split the words.... anyhow... this is complicated
     private static final Pattern nonwordSplitPattern = Pattern.compile( "[ /\\+\\-\\*\t\n\r\\.:;,\"'\\(\\)\\{\\}\\[\\]]" );
 
-    /**
-     * @param documentMetaData
-     * @param fileToIndex
-     * @return
-     */
     public static Map<String, Integer> buildTrigramTermFrequencyUsingWordSplitter( DocumentMetadata documentMetaData, Path fileToIndex ) throws IOException {
         List<String> allLines = Files.readAllLines( fileToIndex );
 
