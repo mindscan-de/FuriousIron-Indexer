@@ -42,6 +42,8 @@ import de.mindscan.furiousiron.index.trigram.model.TrigramIndexJsonModel;
  * 
  */
 public class TrigramIndex {
+    // This should be configurable.
+    public final static int MAX_TRIGRAMS_PER_REFERENCEFILE = 3720;
 
     private static final String TRIGRAM_REFERENCE_SUFFIX = ".reference";
     private static final String TRIGRAM_COUNT_SUFFIX = ".reference_count";
@@ -77,7 +79,7 @@ public class TrigramIndex {
         relatedDocumentsCounter++;
         globalRelatedDocumentsCounter++;
 
-        if (relatedDocumentsCounter >= 3072) {
+        if (relatedDocumentsCounter >= MAX_TRIGRAMS_PER_REFERENCEFILE) {
             saveInternal();
         }
     }

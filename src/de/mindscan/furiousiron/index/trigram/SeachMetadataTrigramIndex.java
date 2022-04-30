@@ -48,8 +48,8 @@ public class SeachMetadataTrigramIndex {
     private static final String TRIGRAM_REFERENCE_SUFFIX = ".reference";
     private static final String TRIGRAM_COUNT_SUFFIX = ".reference_count";
 
-    // Means that we can inversely reference 1024 * 3072 documents
-    private static final int MAX_INDEX_REFERENCES = 1024;
+    // Means that we can inversely reference 4096 * TrigramIndex.MAX_TRIGRAMS_PER_REFERENCEFILE documents
+    private static final int MAX_INDEX_REFERENCES = 2048;
 
     private Path searchMetadataTrigramsPath;
 
@@ -88,7 +88,7 @@ public class SeachMetadataTrigramIndex {
                 return new TrigramOccurrence( trigram, occurence );
             }
             catch (Exception e) {
-                return new TrigramOccurrence( trigram, 3072L );
+                return new TrigramOccurrence( trigram, TrigramIndex.MAX_TRIGRAMS_PER_REFERENCEFILE );
             }
         }
         else {
