@@ -48,8 +48,9 @@ public class SeachMetadataTrigramIndex {
     private static final String TRIGRAM_REFERENCE_SUFFIX = ".reference";
     private static final String TRIGRAM_COUNT_SUFFIX = ".reference_count";
 
-    // Means that we can inversely reference 4096 * TrigramIndex.MAX_TRIGRAMS_PER_REFERENCEFILE documents
-    private static final int MAX_INDEX_REFERENCES = 2048;
+    // Means that we can inversely reference 4096 * TrigramIndex.MAX_TRIGRAMS_PER_REFERENCEFILE documents - 15 mio. documents with same trigram.
+    // 
+    private static final int MAX_INDEX_REFERENCES = 4096;
 
     private Path searchMetadataTrigramsPath;
 
@@ -97,6 +98,8 @@ public class SeachMetadataTrigramIndex {
         }
     }
 
+    // TODO: future improvement - or just switch to the hashfree bloomfilters for large sets.
+    // this strategy should be improved such that the files can be handled as a stream/filter for a set instead of building a set and then throwing it away...
     private Set<String> loadFromDisk( String trigram ) {
         Set<String> result = new TreeSet<>();
 
