@@ -1,44 +1,47 @@
 # FuriousIron-Indexer
 
-FuriousIron-Indexer is a simple indexer for java code and some related files to that code. Since this 
-is also a completely private educational project, the code might not be fit for any purpose whatsoever.
+FuriousIron-Indexer is a simple indexer for source code and related files to that code. Since this is
+also a completely personal educational project, the code might not be fit for any purpose whatsoever.
 
 # The Idea
 
-Because I often need to do some research in a code base of approximately 15m LOC, I want to educate myself
-on how to implement a code search engine - for my later projects.
+Because I often need to do some research in a code base of approximately 20m+ LOC, I want to educate
+myself on how to implement a fast source code search engine - (for my later projects).
 
 Since I also have some more advanced ideas (no spoiler right now) on what to do with this kind of search
 engine, I do not want to stick to a ready to use solution right now. That would limit me to the built-in 
-feature set while starting and till I learn how to implement my own ideas into their carefully designed
+feature set while starting - until I learn how to implement my own ideas into other's carefully designed
 projects.
 
 # MVP
 
 For a fully working pipeline of (crawler, indexer, (*..*), search engine backend, search engine frontend)
-I want this project to be running as soon as possible and then add more features, while having the whole
-pipeline running
+I want this project to be running as early as possible and then add more features, while having the whole
+pipeline running.
 
-* The indexer will index all important files in a given directory __[done: java Files]__
-* It will store these files, and their content, their meta-data and so on in a different directory structure __[done]__
+* The indexer will index all important files in a given directory __[done]__
+* It will store these files, and their content, their meta-data and so on, in a different directory structures __[done]__
 * It will construct a forward index __[done]__
-* It will construct an inverse index for every tri-gram for each word. __[done]__
-* It will construct other inverse indexes (search)
-* It will also index meta data
-* It will also create an inverse index to that meta-data
+* It will construct an inverse index for every tri-gram found in the document. __[done]__
+* It will construct other inverse indexes (search-search term completion))
+* It will also index meta data __[done]__
+* It will also create an inverse index to that meta-data __[done]__
 * Maybe later
-  * It will construct a forward index of the inverse index
+  * It will construct a forward index of the inverse index (think of a virtual file system, such that the code becomes browsable)
   * It will also construct an inverse index of the last said forward index (search term completion)
-  
+
 * Comments and Code should be different tri-gram indexes / inverse-tri-gram indexes
 * Because code should be ranked more higher than comments or commented code
 * index code only, index full text
 
 All data will be stored into simple files instead of a database. Because I like do defer unnecessary 
 architectural decisions as long as they do not need attention. Please do not expect any more writing
-or write-ups at the moment, nor me to provide a full architecture. This is simply an undeveloped idea.
+or write-ups at the moment, nor me to provide a full architecture. This is simply an underdeveloped 
+idea. 
 
-That said, please remember this is a private educational project.
+That said, please keep in mind, that this is my personal educational project. That means, I will not
+take any requests with respect to this source code search engine. I probably already dismissed this
+particular idea anyways for reasons.
 
 # Nice to have
 
@@ -46,7 +49,8 @@ That said, please remember this is a private educational project.
 * Classifier using machine learning
 * Classifier using AST parsing
 * Encode the whole text or methods or classes into vectors and use encoded search vectors to calculate similarity with methods of machine learning
-* rank with machine learning - training with monte carlo simulation
+* [Research] rank with machine learning - training with monte carlo simulation / monte carlo tree search
+  * could be done with a cosine metrics and then order by dot product between query vector (trained) and document vector (trained) - (both calculated once) 
 * collect statistics of requests and good answers -  training of ML model for ranking / or something like PCA
 
 # Maybe have a look into
