@@ -85,7 +85,8 @@ public class SimpleFileIndexer {
         // store a copy of the document in the cache
         index.getDocumentCache().createDocumentCopy( documentId, fileToIndex );
 
-        // TODO: get TrigramTermFrequency Map for the file on a line by line basis
+        // Actually the file to index is read twice. with the previous createDocumentCopy actually three times...
+        // this should be optimized. fileToIndex - 
         Map<String, Integer> ttfList = SimpleWordUtils.buildTrigramTermFrequencyByLines( documentMetaData, fileToIndex );
         Set<String> uniqueTrigramlist = ttfList.keySet();
         // get unique word list for document
@@ -107,7 +108,6 @@ public class SimpleFileIndexer {
 
         // this should be done after parsing/analysing/classifying/indexing the document
         index.getMetadataCache().addDocumentMetadata( documentId, documentMetaData );
-
     }
 
     public Index getIndex() {
