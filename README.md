@@ -30,24 +30,23 @@ pipeline running.
   * It will construct a forward index of the inverse index (think of a virtual file system, such that the code becomes browsable)
   * It will also construct an inverse index of the last said forward index (search term completion)
 
-* Comments and Code should be different tri-gram indexes / inverse-tri-gram indexes
-* Because code should be ranked more higher than comments or commented code
-* index code only, index full text
-
 All data will be stored into simple files instead of a database. Because I like do defer unnecessary 
 architectural decisions as long as they do not need attention. Please do not expect any more writing
-or write-ups at the moment, nor me to provide a full architecture. This is simply an underdeveloped 
+or write-ups at the moment, nor me providing a full architecture. This is simply an underdeveloped 
 idea. 
 
-That said, please keep in mind, that this is my personal educational project. That means, I will not
-take any requests with respect to this source code search engine. I probably already dismissed this
-particular idea anyways for reasons.
+# Contributions
+
+That said, please keep in mind, that this is a personal and educational project. That means, I will
+not take any requests with respect to this source code search engine. I probably already dismissed 
+your particular idea anyways for reasons.
 
 # Nice to have
 
 * Classifier should classify whether a java file named XYZ is a declaration of an interface XYZ
 * Classifier using machine learning
-* Classifier using AST parsing
+* Classifier using AST based parsing
+* Classifier using statistical means (like co-occurrence matrixes)
 * Encode the whole text or methods or classes into vectors and use encoded search vectors to calculate similarity with methods of machine learning
 * [Research] rank with machine learning - training with monte carlo simulation / monte carlo tree search
   * could be done with a cosine metrics and then order by dot product between query vector (trained) and document vector (trained) - (both calculated once) 
