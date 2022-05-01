@@ -35,6 +35,44 @@ architectural decisions as long as they do not need attention. Please do not exp
 or write-ups at the moment, nor me providing a full architecture. This is simply an underdeveloped 
 idea. 
 
+# MVP+
+
+This project requires to build and maintain the inverse index on an SSD-hard-drive, and SSDs are 
+reasonably cheap as well nowadays. Much of the performance is gained by reading from an SSD. This 
+project doesn't implement any RAM caches for performance gains. Most of the gains are achieved by 
+culling useless operations on the data. 
+
+That means that most of the gains are achieved by neither spending compute nor I/O. In a project
+where virtually everything is prematurely cached, you wouldn't notice, that you are spending use-
+less cycles. On the other hand, if I feel an urge to speed things up, I still can trade memory 
+for performance wherever it may be useful. If you start by thinking what can be omitted without
+sacrificing the result, you will obtain much simpler and more efficient solutions. 
+
+## HFB-Filters and continuous index self-optimization
+
+* Compile the inverse index to HFB-Filters
+* then use HFB-Filters to filter search candidates efficiently
+  * instead of reading files encoded in json-format from a disk, parsing them and then preparing 
+    a single HashSet containing Strings for a single use, I would like to test my idea of a 
+    high-performance high-optimized Bloom filter
+* and also use partial search results for the construction and caching of new HFB-Filters, such that the search index will optimize and adapt itself for each use over time
+* storing partial results and full results as a HFB filter will also increase the overall system
+  performance.
+
+## Query Plan Compiler 3search, filterw,
+
+* build a query plan and and a query plan optimizer, which can be executed in parallel and/or distributed.
+
+## Incremental Preview Extension
+
+* currently only the best ranked 35 are actually previewed. Each time the query is repeated, another
+  K previews are calculated.
+  
+## Second-Pass Filtering and Ranking
+
+* in case of of phrase searches, the documents containing the exact phrase should be on top of the results, 
+  and must occur in the preview.
+
 # Contributions
 
 That said, please keep in mind, that this is a personal and educational project. That means, I will
