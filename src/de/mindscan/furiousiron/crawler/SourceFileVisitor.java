@@ -47,7 +47,8 @@ public class SourceFileVisitor<T extends Path> implements FileVisitor<Path> {
     private PathMatcher manifestFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{MF}" );
     private PathMatcher propertiesFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{properties,ini,persistence}" );
     private PathMatcher jsonFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{json}" );
-    private PathMatcher textFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{txt,text,MD,md}" );
+    // private PathMatcher textFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{txt,text,MD,md}" );
+    private PathMatcher textFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{MD,md}" );
     private PathMatcher xmlFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{xml,pom}" );
     private PathMatcher htmlFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{htm,html}" );
     private PathMatcher zipFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{zip,jar}" );
