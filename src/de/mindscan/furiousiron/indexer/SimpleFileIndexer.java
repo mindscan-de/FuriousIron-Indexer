@@ -76,6 +76,10 @@ public class SimpleFileIndexer {
     }
 
     private void updateIndexWithSingleFile( Path fileToIndex, Path crawlFolder, Path indexFolder ) throws IOException {
+        if (isSkipDocument( fileToIndex )) {
+            return;
+        }
+
         DocumentId documentId = DocumentIdFactory.createDocumentID( fileToIndex, crawlFolder );
         DocumentMetadata documentMetaData = DocumentMetadataFactory.createDocumentMetadata( documentId, fileToIndex );
 
@@ -108,6 +112,16 @@ public class SimpleFileIndexer {
 
         // this should be done after parsing/analysing/classifying/indexing the document
         index.getMetadataCache().addDocumentMetadata( documentId, documentMetaData );
+    }
+
+    private boolean isSkipDocument( Path fileToIndex ) {
+        // TODO implement a black list of documents, which should be skippedm files which should be skipped
+        // with low quality (in terms of source code) and high effort.
+        // 
+        // like 'copyright.txt' (e.g. 20MB large copyright files)
+        // creates  a lot of inverse index files for no useful reason.
+        // like 'everylegalutf8character.txt'
+        return false;
     }
 
     public Index getIndex() {
