@@ -46,11 +46,28 @@ That means that most of the gains are achieved by neither spending compute nor I
 where virtually everything is prematurely cached, you wouldn't notice, that you are spending use-
 less cycles. On the other hand, if I feel an urge to speed things up, I still can trade memory 
 for performance wherever it may be useful. If you start by thinking what can be omitted without
-sacrificing the result, you will obtain much simpler and more efficient solutions. 
+sacrificing the result, you will obtain much simpler and more efficient solutions.
+
+## HFB-Filter compiler and HFB Filtering for Metadata filtering
+
+I will test my hash free bloom filter implementation for filtering the document IDs. Instead of
+loading a lot of document ids from disk, I only load the first candidate list of document IDs. 
+For every remaining trigram a hash free bloom filter will be applied. This should reduce I/O, 
+reduce parsing time for JSON files and provide a very fast testing strategy. That should speed 
+up the filtering step by at least between one or two orders of magnitude.
+
+First we need a new index / cache for hfb filters, then the compiler step must be implemented,
+from trigrams to hfb filters. Then the algorithm Search#collectDocumentIdsForMetadataTrigramsOpt
+must be implemented to collect and apply the hfb filters in question. Finally SearchQueryExecutorV2
+needs to be adapted and the new performance needs to be measured and evaluated.
 
 ## HFB-Filters and continuous index self-optimization
 
 * Compile the inverse index to HFB-Filters
+  * As a first improvement all the metadata inverse indexes can be implemented using a HFB - 
+    this will reduce the size on disk for the compiled HFB-filters instead of keeping the 
+    lust of document IDs and will also increase the overall performance (very likely by a factor of 10 to 100). 
+  
 * then use HFB-Filters to filter search candidates efficiently
   * instead of reading files encoded in json-format from a disk, parsing them and then preparing 
     a single HashSet containing Strings for a single use, I would like to test my idea of a 
