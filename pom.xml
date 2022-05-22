@@ -11,6 +11,7 @@
   
   <dependencies>
   
+  	<!-- Integrate FuriousIron-HFB (Hash Free Bloom Filter)-->
   	<dependency>
 	  	<groupId>de.mindscan.furiousiron</groupId>
 	  	<artifactId>FuriousIron-HFB</artifactId>
