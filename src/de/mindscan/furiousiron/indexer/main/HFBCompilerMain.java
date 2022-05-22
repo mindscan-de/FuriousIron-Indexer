@@ -25,9 +25,29 @@
  */
 package de.mindscan.furiousiron.indexer.main;
 
+import java.nio.file.Path;
+
 /**
  * This is basically Step 4 of building a comprehensive search index.
+ * 
+ * This builds the data structures and stores these data structures, for
+ * a very efficient candidate filter mechanism.
+ * 
+ * 1. IndexerMain - creates a cache structure and the inverse index for the content 
+ * 2. ClassifierMain - updates the metadata
+ * 3. MetaIndexerMain - creates an inverse index on the metadata
+ * 4. HFBCompilerMain - compiles the inverse metadata index to HFB-Filters
+ * 
  */
 public class HFBCompilerMain {
+
+    /**
+     * @param crawlFolder
+     * @param indexFolder
+     */
+    public void run( Path crawlFolder, Path indexFolder ) {
+        // TODO Auto-generated method stub
+
+    }
 
 }

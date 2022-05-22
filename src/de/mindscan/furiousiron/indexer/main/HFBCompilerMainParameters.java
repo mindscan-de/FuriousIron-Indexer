@@ -25,9 +25,53 @@
  */
 package de.mindscan.furiousiron.indexer.main;
 
+import java.nio.file.Path;
+import java.util.concurrent.Callable;
+
+import picocli.CommandLine.Option;
+
 /**
- * This is basically Step 4 of building a comprehensive search index
+ * This is basically Step 4 of building a comprehensive search index.
+ * 
+ * This builds the data structures and stores these data structures, for
+ * a very efficient candidate filter mechanism.
+ * 
+ * 1. IndexerMain - creates a cache structure and the inverse index for the content 
+ * 2. ClassifierMain - updates the metadata
+ * 3. MetaIndexerMain - creates an inverse index on the metadata
+ * 4. HFBCompilerMain - compiles the inverse metadata index to HFB-Filters
+ * 
  */
-public class HFBCompilerMainParameters {
+public class HFBCompilerMainParameters implements Callable<Integer> {
+
+    @Option( names = "--crawlFolder", defaultValue = "D:\\Analysis\\CrawlerProjects\\IndexedNew\\cachedMetadata", description = "The folder to index." )
+    private Path crawlFolder;
+
+    @Option( names = "--indexFolder", defaultValue = "D:\\Analysis\\CrawlerProjects\\IndexedNew", description = "The folder where the index shall be stored." )
+    private Path indexFolder;
+
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public Integer call() throws Exception {
+        HFBCompilerMain hfbCompilerMain = new HFBCompilerMain();
+        hfbCompilerMain.run( crawlFolder, indexFolder );
+        return 0;
+    }
+
+    /**
+     * @return the crawlFolder
+     */
+    public Path getCrawlFolder() {
+        return crawlFolder;
+    }
+
+    /**
+     * @return the indexFolder
+     */
+    public Path getIndexFolder() {
+        return indexFolder;
+    }
 
 }
