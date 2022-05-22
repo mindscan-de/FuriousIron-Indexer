@@ -26,6 +26,11 @@
 package de.mindscan.furiousiron.indexer.main;
 
 import java.nio.file.Path;
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+import de.mindscan.furiousiron.crawler.MetaDataTrigramCountCrawler;
+import picocli.CommandLine;
 
 /**
  * This is basically Step 4 of building a comprehensive search index.
@@ -46,8 +51,18 @@ public class HFBCompilerMain {
      * @param indexFolder
      */
     public void run( Path crawlFolder, Path indexFolder ) {
+        Deque<Path> filesToBeIndexed = new ArrayDeque<Path>();
+
+        MetaDataTrigramCountCrawler metadataTrigramCrawler = new MetaDataTrigramCountCrawler();
+        metadataTrigramCrawler.crawl( filesToBeIndexed::add, crawlFolder );
+
         // TODO Auto-generated method stub
 
+    }
+
+    public static void main( String[] args ) {
+        int exitCode = new CommandLine( new HFBCompilerMainParameters() ).execute( args );
+        System.exit( exitCode );
     }
 
 }
