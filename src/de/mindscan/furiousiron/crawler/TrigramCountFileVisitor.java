@@ -37,16 +37,16 @@ import java.util.function.Consumer;
 /**
  * 
  */
-public class MetaDataTrigramsFileVisitor<T extends Path> implements FileVisitor<Path> {
+public class TrigramCountFileVisitor<T extends Path> implements FileVisitor<Path> {
 
-    private PathMatcher metadataTrigramCountFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{reference_count}" );
+    private PathMatcher trigramCountFileMatcher = FileSystems.getDefault().getPathMatcher( "glob:**.{reference_count}" );
 
     private Consumer<Path> pathCollector;
 
     /**
      * @param pathCollector
      */
-    public MetaDataTrigramsFileVisitor( Consumer<Path> pathCollector ) {
+    public TrigramCountFileVisitor( Consumer<Path> pathCollector ) {
         this.pathCollector = pathCollector;
     }
 
@@ -55,7 +55,7 @@ public class MetaDataTrigramsFileVisitor<T extends Path> implements FileVisitor<
      */
     @Override
     public FileVisitResult visitFile( Path file, BasicFileAttributes attrs ) throws IOException {
-        if (metadataTrigramCountFileMatcher.matches( file )) {
+        if (trigramCountFileMatcher.matches( file )) {
             pathCollector.accept( file );
         }
 
