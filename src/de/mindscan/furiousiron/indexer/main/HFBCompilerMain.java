@@ -56,6 +56,8 @@ public class HFBCompilerMain {
         MetaDataTrigramCountCrawler metadataTrigramCrawler = new MetaDataTrigramCountCrawler();
         metadataTrigramCrawler.crawl( filesToBeIndexed::add, crawlFolder );
 
+        System.out.println( String.format( "%d trigrams found for hfb compilation.", filesToBeIndexed.size() ) );
+
         // TODO Auto-generated method stub
 
     }
