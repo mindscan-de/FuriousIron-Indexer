@@ -26,6 +26,7 @@
 package de.mindscan.furiousiron.crawler;
 
 import java.io.IOException;
+import java.nio.file.FileVisitor;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.function.Consumer;
@@ -36,12 +37,12 @@ import java.util.function.Consumer;
 public class MetaDataFileCrawler {
 
     public void crawl( Consumer<Path> pathCollector, Path crawlFolder ) {
-        MetaDataFileVisitor<Path> metadataVisitor = new MetaDataFileVisitor<>( pathCollector );
+        FileVisitor<Path> metadataVisitor = new MetaDataFileVisitor<>( pathCollector );
 
         collectFiles( crawlFolder, metadataVisitor );
     }
 
-    private void collectFiles( Path crawlFolder, MetaDataFileVisitor<Path> metadataVisitor ) {
+    private void collectFiles( Path crawlFolder, FileVisitor<Path> metadataVisitor ) {
         try {
             Files.walkFileTree( crawlFolder, metadataVisitor );
         }

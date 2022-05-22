@@ -39,7 +39,7 @@ import de.mindscan.furiousiron.index.trigram.InverseMetadataTrigramIndex;
 public class MetaDataTrigramCountCrawler {
 
     public void crawl( Consumer<Path> pathCollector, Path crawlFolder ) {
-        TrigramCountFileVisitor<Path> trigramCountVisitor = new TrigramCountFileVisitor<>( pathCollector );
+        FileVisitor<Path> trigramCountVisitor = new TrigramCountFileVisitor<>( pathCollector );
 
         // only look into the metadata trigram index folder
         collectFiles( crawlFolder.resolve( InverseMetadataTrigramIndex.getLocalIndexFolder() ), trigramCountVisitor );
