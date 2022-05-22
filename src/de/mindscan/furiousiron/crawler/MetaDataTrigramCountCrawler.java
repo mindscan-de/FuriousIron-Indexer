@@ -31,8 +31,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.function.Consumer;
 
-import de.mindscan.furiousiron.index.trigram.InverseMetadataTrigramIndex;
-
 /**
  * 
  */
@@ -42,7 +40,7 @@ public class MetaDataTrigramCountCrawler {
         FileVisitor<Path> trigramCountVisitor = new TrigramCountFileVisitor<>( pathCollector );
 
         // only look into the metadata trigram index folder
-        collectFiles( crawlFolder.resolve( InverseMetadataTrigramIndex.getLocalIndexFolder() ), trigramCountVisitor );
+        collectFiles( crawlFolder, trigramCountVisitor );
     }
 
     private void collectFiles( Path crawlFolder, FileVisitor<Path> trigramCountVisitor ) {
