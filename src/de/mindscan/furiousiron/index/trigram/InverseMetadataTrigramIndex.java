@@ -50,6 +50,10 @@ public class InverseMetadataTrigramIndex {
         this.inverseTrigramsPath = indexFolder.resolve( TRIGRAM_INVERSE_METADATA_INDEX );
     }
 
+    public static String getLocalIndexFolder() {
+        return TRIGRAM_INVERSE_METADATA_INDEX;
+    }
+
     /**
      * 
      */
