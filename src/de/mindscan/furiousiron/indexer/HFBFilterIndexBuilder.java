@@ -46,13 +46,7 @@ public class HFBFilterIndexBuilder {
 
     private Index index;
 
-    /**
-     * @param filesToBeIndexed
-     * @param crawlFolder
-     * @param indexFolder
-     */
     public void buildIndex( Deque<Path> filesToBeIndexed, Path crawlFolder, Path indexFolder ) {
-        // TODO: create an instance of the Index,
         setIndex( new Index( indexFolder ) );
 
         // read access to the MetaDataTrigramIndex  
@@ -68,8 +62,17 @@ public class HFBFilterIndexBuilder {
             // use SearchMetadataTrigramIndex load all documentids for a trigram  
             Collection<String> documentIdsForTrigram = searchMetadataTrigramIndex.getDocumentIdsForTrigram( trigramOccurrence.getTrigram() );
 
-            // TODO: compile each documentid list into a HFB Filter
-            // TODO: save filter for this particular trigram.
+            // do some consistency check first...
+            if (trigramOccurrence.getOccurrenceCount() == documentIdsForTrigram.size()) {
+                System.out.println(
+                                String.format( "'%s' is consistent: %d elements", trigramOccurrence.getTrigram(), trigramOccurrence.getOccurrenceCount() ) );
+                // TODO: compile each documentid list into a HFB Filter
+                // TODO: save filter for this particular trigram.
+            }
+            else {
+                System.out.println( String.format( "'%s' is _not_ consistent; %d vs %d", trigramOccurrence.getTrigram(), trigramOccurrence.getOccurrenceCount(),
+                                documentIdsForTrigram.size() ) );
+            }
         }
     }
 
