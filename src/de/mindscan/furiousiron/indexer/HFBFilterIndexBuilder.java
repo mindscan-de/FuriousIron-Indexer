@@ -57,12 +57,18 @@ public class HFBFilterIndexBuilder {
         // read access to the MetaDataTrigramIndex  
         SearchMetadataTrigramIndex searchMetadataTrigramIndex = new SearchMetadataTrigramIndex( indexFolder );
 
-        // TODO: implement algorithm 
-        // for each found reference count file 
-        // // load reference count file, extract trigram, extract refrence count
-        // // use the Indexer load all documentids for a trigram  
-        // // compile each documentid list into a HFB Filter
-        // // save filter for this particular trigram.
+        for (Path referenceCountFile : filesToBeIndexed) {
+            TrigramOccurrence trigramOccurrence = loadTrigramOccurrence( referenceCountFile );
+            if (trigramOccurrence == null) {
+                // TODO: log that shit.. this can be problematic, if a filter does not exist.
+                continue;
+            }
+
+            // 
+            // TODO: use the Indexer load all documentids for a trigram  
+            // TODO: compile each documentid list into a HFB Filter
+            // TODO: save filter for this particular trigram.
+        }
     }
 
     TrigramOccurrence loadTrigramOccurrence( Path pathForTrigramCount ) {
