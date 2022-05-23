@@ -25,9 +25,29 @@
  */
 package de.mindscan.furiousiron.indexer;
 
+import java.nio.file.Path;
+import java.util.Deque;
+
 /**
  * 
  */
 public class HFBFilterIndexBuilder {
+
+    /**
+     * @param filesToBeIndexed
+     * @param crawlFolder
+     * @param indexFolder
+     */
+    public void buildIndex( Deque<Path> filesToBeIndexed, Path crawlFolder, Path indexFolder ) {
+        // TODO: create an instance of the Index, 
+
+        // TODO: implement algorithm 
+        // for each found reference count file 
+        // // load reference count file, extract trigram, extract refrence count
+        // // use the Indexer load all documentids for a trigram  
+        // // compile each documentid list into a HFB Filter
+        // // save filter for this particular trigram.
+
+    }
 
 }

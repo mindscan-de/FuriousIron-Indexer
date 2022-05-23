@@ -30,6 +30,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 import de.mindscan.furiousiron.crawler.MetaDataTrigramCountCrawler;
+import de.mindscan.furiousiron.indexer.HFBFilterIndexBuilder;
 import picocli.CommandLine;
 
 /**
@@ -58,14 +59,8 @@ public class HFBCompilerMain {
 
         System.out.println( String.format( "%d trigrams found for hfb compilation.", filesToBeIndexed.size() ) );
 
-        // TODO: create an instance of the Index, 
-
-        // TODO: implement algorithm 
-        // for each found reference count file 
-        // // load reference count file, extract trigram, extract refrence count
-        // // use the Indexer load all documentids for a trigram  
-        // // compile each documentid list into a HFB Filter
-        // // save filter for this particular trigram.
+        HFBFilterIndexBuilder indexBuilder = new HFBFilterIndexBuilder();
+        indexBuilder.buildIndex( filesToBeIndexed, crawlFolder, indexFolder );
     }
 
     public static void main( String[] args ) {
