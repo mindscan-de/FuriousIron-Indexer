@@ -34,6 +34,8 @@ import java.util.Deque;
 
 import com.google.gson.Gson;
 
+import de.mindscan.furiousiron.hfb.HFBFilterBank;
+import de.mindscan.furiousiron.hfb.HFBFilterBankCompiler;
 import de.mindscan.furiousiron.index.Index;
 import de.mindscan.furiousiron.index.trigram.SearchMetadataTrigramIndex;
 import de.mindscan.furiousiron.index.trigram.TrigramOccurrence;
@@ -48,6 +50,8 @@ public class HFBFilterIndexBuilder {
 
     public void buildIndex( Deque<Path> filesToBeIndexed, Path crawlFolder, Path indexFolder ) {
         setIndex( new Index( indexFolder ) );
+
+        HFBFilterBankCompiler compiler = new HFBFilterBankCompiler();
 
         // read access to the MetaDataTrigramIndex  
         SearchMetadataTrigramIndex searchMetadataTrigramIndex = new SearchMetadataTrigramIndex( indexFolder );
@@ -66,8 +70,11 @@ public class HFBFilterIndexBuilder {
             if (trigramOccurrence.getOccurrenceCount() == documentIdsForTrigram.size()) {
                 System.out.println(
                                 String.format( "'%s' is consistent: %d elements", trigramOccurrence.getTrigram(), trigramOccurrence.getOccurrenceCount() ) );
-                // TODO: compile each documentid list into a HFB Filter
-                // TODO: save filter for this particular trigram.
+
+                // compile each documentid list into a HFB Filter
+                HFBFilterBank compiledFilter = compiler.compileFilterHex( documentIdsForTrigram );
+
+                // TODO: save filter for this particular trigram in the index.
             }
             else {
                 System.out.println( String.format( "'%s' is _not_ consistent; %d vs %d", trigramOccurrence.getTrigram(), trigramOccurrence.getOccurrenceCount(),
