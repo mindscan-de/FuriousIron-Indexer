@@ -41,7 +41,7 @@ import de.mindscan.furiousiron.index.trigram.model.TrigramIndexJsonModel;
 /**
  * 
  */
-public class SeachMetadataTrigramIndex {
+public class SearchMetadataTrigramIndex {
 
     private static final String TRIGRAM_INVERSE_METADATA_INDEX = "inverseMetadataTrigram.index";
 
@@ -57,7 +57,7 @@ public class SeachMetadataTrigramIndex {
     /**
      * @param indexFolder
      */
-    public SeachMetadataTrigramIndex( Path indexFolder ) {
+    public SearchMetadataTrigramIndex( Path indexFolder ) {
         this.searchMetadataTrigramsPath = indexFolder.resolve( TRIGRAM_INVERSE_METADATA_INDEX );
     }
 

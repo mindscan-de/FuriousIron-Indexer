@@ -51,7 +51,7 @@ import de.mindscan.furiousiron.index.cache.DocumentCache;
 import de.mindscan.furiousiron.index.cache.MetadataCache;
 import de.mindscan.furiousiron.index.cache.SearchQueryCache;
 import de.mindscan.furiousiron.index.cache.WordlistCache;
-import de.mindscan.furiousiron.index.trigram.SeachMetadataTrigramIndex;
+import de.mindscan.furiousiron.index.trigram.SearchMetadataTrigramIndex;
 import de.mindscan.furiousiron.index.trigram.SearchTrigramIndex;
 import de.mindscan.furiousiron.index.trigram.TrigramOccurrence;
 import de.mindscan.furiousiron.index.trigram.TrigramUsage;
@@ -73,7 +73,7 @@ public class Search {
     // for ranking
     private final SearchTrigramIndex theSearchTrigramIndex;
     // 
-    private final SeachMetadataTrigramIndex theSearchMetadataTrigramIndex;
+    private final SearchMetadataTrigramIndex theSearchMetadataTrigramIndex;
     // for performance
     private final SearchQueryCache theSearchQueryCache;
 
@@ -90,7 +90,7 @@ public class Search {
         theMetadataCache = new MetadataCache( indexFolder );
         theWordlistCache = new WordlistCache( indexFolder );
         theSearchTrigramIndex = new SearchTrigramIndex( indexFolder );
-        theSearchMetadataTrigramIndex = new SeachMetadataTrigramIndex( indexFolder );
+        theSearchMetadataTrigramIndex = new SearchMetadataTrigramIndex( indexFolder );
         theSearchQueryCache = new SearchQueryCache( indexFolder );
 
         searchDetails = new SearchExecutionDetails();
