@@ -25,13 +25,25 @@
  */
 package de.mindscan.furiousiron.indexer;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Deque;
+
+import com.google.gson.Gson;
+
+import de.mindscan.furiousiron.index.Index;
+import de.mindscan.furiousiron.index.trigram.SearchMetadataTrigramIndex;
+import de.mindscan.furiousiron.index.trigram.TrigramOccurrence;
+import de.mindscan.furiousiron.index.trigram.model.TrigramDocumentCountJsonModel;
 
 /**
  * 
  */
 public class HFBFilterIndexBuilder {
+
+    private Index index;
 
     /**
      * @param filesToBeIndexed
@@ -39,7 +51,11 @@ public class HFBFilterIndexBuilder {
      * @param indexFolder
      */
     public void buildIndex( Deque<Path> filesToBeIndexed, Path crawlFolder, Path indexFolder ) {
-        // TODO: create an instance of the Index, 
+        // TODO: create an instance of the Index,
+        setIndex( new Index( indexFolder ) );
+
+        // read access to the MetaDataTrigramIndex  
+        SearchMetadataTrigramIndex searchMetadataTrigramIndex = new SearchMetadataTrigramIndex( indexFolder );
 
         // TODO: implement algorithm 
         // for each found reference count file 
@@ -47,7 +63,26 @@ public class HFBFilterIndexBuilder {
         // // use the Indexer load all documentids for a trigram  
         // // compile each documentid list into a HFB Filter
         // // save filter for this particular trigram.
+    }
 
+    TrigramOccurrence loadTrigramOccurrence( Path pathForTrigramCount ) {
+        Gson gson = new Gson();
+
+        try (Reader json = Files.newBufferedReader( pathForTrigramCount )) {
+            TrigramDocumentCountJsonModel fromJson = gson.fromJson( json, TrigramDocumentCountJsonModel.class );
+            long occurence = fromJson.getRelatedDocumentsCount();
+            String trigram = fromJson.getTrigram();
+            return new TrigramOccurrence( trigram, occurence );
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private void setIndex( Index index ) {
+        this.index = index;
     }
 
 }
