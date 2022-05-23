@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.Deque;
 
 import com.google.gson.Gson;
@@ -64,8 +65,9 @@ public class HFBFilterIndexBuilder {
                 continue;
             }
 
-            // 
-            // TODO: use the Indexer load all documentids for a trigram  
+            // use SearchMetadataTrigramIndex load all documentids for a trigram  
+            Collection<String> documentIdsForTrigram = searchMetadataTrigramIndex.getDocumentIdsForTrigram( trigramOccurrence.getTrigram() );
+
             // TODO: compile each documentid list into a HFB Filter
             // TODO: save filter for this particular trigram.
         }
