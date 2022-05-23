@@ -58,8 +58,14 @@ public class HFBCompilerMain {
 
         System.out.println( String.format( "%d trigrams found for hfb compilation.", filesToBeIndexed.size() ) );
 
-        // TODO Auto-generated method stub
+        // TODO: create an instance of the Index, 
 
+        // TODO: implement algorithm 
+        // for each found reference count file 
+        // // load reference count file, extract trigram, extract refrence count
+        // // use the Indexer load all documentids for a trigram  
+        // // compile each documentid list into a HFB Filter
+        // // save filter for this particular trigram.
     }
 
     public static void main( String[] args ) {
