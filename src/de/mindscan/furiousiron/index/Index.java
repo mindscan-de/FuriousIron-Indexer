@@ -31,6 +31,7 @@ import de.mindscan.furiousiron.index.cache.DocumentCache;
 import de.mindscan.furiousiron.index.cache.MetadataCache;
 import de.mindscan.furiousiron.index.cache.SearchQueryCache;
 import de.mindscan.furiousiron.index.cache.WordlistCache;
+import de.mindscan.furiousiron.index.hfb.InverseMetadataHFBFilterIndex;
 import de.mindscan.furiousiron.index.trigram.InverseMetadataTrigramIndex;
 import de.mindscan.furiousiron.index.trigram.InverseTrigramIndex;
 
@@ -44,6 +45,7 @@ public class Index {
     private final WordlistCache theWordlistCache;
     private final InverseTrigramIndex theInverseTrigramIndex;
     private final InverseMetadataTrigramIndex theInverseMetadataTrigramIndex;
+    private final InverseMetadataHFBFilterIndex theInverseMetadataHFBFilterIndex;
     private final SearchQueryCache theSearchQueryCache;
 
     /**
@@ -56,6 +58,7 @@ public class Index {
         theInverseTrigramIndex = new InverseTrigramIndex( indexFolder );
         theInverseMetadataTrigramIndex = new InverseMetadataTrigramIndex( indexFolder );
         theSearchQueryCache = new SearchQueryCache( indexFolder );
+        theInverseMetadataHFBFilterIndex = new InverseMetadataHFBFilterIndex();
     }
 
     /**
