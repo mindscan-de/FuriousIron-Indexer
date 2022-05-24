@@ -25,9 +25,22 @@
  */
 package de.mindscan.furiousiron.index.hfb;
 
+import java.nio.file.Path;
+
 /**
  * 
  */
 public class InverseMetadataHFBFilterIndex {
+
+    private static final String HFB_INVERSE_METADATA_INDEX = "hfbInverseMetadataFilters.index";
+
+    private final Path inverseTrigramsHFBFiltersPath;
+
+    /**
+     * @param indexFolder
+     */
+    public InverseMetadataHFBFilterIndex( Path indexFolder ) {
+        this.inverseTrigramsHFBFiltersPath = indexFolder.resolve( HFB_INVERSE_METADATA_INDEX );
+    }
 
 }

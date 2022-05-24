@@ -58,7 +58,7 @@ public class Index {
         theInverseTrigramIndex = new InverseTrigramIndex( indexFolder );
         theInverseMetadataTrigramIndex = new InverseMetadataTrigramIndex( indexFolder );
         theSearchQueryCache = new SearchQueryCache( indexFolder );
-        theInverseMetadataHFBFilterIndex = new InverseMetadataHFBFilterIndex();
+        theInverseMetadataHFBFilterIndex = new InverseMetadataHFBFilterIndex( indexFolder );
     }
 
     /**
