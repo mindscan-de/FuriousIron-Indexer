@@ -42,6 +42,8 @@ public class InverseMetadataHFBFilterIndex {
 
     private final Path inverseTrigramsHFBFiltersPath;
 
+    private final HFBFilterBankWriterV1Impl writer = new HFBFilterBankWriterV1Impl();
+
     /**
      * @param indexFolder
      */
@@ -49,11 +51,17 @@ public class InverseMetadataHFBFilterIndex {
         this.inverseTrigramsHFBFiltersPath = indexFolder.resolve( HFB_INVERSE_METADATA_INDEX );
     }
 
-    public void addHFBFilterForMetadata( String trigram, HFBFilterBank hfbFilterBank ) {
-        Path hfbPath = TrigramSubPathCalculator.getPathForTrigram( inverseTrigramsHFBFiltersPath, trigram, HFBFilterBankWriterV1Impl.FILE_DOT_SUFFIX );
+    public void addHFBFilterForMetadata( String trigram, HFBFilterBank filterBank ) {
+        try {
+            Path hfbPath = TrigramSubPathCalculator.getPathForTrigram( inverseTrigramsHFBFiltersPath, trigram, writer.FILE_DOT_SUFFIX );
 
-        createTargetDirectoryIfNotExist( hfbPath.getParent() );
+            createTargetDirectoryIfNotExist( hfbPath.getParent() );
 
+            writer.write( filterBank, hfbPath.toAbsolutePath().toString() );
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void createTargetDirectoryIfNotExist( Path path ) {
