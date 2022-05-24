@@ -74,7 +74,7 @@ public class HFBFilterIndexBuilder {
                 // compile each documentid list into a HFB Filter
                 HFBFilterBank compiledFilter = compiler.compileFilterHex( documentIdsForTrigram );
 
-                // TODO: save filter for this particular trigram in the index.
+                index.getInverseMetadataHFBFilterIndex().addHFBFilterForMetadata( trigramOccurrence.getTrigram(), compiledFilter );
             }
             else {
                 System.out.println( String.format( "'%s' is _not_ consistent; %d vs %d", trigramOccurrence.getTrigram(), trigramOccurrence.getOccurrenceCount(),
