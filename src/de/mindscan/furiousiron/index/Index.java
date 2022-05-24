@@ -100,4 +100,11 @@ public class Index {
         return theSearchQueryCache;
     }
 
+    /**
+     * @return the theInverseMetadataHFBFilterIndex
+     */
+    public InverseMetadataHFBFilterIndex getInverseMetadataHFBFilterIndex() {
+        return theInverseMetadataHFBFilterIndex;
+    }
+
 }
