@@ -25,7 +25,13 @@
  */
 package de.mindscan.furiousiron.index.hfb;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+
+import de.mindscan.furiousiron.hfb.HFBFilterBank;
+import de.mindscan.furiousiron.hfb.io.HFBFilterBankWriterV1Impl;
+import de.mindscan.furiousiron.index.trigram.TrigramSubPathCalculator;
 
 /**
  * 
@@ -41,6 +47,24 @@ public class InverseMetadataHFBFilterIndex {
      */
     public InverseMetadataHFBFilterIndex( Path indexFolder ) {
         this.inverseTrigramsHFBFiltersPath = indexFolder.resolve( HFB_INVERSE_METADATA_INDEX );
+    }
+
+    public void addHFBFilterForMetadata( String trigram, HFBFilterBank hfbFilterBank ) {
+        Path hfbPath = TrigramSubPathCalculator.getPathForTrigram( inverseTrigramsHFBFiltersPath, trigram, HFBFilterBankWriterV1Impl.FILE_DOT_SUFFIX );
+
+        createTargetDirectoryIfNotExist( hfbPath.getParent() );
+
+    }
+
+    private void createTargetDirectoryIfNotExist( Path path ) {
+        if (!Files.isDirectory( path )) {
+            try {
+                Files.createDirectories( path );
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }
