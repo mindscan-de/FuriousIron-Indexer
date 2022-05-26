@@ -55,10 +55,15 @@ public class SearchMetadataHFBFilterIndex {
     public HFBFilterBank loadFilterBankForTrigram( String trigram ) {
         Path hfbPath = TrigramSubPathCalculator.getPathForTrigram( inverseTrigramsHFBFiltersPath, trigram, HFB_FILE_EXTENSION );
 
-        // TODO: in case of problems, return a neutral filter, which filters nothing.
-        // TODO: implement a neutral filter Bank.
-        HFBFilterBank hfbFilterBank = hfbFactory.fromFile( hfbPath.toString() );
+        try {
+            HFBFilterBank hfbFilterBank = hfbFactory.fromFile( hfbPath.toString() );
 
-        return hfbFilterBank;
+            return hfbFilterBank;
+        }
+        catch (Exception e) {
+            // in case of problems, return a neutral filter, which filters nothing.
+            return hfbFactory.neutralFilter();
+        }
+
     }
 }
