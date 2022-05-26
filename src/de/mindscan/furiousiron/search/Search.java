@@ -30,6 +30,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -47,6 +48,7 @@ import java.util.stream.Collectors;
 
 import de.mindscan.furiousiron.document.DocumentId;
 import de.mindscan.furiousiron.document.DocumentIdFactory;
+import de.mindscan.furiousiron.hfb.HFBFilterBank;
 import de.mindscan.furiousiron.index.cache.DocumentCache;
 import de.mindscan.furiousiron.index.cache.MetadataCache;
 import de.mindscan.furiousiron.index.cache.SearchQueryCache;
@@ -162,7 +164,7 @@ public class Search {
         // extract word  from searchterm 
         Collection<String> uniqueTrigramsFromWord = SimpleWordUtils.getUniqueTrigramsFromWord( processedSearchTerm );
 
-        Set<String> documentIdsForOneWord = collectDocumentIdsForMetadataTrigramsOpt( uniqueTrigramsFromWord );
+        Set<String> documentIdsForOneWord = collectDocumentIdsForMetadataTrigramsOptV2( uniqueTrigramsFromWord );
 
         // check, that a word is part of a page
         Map<String, SearchResultCandidates> searchResult = new HashMap<>();
@@ -307,8 +309,8 @@ public class Search {
 
             // using sorted trigrams leads to a highly unbalanced (retain) comparison, (the first two or 
             // three retain operations will do most of the heavy lifting, at the same time, the resultSet
-            // will become smaller and smaller and the documentIds are becoming bigger and bigger. So most
-            // of the time we can just skip the loading of the document ids, when >95% of the maximum 
+            // will become smaller and smaller and the listsize of documentIds is becoming bigger and bigger.
+            // So most of the time we can just skip the loading of the document ids, when >95% of the maximum 
             // reduction is already done.
             // Each following iteration of this loop will become more and more expensive IO wise, but 
             // leads to less and less reduction of the final set, therefore breaking this loop early 
@@ -321,7 +323,7 @@ public class Search {
 
             System.out.println( "Reduction to: " + remainingSetSize + " elemenets using trigram: " + trigram.getTrigram() );
 
-            if (trigram.getOccurrenceCount() > (128 * remainingSetSize)) {
+            if (trigram.getOccurrenceCount() > (192 * remainingSetSize)) {
                 // stop if it is too unbalanced... we probably already are in X+10% range of maximal search results
                 break;
             }
@@ -343,6 +345,101 @@ public class Search {
         System.out.println( "Skipped Elements: " + ignoredElements );
 
         return resultSet;
+    }
+
+    // implementation of search algorithm on metadata using the list+hfb filter method 
+    public Set<String> collectDocumentIdsForMetadataTrigramsOptV2( Collection<String> uniqueTrigramsFromWord ) {
+        Set<String> resultSet = new HashSet<String>();
+        List<TrigramUsage> trigramUsage = new ArrayList<>( uniqueTrigramsFromWord.size() );
+
+        List<TrigramOccurrence> sortedMetadataTrigramOccurrences = getMetadataTrigramOccurrencesSortedByOccurrence( uniqueTrigramsFromWord );
+
+        SearchExecutionDetails executionDetails = new SearchExecutionDetails();
+        executionDetails.setLastQueryTrigramOccurrences( sortedMetadataTrigramOccurrences );
+
+        for (TrigramOccurrence trigramOccurence : sortedMetadataTrigramOccurrences) {
+            System.out.println( "Debug-MetadataTrigramOccurenceV2: " + trigramOccurence.toString() );
+        }
+
+        long previousSetSize = 0L;
+
+        StopWatch retainAllStopWatch = StopWatch.createStarted();
+
+        // TODO: figure out, whether this is slow if yes, we might implement a filter only approach.        
+        // fill resultSet with first document list (shortest), it will only get shorter 
+        Iterator<TrigramOccurrence> collectedOccurencesIterator = sortedMetadataTrigramOccurrences.iterator();
+        if (collectedOccurencesIterator.hasNext()) {
+            TrigramOccurrence firstTrigramOccurence = collectedOccurencesIterator.next();
+            resultSet = new HashSet<String>( getDocumentsForMetadataTrigram( firstTrigramOccurence.getTrigram() ) );
+
+            trigramUsage.add( new TrigramUsage( firstTrigramOccurence, TrigramUsageState.SUCCESS ) );
+            previousSetSize = firstTrigramOccurence.getOccurrenceCount();
+
+            System.out.println( "Reduction v2 starts from: " + resultSet.size() + " elements for " + firstTrigramOccurence.getTrigram() );
+        }
+
+        // we make at least one round of reducing the number of document candidates by combining the set of 
+        // the first and second trigram's associated documents and continue until it becomes inefficient
+        while (collectedOccurencesIterator.hasNext()) {
+            TrigramOccurrence trigram = collectedOccurencesIterator.next();
+
+            resultSet = retainDocuments( resultSet, trigram.getTrigram() );
+
+            // using sorted trigrams leads to a highly unbalanced (retain) comparison, (the first two or 
+            // three retain operations will do most of the heavy lifting, at the same time, the resultSet
+            // will become smaller and smaller and the hfb filters Ids are becoming bigger and bigger. So
+            // most of the time we can just skip the hfb processing, when >95% of the maximum  reduction 
+            // is already done.
+            // Each following iteration of this loop will become more and more expensive IO wise, but 
+            // leads to less and less reduction of the final set, therefore breaking this loop early 
+            // is highly encouraged and saves time spend better else where.
+
+            int remainingSetSize = resultSet.size();
+
+            trigramUsage.add( getTrigramUsageByReduction( trigram, remainingSetSize < previousSetSize ) );
+
+            System.out.println( "Reduction v2 to: " + remainingSetSize + " elemenets using trigram: " + trigram.getTrigram() );
+
+            if (trigram.getOccurrenceCount() > (192 * remainingSetSize)) {
+                // stop if it is too unbalanced... we probably already are in X+10% range of maximal search results
+                break;
+            }
+
+            previousSetSize = remainingSetSize;
+        }
+        retainAllStopWatch.stop();
+
+        List<TrigramOccurrence> skippedTrigrams = new ArrayList<>();
+
+        long ignoredElements = collectSkippedTrigrams( collectedOccurencesIterator, skippedTrigrams::add );
+
+        executionDetails.setSkippedTrigramsInOptSearch( skippedTrigrams );
+        executionDetails.setTrigramUsage( trigramUsage );
+
+        setMetadataSearchDetails( executionDetails );
+
+        System.out.println( "Time to reduce via hfb retainAll: " + (retainAllStopWatch.getElapsedTime()) );
+        System.out.println( "Skipped Elements: " + ignoredElements );
+
+        return resultSet;
+    }
+
+    private Set<String> retainDocuments( Set<String> resultSet, String trigram ) {
+        Set<String> retained = new HashSet<>();
+
+        HFBFilterBank hfbfilterBank = this.theSearchMetadataHFBFilterIndex.loadFilterBankForTrigram( trigram );
+
+        for (String documentId : resultSet) {
+            // TODO: this  sh*t here is expensive ... we actually do not need to convert the same document ids over and over again into a big integer
+            // was done for the proof of concept, but should be improved.
+            BigInteger biDocumentId = new BigInteger( documentId, 16 );
+            if (hfbfilterBank.containsDocumentId( biDocumentId )) {
+                // only spend time on retained documents.
+                retained.add( documentId );
+            }
+        }
+
+        return retained;
     }
 
     private long collectSkippedTrigrams( Iterator<TrigramOccurrence> collectedOccurencesIterator, Function<TrigramOccurrence, Boolean> collector ) {
