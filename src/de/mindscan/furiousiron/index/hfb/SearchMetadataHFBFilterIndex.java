@@ -27,14 +27,22 @@ package de.mindscan.furiousiron.index.hfb;
 
 import java.nio.file.Path;
 
+import de.mindscan.furiousiron.hfb.HFBFilterBank;
+import de.mindscan.furiousiron.hfb.HFBFilterFactory;
+import de.mindscan.furiousiron.hfb.io.HFBFilterBankWriterV1Impl;
+import de.mindscan.furiousiron.index.trigram.TrigramSubPathCalculator;
+
 /**
  * This is a read-only index for the metadata hfb filters. 
  */
 public class SearchMetadataHFBFilterIndex {
 
     private static final String HFB_INVERSE_METADATA_INDEX = "hfbInverseMetadataFilters.index";
+    private static final String HFB_FILE_EXTENSION = HFBFilterBankWriterV1Impl.FILE_DOT_SUFFIX;
 
     private final Path inverseTrigramsHFBFiltersPath;
+
+    private final HFBFilterFactory hfbFactory = new HFBFilterFactory();
 
     public SearchMetadataHFBFilterIndex( Path indexFolder ) {
         this.inverseTrigramsHFBFiltersPath = indexFolder.resolve( HFB_INVERSE_METADATA_INDEX );
@@ -42,5 +50,15 @@ public class SearchMetadataHFBFilterIndex {
 
     public static String getLocalIndexFolder() {
         return HFB_INVERSE_METADATA_INDEX;
+    }
+
+    public HFBFilterBank loadFilterBankForTrigram( String trigram ) {
+        Path hfbPath = TrigramSubPathCalculator.getPathForTrigram( inverseTrigramsHFBFiltersPath, trigram, HFB_FILE_EXTENSION );
+
+        // TODO: in case of problems, return a neutral filter, which filters nothing.
+        // TODO: implement a neutral filter Bank.
+        HFBFilterBank hfbFilterBank = hfbFactory.fromFile( hfbPath.toString() );
+
+        return hfbFilterBank;
     }
 }
