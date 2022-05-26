@@ -96,15 +96,15 @@ public class Index {
         return theInverseMetadataTrigramIndex;
     }
 
-    public SearchQueryCache getSearchQueryCache() {
-        return theSearchQueryCache;
-    }
-
     /**
-     * @return the theInverseMetadataHFBFilterIndex
+     * @return the (inverse) metadata trigram index filter access (trigram -> hfb filter bank)
      */
     public InverseMetadataHFBFilterIndex getInverseMetadataHFBFilterIndex() {
         return theInverseMetadataHFBFilterIndex;
+    }
+
+    public SearchQueryCache getSearchQueryCache() {
+        return theSearchQueryCache;
     }
 
 }
