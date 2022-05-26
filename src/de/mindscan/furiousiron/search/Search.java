@@ -51,6 +51,7 @@ import de.mindscan.furiousiron.index.cache.DocumentCache;
 import de.mindscan.furiousiron.index.cache.MetadataCache;
 import de.mindscan.furiousiron.index.cache.SearchQueryCache;
 import de.mindscan.furiousiron.index.cache.WordlistCache;
+import de.mindscan.furiousiron.index.hfb.SearchMetadataHFBFilterIndex;
 import de.mindscan.furiousiron.index.trigram.SearchMetadataTrigramIndex;
 import de.mindscan.furiousiron.index.trigram.SearchTrigramIndex;
 import de.mindscan.furiousiron.index.trigram.TrigramOccurrence;
@@ -64,7 +65,7 @@ import de.mindscan.furiousiron.util.StopWatch;
  */
 public class Search {
 
-    // for content
+    // for content search
     private final DocumentCache theFileCache;
     // for ranking
     private final MetadataCache theMetadataCache;
@@ -72,8 +73,10 @@ public class Search {
     private final WordlistCache theWordlistCache;
     // for ranking
     private final SearchTrigramIndex theSearchTrigramIndex;
-    // 
+    // for metadata search
     private final SearchMetadataTrigramIndex theSearchMetadataTrigramIndex;
+    // for metadata filtering (substitute searching)
+    private final SearchMetadataHFBFilterIndex theSearchMetadataHFBFilterIndex;
     // for performance
     private final SearchQueryCache theSearchQueryCache;
 
@@ -91,6 +94,7 @@ public class Search {
         theWordlistCache = new WordlistCache( indexFolder );
         theSearchTrigramIndex = new SearchTrigramIndex( indexFolder );
         theSearchMetadataTrigramIndex = new SearchMetadataTrigramIndex( indexFolder );
+        theSearchMetadataHFBFilterIndex = new SearchMetadataHFBFilterIndex( indexFolder );
         theSearchQueryCache = new SearchQueryCache( indexFolder );
 
         searchDetails = new SearchExecutionDetails();
@@ -450,6 +454,11 @@ public class Search {
     public SearchQueryCache getSearchQueryCache() {
         return theSearchQueryCache;
     }
+
+    // TODO: decide if this is needed.
+//    public SearchMetadataHFBFilterIndex getSearchMetadataHFBFilterIndex() {
+//        return theSearchMetadataHFBFilterIndex;
+//    }
 
     private void setSearchDetails( SearchExecutionDetails executionDetails ) {
         this.searchDetails = executionDetails;
