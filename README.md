@@ -48,7 +48,7 @@ less cycles. On the other hand, if I feel an urge to speed things up, I still ca
 for performance wherever it may be useful. If you start by thinking what can be omitted without
 sacrificing the result, you will obtain much simpler and more efficient solutions.
 
-## HFB-Filter compiler and HFB Filtering for Metadata filtering
+## HFB-Filter compiler and HFB Filtering for Metadata filtering [done]
 
 I will test my hash free bloom filter implementation for filtering the document IDs. Instead of
 loading a lot of document ids from disk, I only load the first candidate list of document IDs. 
@@ -61,12 +61,15 @@ from trigrams to hfb filters. Then the algorithm Search#collectDocumentIdsForMet
 must be implemented to collect and apply the hfb filters in question. Finally SearchQueryExecutorV2
 needs to be adapted and the new performance needs to be measured and evaluated.
 
+The number of filter bank data to save is set down to three and the filter data banks written
+are optimized for efficiency. *Speedup* in filtering-phase (search) *is about ten fold*, and the 
+*hfb-index size is about a tenth of the trigram index* from which it is compiled.
+
 ## HFB-Filters and continuous index self-optimization
 
 * Compile the inverse index to HFB-Filters
-  * As a first improvement all the metadata inverse indexes can be implemented using a HFB - 
-    this will reduce the size on disk for the compiled HFB-filters instead of keeping the 
-    lust of document IDs and will also increase the overall performance (very likely by a factor of 10 to 100). 
+  * instead of keeping the list of document IDs and will also increase the overall performance (very likely by a factor of 10 to 100).
+  * completely transfer to filter only approach? or still hybrid approach? 
   
 * then use HFB-Filters to filter search candidates efficiently
   * instead of reading files encoded in json-format from a disk, parsing them and then preparing 
