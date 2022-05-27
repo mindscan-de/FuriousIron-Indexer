@@ -31,6 +31,7 @@ import java.nio.file.Path;
 
 import de.mindscan.furiousiron.hfb.HFBFilterBank;
 import de.mindscan.furiousiron.hfb.io.HFBFilterBankWriterV1Impl;
+import de.mindscan.furiousiron.hfb.options.HFBFilterWriteOption;
 import de.mindscan.furiousiron.index.trigram.TrigramSubPathCalculator;
 
 /**
@@ -39,6 +40,7 @@ import de.mindscan.furiousiron.index.trigram.TrigramSubPathCalculator;
 public class InverseMetadataHFBFilterIndex {
 
     private static final String HFB_INVERSE_METADATA_INDEX = "hfbInverseMetadataFilters.index";
+    private static final String FILE_DOT_SUFFIX = HFBFilterBankWriterV1Impl.FILE_DOT_SUFFIX;
 
     private final Path inverseTrigramsHFBFiltersPath;
 
@@ -53,11 +55,12 @@ public class InverseMetadataHFBFilterIndex {
 
     public void addHFBFilterForMetadata( String trigram, HFBFilterBank filterBank ) {
         try {
-            Path hfbPath = TrigramSubPathCalculator.getPathForTrigram( inverseTrigramsHFBFiltersPath, trigram, writer.FILE_DOT_SUFFIX );
+            Path hfbPath = TrigramSubPathCalculator.getPathForTrigram( inverseTrigramsHFBFiltersPath, trigram, FILE_DOT_SUFFIX );
 
             createTargetDirectoryIfNotExist( hfbPath.getParent() );
 
-            writer.write( filterBank, hfbPath.toAbsolutePath().toString() );
+            writer.write( filterBank, hfbPath.toAbsolutePath().toString(), HFBFilterWriteOption.ORDER_BY_RANDOM, HFBFilterWriteOption.ORDER_BY_EFFICIENCY,
+                            HFBFilterWriteOption.SAVE_THREE_FILTERBANKS );
         }
         catch (Exception e) {
             e.printStackTrace();
