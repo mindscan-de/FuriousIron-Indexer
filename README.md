@@ -67,7 +67,7 @@ are optimized for efficiency. *Speedup* in filtering-phase (search) *is about te
 
 ## HFB-Filters and continuous index self-optimization
 
-* Compile the inverse index to HFB-Filters
+* Compile the regular inverse content index to HFB-Filters
   * instead of keeping the list of document IDs and will also increase the overall performance (very likely by a factor of 10 to 100).
   * completely transfer to filter only approach? or still hybrid approach? 
   
@@ -82,6 +82,7 @@ are optimized for efficiency. *Speedup* in filtering-phase (search) *is about te
 ## Query Plan Compiler 3search, filterw,
 
 * build a query plan and and a query plan optimizer, which can be executed in parallel and/or distributed.
+* the query plan should solve the following issues, the minus operator should work on docment IDs level rather than word content level, maybe by using a previous search result.
 
 ## Incremental Preview Extension
 
@@ -109,6 +110,12 @@ your particular idea anyways for reasons.
 * [Research] rank with machine learning - training with monte carlo simulation / monte carlo tree search
   * could be done with a cosine metrics and then order by dot product between query vector (trained) and document vector (trained) - (both calculated once) 
 * collect statistics of requests and good answers -  training of ML model for ranking / or something like PCA
+* record user interactions for search engine ranking training
+* record user search quality metrics - let the user say, whether this result was useful.
+
+* for phrase based searches, use all trigrams in phrase for filtering (force them instead of early exit - because if ended early, the candidate quality is actually quite bad) 
+
+* Browse file system - introduce a virtual file system for the file content.
 
 # Maybe have a look into
 

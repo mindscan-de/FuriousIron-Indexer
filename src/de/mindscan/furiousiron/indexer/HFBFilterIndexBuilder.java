@@ -68,8 +68,8 @@ public class HFBFilterIndexBuilder {
 
             // do some consistency check first...
             if (trigramOccurrence.getOccurrenceCount() == documentIdsForTrigram.size()) {
-                System.out.println(
-                                String.format( "'%s' is consistent: %d elements", trigramOccurrence.getTrigram(), trigramOccurrence.getOccurrenceCount() ) );
+                System.out.println( String.format( "Compiling filter for '%s' with %d elements", trigramOccurrence.getTrigram(),
+                                trigramOccurrence.getOccurrenceCount() ) );
 
                 // compile each documentid list into a HFB Filter
                 HFBFilterBank compiledFilter = compiler.compileFilterHex( documentIdsForTrigram );
