@@ -38,7 +38,7 @@ import de.mindscan.furiousiron.index.Index;
 /**
  * 
  */
-public class MetadataFileIndexer {
+public class MetadataFileIndexer implements FileContentIndexer {
 
     private Index index;
 

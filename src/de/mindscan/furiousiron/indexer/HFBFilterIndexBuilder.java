@@ -44,7 +44,7 @@ import de.mindscan.furiousiron.index.trigram.model.TrigramDocumentCountJsonModel
 /**
  * 
  */
-public class HFBFilterIndexBuilder {
+public class HFBFilterIndexBuilder implements FileContentIndexer {
 
     private Index index;
 

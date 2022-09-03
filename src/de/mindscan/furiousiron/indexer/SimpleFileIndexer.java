@@ -43,7 +43,7 @@ import de.mindscan.furiousiron.index.Index;
 /**
  * 
  */
-public class SimpleFileIndexer {
+public class SimpleFileIndexer implements FileContentIndexer {
     private Index index;
     private Classifier classifier;
 
