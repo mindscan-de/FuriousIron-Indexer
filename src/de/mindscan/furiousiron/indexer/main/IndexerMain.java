@@ -45,6 +45,9 @@ public class IndexerMain {
     void run( Path crawlFolder, Path indexFolder ) {
         Deque<Path> filesToBeIndexed = new ArrayDeque<Path>();
 
+        System.out.println( "CrawlingFolder: '"+crawlFolder.toAbsolutePath().toString()+"'");
+        System.out.println( "BuildIndexInFolder: '"+indexFolder.toAbsolutePath().toString()+"'");
+        
         SimpleFileCrawler crawler = new SimpleFileCrawler();
         crawler.crawl( filesToBeIndexed::add, crawlFolder );
 
@@ -52,7 +55,6 @@ public class IndexerMain {
 
         SimpleFileIndexer indexer = new SimpleFileIndexer();
         indexer.buildIndex( filesToBeIndexed, crawlFolder, indexFolder );
-
     }
 
     public static void main( String[] args ) {
