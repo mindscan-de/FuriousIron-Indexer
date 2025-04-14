@@ -43,6 +43,11 @@ public class MetaIndexerMain {
      * @param indexFolder
      */
     public void run( Path crawlFolder, Path indexFolder ) {
+    	
+    	System.out.println("########################");
+    	System.out.println("  Run Metadata Indexer  ");
+    	System.out.println("########################");
+    	
         Deque<Path> filesToBeIndexed = new ArrayDeque<Path>();
 
         MetaDataFileCrawler metaIndexCrawler = new MetaDataFileCrawler();

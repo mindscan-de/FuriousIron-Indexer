@@ -43,6 +43,11 @@ import picocli.CommandLine;
 public class IndexerMain {
 
     void run( Path crawlFolder, Path indexFolder ) {
+    	
+    	System.out.println("########################");
+    	System.out.println("       Run Indexer      ");
+    	System.out.println("########################");
+    	
         Deque<Path> filesToBeIndexed = new ArrayDeque<Path>();
 
         System.out.println( "CrawlingFolder: '"+crawlFolder.toAbsolutePath().toString()+"'");

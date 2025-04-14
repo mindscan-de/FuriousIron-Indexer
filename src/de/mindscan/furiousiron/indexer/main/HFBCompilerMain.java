@@ -52,6 +52,11 @@ public class HFBCompilerMain {
      * @param indexFolder
      */
     public void run( Path crawlFolder, Path indexFolder ) {
+    	System.out.println("########################");
+    	System.out.println("    Compile trigrams    ");
+    	System.out.println("########################");
+    	
+    	
         Deque<Path> filesToBeIndexed = new ArrayDeque<Path>();
 
         MetaDataTrigramCountCrawler metadataTrigramCrawler = new MetaDataTrigramCountCrawler();
