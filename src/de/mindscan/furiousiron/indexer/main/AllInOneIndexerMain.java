@@ -9,7 +9,7 @@ public class AllInOneIndexerMain {
 	public static void main(String[] args) {
         long starttime = System.nanoTime();
 
-        int exitCode = new CommandLine( new IndexerMainParameters() ).execute( args );
+        int exitCode = new CommandLine( new AllInOneIndexerMainParameters() ).execute( args );
 
         long endTime = System.nanoTime();
 

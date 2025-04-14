@@ -18,6 +18,11 @@ public class AllInOneIndexerMainParameters implements Callable<Integer> {
      */
     @Override
     public Integer call() throws Exception {
+    	
+    	System.out.println("########################");
+    	System.out.println(" Run All-in-One Indexer ");
+    	System.out.println("########################\n\n");
+    	
         AllInOneIndexerMain main = new AllInOneIndexerMain();
         main.run( crawlFolder, indexFolder );
         return 0;
